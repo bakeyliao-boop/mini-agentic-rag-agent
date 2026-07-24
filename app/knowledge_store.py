@@ -64,3 +64,28 @@ def resolve_knowledge_path(
         raise ValueError("virtual path resolves outside the knowledge root")
 
     return resolved_path
+
+
+def read_markdown_lines(source_path: Path) -> list[tuple[int, str]]:
+    """按稳定的 1-based 行号读取 UTF-8 Markdown 文件。
+
+    保留空行和行内空白，但不保留每行末尾的换行符。
+    """
+
+    if not isinstance(source_path, Path):
+        raise TypeError("source path must be a Path")
+    if not source_path.exists():
+        raise FileNotFoundError(f"Markdown file does not exist: {source_path}")
+    if not source_path.is_file():  # 是否为文件
+        raise IsADirectoryError(f"source path is not a file: {source_path}")
+    if source_path.suffix.lower() != ".md":  # 是否为 Markdown 文件
+        raise ValueError("source path must point to a Markdown file")
+
+    with source_path.open(
+        mode="r",
+        encoding="utf-8",
+        newline=None,
+    ) as source_file:
+        lines = source_file.read().splitlines()
+
+    return list(enumerate(lines, start=1))
