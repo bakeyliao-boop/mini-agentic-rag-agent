@@ -1,11 +1,13 @@
-"""Utilities for working with paths inside the virtual knowledge space."""
+"""虚拟知识空间的路径处理工具。"""
+
+from pathlib import Path
 
 
 def normalize_virtual_path(path: str) -> str:
-    """Validate a virtual POSIX path and return its canonical form.
+    """校验虚拟 POSIX 路径并返回规范形式。
 
-    This function only handles path syntax. It does not access the filesystem,
-    check whether the path exists, or map the path to ``KNOWLEDGE_ROOT``.
+    本函数只处理路径语法，不访问文件系统，不检查路径是否存在，
+    也不将路径映射到 ``KNOWLEDGE_ROOT``。
     """
 
     if not isinstance(path, str):
@@ -37,3 +39,28 @@ def normalize_virtual_path(path: str) -> str:
         raise ValueError("virtual path must not contain a Windows drive")
 
     return canonical_path
+
+
+def resolve_knowledge_path(
+    virtual_path: str,
+    knowledge_root: Path,
+) -> Path:  #虚拟路径，真实知识库目录
+    """将虚拟路径映射为知识库根目录内的真实路径。
+
+    映射后的路径可以不存在。执行包含关系检查前会解析已存在的
+    符号链接，防止路径逃逸到知识库根目录之外。
+    """
+
+    normalized_path = normalize_virtual_path(virtual_path)
+
+    if not isinstance(knowledge_root, Path):
+        raise TypeError("knowledge root must be a Path")
+
+    resolved_root = knowledge_root.resolve(strict=False)
+    relative_path = normalized_path[1:]
+    resolved_path = (resolved_root / relative_path).resolve(strict=False)
+
+    if not resolved_path.is_relative_to(resolved_root):
+        raise ValueError("virtual path resolves outside the knowledge root")
+
+    return resolved_path
