@@ -91,3 +91,42 @@ def read_markdown_lines(source_path: Path) -> list[tuple[int, str]]:
         lines = source_file.read().splitlines()
 
     return list(enumerate(lines, start=1))
+
+
+def list_knowledge_entries(
+    virtual_path: str,
+    knowledge_root: Path,
+) -> list[dict[str, str]]:
+    """
+    只返回当前目录(virtual_path)的下一层子项，并区分文件和目录。
+    列出指定虚拟目录的直接子项，并返回虚拟路径和类型。
+    虚拟路径--真实路径--虚拟路径
+    """
+
+    normalized_path = normalize_virtual_path(virtual_path)
+    directory_path = resolve_knowledge_path(normalized_path, knowledge_root)
+
+    if not directory_path.exists():
+        raise FileNotFoundError(f"knowledge directory does not exist: {virtual_path}")
+    if not directory_path.is_dir():
+        raise NotADirectoryError(f"knowledge path is not a directory: {virtual_path}")
+
+    entries: list[dict[str, str]] = []
+    for child_path in sorted(
+        directory_path.iterdir(),
+        key=lambda path: (not path.is_dir(), path.name),    #先排目录，再排文件
+    ):
+        child_virtual_path = (
+            f"/{child_path.name}"
+            if normalized_path == "/"
+            else f"{normalized_path}/{child_path.name}"
+        )
+        entry_type = "directory" if child_path.is_dir() else "file"
+        entries.append(
+            {
+                "path": child_virtual_path,
+                "type": entry_type,
+            }
+        )
+
+    return entries
