@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pytest
 
+from app import knowledge_store
 from app.knowledge_store import read_markdown_lines
 
 
@@ -119,3 +120,63 @@ def test_read_markdown_lines_rejects_invalid_utf8(
 
     with pytest.raises(UnicodeDecodeError):
         read_markdown_lines(source_path)
+
+
+def test_read_knowledge_page_returns_requested_lines(
+    tmp_path: Path,
+) -> None:
+    """应按 start_line 和 limit 返回指定行，并给出下一页行号。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "第一行\n第二行\n第三行\n第四行\n第五行\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    result = knowledge_store.read_knowledge_page(
+        "/智慧农场.md",
+        knowledge_root,
+        start_line=2,
+        limit=2,
+    )
+
+    assert result == {
+        "path": "/智慧农场.md",
+        "lines": [
+            {"line": 2, "text": "第二行"},
+            {"line": 3, "text": "第三行"},
+        ],
+        "next_line": 4,
+    }
+
+
+def test_read_knowledge_page_returns_none_after_last_page(
+    tmp_path: Path,
+) -> None:
+    """读取到文件末尾时，下一页行号应为 None。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "第一行\n第二行\n第三行\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    result = knowledge_store.read_knowledge_page(
+        "/智慧农场.md",
+        knowledge_root,
+        start_line=2,
+        limit=2,
+    )
+
+    assert result == {
+        "path": "/智慧农场.md",
+        "lines": [
+            {"line": 2, "text": "第二行"},
+            {"line": 3, "text": "第三行"},
+        ],
+        "next_line": None,
+    }

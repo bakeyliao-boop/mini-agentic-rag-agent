@@ -130,3 +130,33 @@ def list_knowledge_entries(
         )
 
     return entries
+
+
+def read_knowledge_page(
+    virtual_path: str,
+    knowledge_root: Path,
+    start_line: int = 1,
+    limit: int = 80,
+) -> dict[str, object]:
+    """按起始行和行数读取一页 Markdown 内容。"""
+
+    normalized_path = normalize_virtual_path(virtual_path)
+    source_path = resolve_knowledge_path(normalized_path, knowledge_root)
+    all_lines = read_markdown_lines(source_path)
+
+    start_index = start_line - 1
+    end_index = start_index + limit
+    page_lines = all_lines[start_index:end_index]
+    next_line = end_index + 1 if end_index < len(all_lines) else None
+
+    return {
+        "path": normalized_path,
+        "lines": [
+            {
+                "line": line_number,
+                "text": text,
+            }
+            for line_number, text in page_lines
+        ],
+        "next_line": next_line,
+    }
