@@ -30,4 +30,6 @@ Thumbs.db
 
 /PLAN.md
 
-/knowledge/
+/knowledge/*
+!/knowledge/education-v1/
+!/knowledge/education-v1/**
