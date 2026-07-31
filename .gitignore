@@ -28,6 +28,5 @@ dist/
 .DS_Store
 Thumbs.db
 
-/PLAN.md
-
 /knowledge/
+/data/
