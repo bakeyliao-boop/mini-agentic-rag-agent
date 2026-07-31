@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+MAX_READ_CHARACTERS = 8_000
+
 
 def normalize_virtual_path(path: str) -> str:
     """校验虚拟 POSIX 路径并返回规范形式。
@@ -142,15 +144,38 @@ def read_knowledge_page(
 
     if start_line < 1:
         raise ValueError("start_line must be greater than or equal to 1")
+    if limit < 1:
+        raise ValueError("limit must be greater than or equal to 1")
+    if limit > 80:
+        raise ValueError("limit must be less than or equal to 80")
 
     normalized_path = normalize_virtual_path(virtual_path)
     source_path = resolve_knowledge_path(normalized_path, knowledge_root)
+
     all_lines = read_markdown_lines(source_path)
+    if all_lines and start_line > len(all_lines):
+        raise ValueError("start_line must not exceed the file line count")
 
     start_index = start_line - 1
     end_index = start_index + limit
-    page_lines = all_lines[start_index:end_index]
-    next_line = end_index + 1 if end_index < len(all_lines) else None
+    candidate_lines = all_lines[start_index:end_index]
+    page_lines = []
+    character_count = 0
+
+    for line_number, text in candidate_lines:
+        if len(text) > MAX_READ_CHARACTERS:
+            raise ValueError(
+                "a single Markdown line exceeds the character limit"
+            )
+
+        if character_count + len(text) > MAX_READ_CHARACTERS:
+            break
+
+        page_lines.append((line_number, text))
+        character_count += len(text)
+
+    next_index = start_index + len(page_lines)
+    next_line = next_index + 1 if next_index < len(all_lines) else None
 
     return {
         "path": normalized_path,
