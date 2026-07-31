@@ -180,3 +180,25 @@ def test_read_knowledge_page_returns_none_after_last_page(
         ],
         "next_line": None,
     }
+
+
+def test_read_knowledge_page_rejects_start_line_less_than_one(
+    tmp_path: Path,
+) -> None:
+    """start_line 小于 1 时应抛出 ValueError。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "第一行\n第二行\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(ValueError):
+        knowledge_store.read_knowledge_page(
+            "/智慧农场.md",
+            knowledge_root,
+            start_line=0,
+            limit=1,
+        )

@@ -140,6 +140,9 @@ def read_knowledge_page(
 ) -> dict[str, object]:
     """按起始行和行数读取一页 Markdown 内容。"""
 
+    if start_line < 1:
+        raise ValueError("start_line must be greater than or equal to 1")
+
     normalized_path = normalize_virtual_path(virtual_path)
     source_path = resolve_knowledge_path(normalized_path, knowledge_root)
     all_lines = read_markdown_lines(source_path)
