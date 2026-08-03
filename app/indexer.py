@@ -1,5 +1,11 @@
 """Markdown 切块与本地索引。"""
 
+from pathlib import Path
+
+from langchain_core.documents import Document
+from langchain_core.embeddings import Embeddings
+from langchain_chroma import Chroma
+
 from app.models import Chunk
 
 MAX_CHUNK_CHARACTERS = 800
@@ -9,7 +15,9 @@ CHUNK_OVERLAP_PARAGRAPHS = 1
 def _find_paragraph_ranges(
     lines: list[tuple[int, str]],
 ) -> list[tuple[int, int]]:
-    """返回每个非空段落在 lines 中的起止索引。"""
+    """
+    返回每个非空段落在 lines 中的起止索引。
+    """
 
     ranges: list[tuple[int, int]] = []
     start_index: int | None = None
@@ -18,7 +26,7 @@ def _find_paragraph_ranges(
         if text.strip():
             if start_index is None:
                 start_index = index
-        elif start_index is not None:
+        elif start_index is not None:   #如果有起点并且当前行是空行，则结束段落
             ranges.append((start_index, index - 1))
             start_index = None
 
@@ -65,6 +73,39 @@ def _range_text_length(
     )
 
 
+def chunk_to_document(chunk: Chunk) -> Document:
+    """将 Chunk 转为可写入向量索引的 LangChain Document。"""
+
+    return Document(
+        page_content=chunk.text,
+        metadata={
+            "chunk_id": chunk.chunk_id,
+            "path": chunk.path,
+            "start_line": chunk.start_line,
+            "end_line": chunk.end_line,
+        },
+    )
+
+
+def build_chroma_index(
+    chunks: list[Chunk],
+    persist_directory: Path,
+    embedding: Embeddings,
+) -> Chroma:
+    """将 Chunk 写入指定目录中的本地 Chroma 索引。"""
+
+    documents = [chunk_to_document(chunk) for chunk in chunks]
+    ids = [chunk.chunk_id for chunk in chunks]
+
+    return Chroma.from_documents(
+        documents=documents,
+        embedding=embedding,
+        ids=ids,
+        collection_name="knowledge_chunks",
+        persist_directory=str(persist_directory),
+    )
+
+
 def chunk_markdown_lines(
     path: str,
     lines: list[tuple[int, str]],
@@ -82,6 +123,16 @@ def chunk_markdown_lines(
     current_ranges: list[tuple[int, int]] = []
 
     for paragraph_range in paragraph_ranges:
+        paragraph_length = _range_text_length(
+            lines,
+            paragraph_range[0],
+            paragraph_range[1],
+        )
+        if paragraph_length > MAX_CHUNK_CHARACTERS:
+            raise ValueError(
+                "a single Markdown paragraph exceeds 800 characters"
+            )
+
         candidate_ranges = [*current_ranges, paragraph_range]
         candidate_length = _range_text_length(
             lines,
