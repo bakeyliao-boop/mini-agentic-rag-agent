@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from langchain_core.embeddings import Embeddings
 
-from app import indexer
+from app import indexer, knowledge_store
 from app.models import Chunk
 
 
@@ -378,3 +378,79 @@ def test_build_knowledge_index_collects_and_indexes_markdown(
     assert len(results) == 1
     assert results[0].metadata["path"] == "/课程资源/智慧农场.md"
     assert "自动灌溉系统" in results[0].page_content
+
+
+def test_search_hit_can_be_reproduced_by_read(
+    tmp_path: Path,
+) -> None:
+    """search 候选应能通过 path 和行号被 read 精确复现。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    course_directory = knowledge_root / "课程资源"
+    course_directory.mkdir(parents=True)
+    (course_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n\n自动灌溉系统可以分类灌溉。\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    vector_store = indexer.build_knowledge_index(
+        knowledge_root,
+        tmp_path / "chroma",
+        KeywordEmbeddings(),
+    )
+
+    search_result = indexer.search_chroma_index(
+        vector_store,
+        "灌溉",
+        limit=1,
+    )
+    hit = search_result["hits"][0]
+    read_result = knowledge_store.read_knowledge_page(
+        hit["path"],
+        knowledge_root,
+        start_line=hit["start_line"],
+        limit=hit["end_line"] - hit["start_line"] + 1,
+    )
+    reproduced_text = "\n".join(
+        line["text"] for line in read_result["lines"]
+    )
+
+    assert reproduced_text == hit["preview"]
+
+
+def test_rebuilt_knowledge_index_returns_stable_search_result(
+    tmp_path: Path,
+) -> None:
+    """相同语料重复构建索引后，应返回相同的候选结果结构。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "# 智慧农场\n\n自动灌溉系统可以分类灌溉。\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    first_store = indexer.build_knowledge_index(
+        knowledge_root,
+        tmp_path / "chroma-first",
+        KeywordEmbeddings(),
+    )
+    second_store = indexer.build_knowledge_index(
+        knowledge_root,
+        tmp_path / "chroma-second",
+        KeywordEmbeddings(),
+    )
+
+    first_result = indexer.search_chroma_index(
+        first_store,
+        "灌溉",
+        limit=1,
+    )
+    second_result = indexer.search_chroma_index(
+        second_store,
+        "灌溉",
+        limit=1,
+    )
+
+    assert first_result == second_result
