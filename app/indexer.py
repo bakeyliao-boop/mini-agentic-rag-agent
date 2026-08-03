@@ -6,6 +6,7 @@ from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 from langchain_chroma import Chroma
 
+from app.knowledge_store import normalize_virtual_path
 from app.models import Chunk
 
 MAX_CHUNK_CHARACTERS = 800
@@ -102,8 +103,93 @@ def build_chroma_index(
         embedding=embedding,
         ids=ids,
         collection_name="knowledge_chunks",
+        collection_metadata={"hnsw:space": "cosine"},
         persist_directory=str(persist_directory),
     )
+
+
+def search_chroma_index(
+    vector_store: Chroma,
+    query: str,
+    path: str = "/",
+    limit: int = 5,
+) -> dict[str, object]:
+    """
+    在指定虚拟路径范围内检索候选 Chunk。
+
+    search 只负责定位候选内容，不注册 evidence。最终回答引用的原文
+    必须由后续 read 工具重新读取和验证。
+    """
+
+    # 先校验调用参数，避免无意义查询或返回过多候选结果。
+    if not isinstance(query, str):
+        raise TypeError("query must be a string")
+    if not query.strip():
+        raise ValueError("query must not be empty")
+    if limit < 1 or limit > 5:
+        raise ValueError("limit must be between 1 and 5")
+
+    # 将调用者传入的路径整理成统一的虚拟 POSIX 路径。
+    normalized_path = normalize_virtual_path(path)
+    search_filter: dict[str, object] | None = None
+
+    # 根路径表示搜索整个知识库；非根路径需要限制搜索范围。
+    if normalized_path != "/":
+        # 先读取索引中已经保存的 metadata，找出位于指定范围内的文件。
+        stored = vector_store.get(include=["metadatas"])    #调用 Chroma 的 get 方法获取索引中存储的 metadata
+        metadatas = stored.get("metadatas") or []
+        path_prefix = f"{normalized_path}/"
+        allowed_paths: set[str] = set() #候选路径集合
+
+        for metadata in metadatas:
+            if not isinstance(metadata, dict):
+                continue
+
+            document_path = metadata.get("path")
+            if not isinstance(document_path, str):
+                continue
+
+            if (
+                document_path == normalized_path
+                or document_path.startswith(path_prefix)
+            ):
+                allowed_paths.add(document_path)
+
+        # 指定范围内没有已索引文件时，直接返回空候选结果。
+        if not allowed_paths:
+            return {
+                "hits": [],
+                "usage": "candidate_only",
+            }
+
+        # Chroma 使用 metadata 过滤器，只在允许的文件路径中检索。
+        search_filter = {
+            "path": {
+                "$in": sorted(allowed_paths),
+            }
+        }
+
+    # 根据查询文本生成向量并取得相关度最高的候选 Document。
+    results = vector_store.similarity_search_with_relevance_scores(
+        query,
+        k=limit,
+        filter=search_filter,
+    )
+
+    # 将 LangChain Document 转成项目约定的 search 输出格式。
+    return {
+        "hits": [
+            {
+                "path": document.metadata["path"],
+                "start_line": document.metadata["start_line"],
+                "end_line": document.metadata["end_line"],
+                "score": float(score),
+                "preview": document.page_content,
+            }
+            for document, score in results
+        ],
+        "usage": "candidate_only",
+    }
 
 
 def chunk_markdown_lines(

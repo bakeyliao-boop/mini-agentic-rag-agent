@@ -203,3 +203,74 @@ def test_build_chroma_index_returns_matching_chunk(
         "start_line": chunks[0].start_line,
         "end_line": chunks[0].end_line,
     }
+
+
+def test_search_chroma_index_returns_candidate_only_hits(
+    tmp_path: Path,
+) -> None:
+    """search 应返回带原文定位的候选结果，而不是 evidence。"""
+
+    chunk = Chunk(
+        chunk_id="/课程资源/智慧农场.md#L21-L23",
+        path="/课程资源/智慧农场.md",
+        start_line=21,
+        end_line=23,
+        text="自动灌溉系统可以根据农作物进行分类灌溉。",
+    )
+    vector_store = indexer.build_chroma_index(
+        [chunk],
+        tmp_path / "chroma",
+        KeywordEmbeddings(),
+    )
+
+    result = indexer.search_chroma_index(
+        vector_store,
+        "灌溉",
+        limit=1,
+    )
+
+    assert result["usage"] == "candidate_only"
+    assert result["hits"] == [
+        {
+            "path": chunk.path,
+            "start_line": chunk.start_line,
+            "end_line": chunk.end_line,
+            "score": pytest.approx(1.0),
+            "preview": chunk.text,
+        }
+    ]
+
+
+def test_search_chroma_index_filters_by_virtual_path(
+    tmp_path: Path,
+) -> None:
+    """指定目录搜索时，不应返回目录范围外的 Chunk。"""
+
+    primary_chunk = Chunk(
+        chunk_id="/课程资源/小学/智慧农场.md#L21-L23",
+        path="/课程资源/小学/智慧农场.md",
+        start_line=21,
+        end_line=23,
+        text="小学智慧农场使用自动灌溉系统。",
+    )
+    junior_chunk = Chunk(
+        chunk_id="/课程资源/初中/智慧温室.md#L10-L12",
+        path="/课程资源/初中/智慧温室.md",
+        start_line=10,
+        end_line=12,
+        text="初中智慧温室也使用自动灌溉系统。",
+    )
+    vector_store = indexer.build_chroma_index(
+        [primary_chunk, junior_chunk],
+        tmp_path / "chroma",
+        KeywordEmbeddings(),
+    )
+
+    result = indexer.search_chroma_index(
+        vector_store,
+        "灌溉",
+        path="/课程资源/初中",
+        limit=5,
+    )
+
+    assert [hit["path"] for hit in result["hits"]] == [junior_chunk.path]
