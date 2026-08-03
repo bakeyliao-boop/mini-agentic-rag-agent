@@ -1,10 +1,49 @@
 """传统 RAG 基线流程。"""
 
+from dataclasses import dataclass
+from pathlib import Path
 from time import perf_counter
 
 from langchain_chroma import Chroma
+from langchain_openai import ChatOpenAI
 
 from app.indexer import search_chroma_index
+
+
+@dataclass(frozen=True, slots=True)
+class TraditionalRagConfig:
+    """传统 RAG 对照实验使用的固定配置。"""
+
+    model: str = "qwen3.6-flash"
+    temperature: float = 0
+    top_k: int = 5
+    corpus_version: str = "education-v1"
+
+
+def resolve_traditional_corpus_root(
+    project_root: Path,
+    config: TraditionalRagConfig,
+) -> Path:
+    """根据固定语料版本返回规范的真实知识库目录。"""
+
+    return (
+        project_root / "knowledge" / config.corpus_version
+    ).resolve(strict=False)
+
+
+def build_traditional_chat_model(
+    config: TraditionalRagConfig,
+    api_key: str,
+    base_url: str,
+) -> ChatOpenAI:
+    """使用固定基线配置创建百炼 OpenAI-compatible 对话模型。"""
+
+    return ChatOpenAI(
+        model=config.model,
+        temperature=config.temperature,
+        api_key=api_key,
+        base_url=base_url,
+    )
 
 
 def answer_with_traditional_rag(
@@ -12,7 +51,7 @@ def answer_with_traditional_rag(
     vector_store: Chroma,
     chat_model: object,
     path: str = "/",
-    limit: int = 5,
+    config: TraditionalRagConfig = TraditionalRagConfig(),
 ) -> dict[str, object]:
     """检索固定数量的候选内容，将其放入提示词并调用对话模型。"""
 
@@ -21,7 +60,7 @@ def answer_with_traditional_rag(
         vector_store,
         question,
         path=path,
-        limit=limit,
+        limit=config.top_k,
     )
     hits = search_result["hits"]
     if not hits:
