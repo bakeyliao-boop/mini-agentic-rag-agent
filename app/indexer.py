@@ -5,12 +5,29 @@ from pathlib import Path
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 from langchain_chroma import Chroma
+from langchain_openai import OpenAIEmbeddings
 
 from app.knowledge_store import normalize_virtual_path, read_markdown_lines
 from app.models import Chunk
 
 MAX_CHUNK_CHARACTERS = 800
 CHUNK_OVERLAP_PARAGRAPHS = 1
+
+
+def build_dashscope_embeddings(
+    model: str,
+    dimensions: int,
+    api_key: str,
+    base_url: str,
+) -> OpenAIEmbeddings:
+    """使用百炼 OpenAI-compatible 接口创建文本向量模型。"""
+
+    return OpenAIEmbeddings(
+        model=model,
+        dimensions=dimensions,
+        api_key=api_key,
+        base_url=base_url,
+    )
 
 
 def _find_paragraph_ranges(

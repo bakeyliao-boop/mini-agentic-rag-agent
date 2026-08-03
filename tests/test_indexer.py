@@ -24,6 +24,42 @@ class KeywordEmbeddings(Embeddings):
         return self._embed(text)
 
 
+def test_build_dashscope_embeddings_uses_openai_compatible_options(
+    monkeypatch,
+) -> None:
+    """Embedding 工厂应把百炼连接参数传给 OpenAIEmbeddings。"""
+
+    received_options: list[dict[str, object]] = []
+    fake_embeddings = object()
+
+    def fake_openai_embeddings(**options):
+        received_options.append(options)
+        return fake_embeddings
+
+    monkeypatch.setattr(
+        indexer,
+        "OpenAIEmbeddings",
+        fake_openai_embeddings,
+    )
+
+    result = indexer.build_dashscope_embeddings(
+        model="text-embedding-v4",
+        dimensions=1024,
+        api_key="test-key",
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    )
+
+    assert result is fake_embeddings
+    assert received_options == [
+        {
+            "model": "text-embedding-v4",
+            "dimensions": 1024,
+            "api_key": "test-key",
+            "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+        }
+    ]
+
+
 def test_chunk_markdown_lines_returns_single_chunk_for_short_document() -> None:
     """较短的 Markdown 应生成一个保留原文位置的 Chunk。"""
 
