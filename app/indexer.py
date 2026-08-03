@@ -134,6 +134,17 @@ def build_chroma_index(
     )
 
 
+def build_knowledge_index(
+    knowledge_root: Path,
+    persist_directory: Path,
+    embedding: Embeddings,
+) -> Chroma:
+    """收集知识库 Markdown、完成切块并构建本地 Chroma 索引。"""
+
+    chunks = collect_knowledge_chunks(knowledge_root)
+    return build_chroma_index(chunks, persist_directory, embedding)
+
+
 def search_chroma_index(
     vector_store: Chroma,
     query: str,

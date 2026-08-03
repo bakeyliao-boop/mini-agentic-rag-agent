@@ -352,3 +352,29 @@ def test_collect_knowledge_chunks_rejects_file_root(
 
     with pytest.raises(NotADirectoryError):
         indexer.collect_knowledge_chunks(knowledge_root)
+
+
+def test_build_knowledge_index_collects_and_indexes_markdown(
+    tmp_path: Path,
+) -> None:
+    """应一次完成 Markdown 收集、切块和 Chroma 索引构建。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    course_directory = knowledge_root / "课程资源"
+    course_directory.mkdir(parents=True)
+    (course_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n\n自动灌溉系统可以分类灌溉。\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    vector_store = indexer.build_knowledge_index(
+        knowledge_root,
+        tmp_path / "chroma",
+        KeywordEmbeddings(),
+    )
+    results = vector_store.similarity_search("灌溉", k=1)
+
+    assert len(results) == 1
+    assert results[0].metadata["path"] == "/课程资源/智慧农场.md"
+    assert "自动灌溉系统" in results[0].page_content
