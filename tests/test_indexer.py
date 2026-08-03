@@ -274,3 +274,81 @@ def test_search_chroma_index_filters_by_virtual_path(
     )
 
     assert [hit["path"] for hit in result["hits"]] == [junior_chunk.path]
+
+
+def test_collect_knowledge_chunks_discovers_markdown_files_in_stable_order(
+    tmp_path: Path,
+) -> None:
+    """应递归读取 Markdown，忽略其他文件，并按虚拟路径稳定排序。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    primary_directory = knowledge_root / "小学"
+    junior_directory = knowledge_root / "初中"
+    primary_directory.mkdir(parents=True)
+    junior_directory.mkdir(parents=True)
+
+    (primary_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n\n自动灌溉系统可以分类灌溉。\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    (junior_directory / "物联网.md").write_text(
+        "# 物联网\n\n物联网可以实现万物互联。\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    (knowledge_root / "说明.txt").write_text(
+        "该文件不应进入索引。\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    result = indexer.collect_knowledge_chunks(knowledge_root)
+
+    assert [chunk.path for chunk in result] == [
+        "/初中/物联网.md",
+        "/小学/智慧农场.md",
+    ]
+    assert all(chunk.path.endswith(".md") for chunk in result)
+
+
+def test_collect_knowledge_chunks_returns_empty_list_for_empty_root(
+    tmp_path: Path,
+) -> None:
+    """空知识库目录应返回空列表。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+
+    result = indexer.collect_knowledge_chunks(knowledge_root)
+
+    assert result == []
+
+
+def test_collect_knowledge_chunks_rejects_missing_root(
+    tmp_path: Path,
+) -> None:
+    """知识库根目录不存在时应抛出 FileNotFoundError。"""
+
+    knowledge_root = tmp_path / "不存在的知识库"
+    assert not knowledge_root.exists()
+
+    with pytest.raises(FileNotFoundError):
+        indexer.collect_knowledge_chunks(knowledge_root)
+
+
+def test_collect_knowledge_chunks_rejects_file_root(
+    tmp_path: Path,
+) -> None:
+    """知识库根路径是文件时应抛出 NotADirectoryError。"""
+
+    knowledge_root = tmp_path / "knowledge.md"
+    knowledge_root.write_text(
+        "# 这不是知识库目录\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    assert knowledge_root.is_file()
+
+    with pytest.raises(NotADirectoryError):
+        indexer.collect_knowledge_chunks(knowledge_root)

@@ -6,7 +6,7 @@ from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 from langchain_chroma import Chroma
 
-from app.knowledge_store import normalize_virtual_path
+from app.knowledge_store import normalize_virtual_path, read_markdown_lines
 from app.models import Chunk
 
 MAX_CHUNK_CHARACTERS = 800
@@ -86,6 +86,32 @@ def chunk_to_document(chunk: Chunk) -> Document:
             "end_line": chunk.end_line,
         },
     )
+
+
+def collect_knowledge_chunks(knowledge_root: Path) -> list[Chunk]:
+    """
+    寻找 .md → 排序 → 转虚拟路径 → 读取内容 → 切成 Chunk
+    递归读取知识库中的 Markdown 文件，并按虚拟路径稳定生成 Chunk。
+    """
+
+    if not knowledge_root.exists():
+        raise FileNotFoundError(f"knowledge root does not exist: {knowledge_root}")
+    if not knowledge_root.is_dir():  # 根路径必须是目录
+        raise NotADirectoryError(f"knowledge root is not a directory: {knowledge_root}")
+
+    markdown_paths = sorted(
+        knowledge_root.rglob("*.md"),
+        key=lambda path: path.relative_to(knowledge_root).as_posix(),
+    )
+    chunks: list[Chunk] = []
+
+    for source_path in markdown_paths:
+        relative_path = source_path.relative_to(knowledge_root).as_posix()
+        virtual_path = normalize_virtual_path(f"/{relative_path}")
+        lines = read_markdown_lines(source_path)
+        chunks.extend(chunk_markdown_lines(virtual_path, lines))
+
+    return chunks
 
 
 def build_chroma_index(
