@@ -54,6 +54,7 @@ def run_traditional_baseline_from_project(
 ) -> Path:
     """连接真实组件，运行固定传统 RAG 评测并返回结果路径。"""
 
+    # settings 是从项目 .env 文件读取的本地运行配置。
     config = TraditionalRagConfig()
     api_key = _required_setting(settings, "DASHSCOPE_API_KEY")
     base_url = _required_setting(settings, "DASHSCOPE_BASE_URL")
@@ -102,3 +103,23 @@ def run_traditional_baseline_from_project(
     )
     save_evaluation_result(result, output_path)
     return output_path
+
+
+def main(project_root: Path | None = None) -> None:
+    """读取项目配置，运行传统 RAG baseline 并打印结果路径。"""
+
+    resolved_project_root = (
+        project_root
+        if project_root is not None
+        else Path(__file__).resolve().parent.parent
+    )
+    settings = load_settings_from_env(resolved_project_root)
+    output_path = run_traditional_baseline_from_project(
+        project_root=resolved_project_root,
+        settings=settings,
+    )
+    print(f"Baseline result saved to: {output_path}")
+
+
+if __name__ == "__main__":
+    main()

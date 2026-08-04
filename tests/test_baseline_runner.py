@@ -176,3 +176,48 @@ def test_run_traditional_baseline_from_project_wires_all_components(
         fake_embeddings,
     )
     assert events[-1] == ("save", fake_result, expected_output_path)
+
+
+def test_main_loads_settings_runs_baseline_and_prints_output(
+    tmp_path: Path,
+    monkeypatch,
+    capsys,
+) -> None:
+    """main 应读取配置、运行 baseline 并打印结果路径。"""
+
+    baseline_runner = importlib.import_module("app.baseline_runner")
+    settings = {"DASHSCOPE_API_KEY": "test-key"}
+    output_path = tmp_path / "traditional-baseline.json"
+    calls: list[tuple[object, ...]] = []
+
+    def fake_load_settings(project_root: Path) -> dict[str, str]:
+        calls.append(("load", project_root))
+        return settings
+
+    def fake_run_baseline(
+        project_root: Path,
+        settings: dict[str, str],
+    ) -> Path:
+        calls.append(("run", project_root, settings))
+        return output_path
+
+    monkeypatch.setattr(
+        baseline_runner,
+        "load_settings_from_env",
+        fake_load_settings,
+    )
+    monkeypatch.setattr(
+        baseline_runner,
+        "run_traditional_baseline_from_project",
+        fake_run_baseline,
+    )
+
+    baseline_runner.main(project_root=tmp_path)
+
+    assert calls == [
+        ("load", tmp_path),
+        ("run", tmp_path, settings),
+    ]
+    assert capsys.readouterr().out == (
+        f"Baseline result saved to: {output_path}\n"
+    )

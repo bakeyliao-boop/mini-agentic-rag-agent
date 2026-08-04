@@ -27,6 +27,7 @@ def build_dashscope_embeddings(
         dimensions=dimensions,
         api_key=api_key,
         base_url=base_url,
+        check_embedding_ctx_length=False,
     )
 
 

@@ -56,6 +56,7 @@ def test_build_dashscope_embeddings_uses_openai_compatible_options(
             "dimensions": 1024,
             "api_key": "test-key",
             "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            "check_embedding_ctx_length": False,
         }
     ]
 
