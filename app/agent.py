@@ -3,6 +3,7 @@ from langchain.agents.middleware.tool_call_limit import ToolCallLimitMiddleware
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
 from langchain_core.tools import BaseTool
+from langgraph.checkpoint.memory import InMemorySaver
 
 
 KNOWLEDGE_AGENT_SYSTEM_PROMPT = """你是一个基于本地知识库回答问题的助手。
@@ -32,6 +33,7 @@ def build_knowledge_agent(
                 exit_behavior="error",
             )
         ],
+        checkpointer=InMemorySaver(),
     )
 
 

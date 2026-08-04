@@ -8,6 +8,7 @@ from langchain_core.language_models.fake_chat_models import (
 )
 from langchain_core.messages import AIMessage, ToolMessage
 from langchain_core.tools import StructuredTool
+from langgraph.checkpoint.memory import InMemorySaver
 
 
 class ToolCallingFakeModel(FakeMessagesListChatModel):
@@ -83,6 +84,29 @@ def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
     assert isinstance(tool_call_limiter, ToolCallLimitMiddleware)
     assert tool_call_limiter.run_limit == 6
     assert tool_call_limiter.exit_behavior == "error"
+
+
+def test_build_knowledge_agent_uses_in_memory_checkpointer(
+    monkeypatch,
+) -> None:
+    """知识库 Agent 应使用内存保存器维护临时会话状态。"""
+
+    agent_module = import_module("app.agent")
+    received_options: dict[str, object] = {}
+
+    def fake_create_agent(**options):
+        received_options.update(options)
+        return object()
+
+    monkeypatch.setattr(agent_module, "create_agent", fake_create_agent)
+
+    agent_module.build_knowledge_agent(
+        chat_model=object(),
+        tools=[],
+    )
+
+    checkpointer = received_options.get("checkpointer")
+    assert isinstance(checkpointer, InMemorySaver), "尚未配置内存会话状态"
 
 
 def test_knowledge_agent_executes_search_then_read() -> None:
@@ -197,11 +221,107 @@ def test_knowledge_agent_executes_search_then_read() -> None:
                     "content": "气象站能做什么？",
                 }
             ]
-        }
+        },
+        config={"configurable": {"thread_id": "test-thread"}},
     )
 
     assert tool_call_order == ["search", "read"]
     assert result["messages"][-1].content == "气象站可以采集环境数据。"
+
+
+def test_knowledge_agent_remembers_messages_in_same_thread() -> None:
+    """使用相同 thread_id 时，第二轮应保留第一轮对话消息。"""
+
+    fake_model = ToolCallingFakeModel(
+        responses=[
+            AIMessage(content="我记住了。"),
+            AIMessage(content="你刚才说项目代号是小云。"),
+        ]
+    )
+    agent_module = import_module("app.agent")
+    knowledge_agent = agent_module.build_knowledge_agent(
+        chat_model=fake_model,
+        tools=[],
+    )
+    thread_config = {
+        "configurable": {
+            "thread_id": "memory-test-thread",
+        }
+    }
+
+    knowledge_agent.invoke(
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "项目代号是小云。",
+                }
+            ]
+        },
+        config=thread_config,
+    )
+    second_result = knowledge_agent.invoke(
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "我刚才说的项目代号是什么？",
+                }
+            ]
+        },
+        config=thread_config,
+    )
+
+    assert [message.content for message in second_result["messages"]] == [
+        "项目代号是小云。",
+        "我记住了。",
+        "我刚才说的项目代号是什么？",
+        "你刚才说项目代号是小云。",
+    ]
+
+
+def test_knowledge_agent_isolates_messages_between_threads() -> None:
+    """不同 thread_id 之间不应共享对话消息。"""
+
+    fake_model = ToolCallingFakeModel(
+        responses=[
+            AIMessage(content="已收到 A 会话消息。"),
+            AIMessage(content="已收到 B 会话消息。"),
+        ]
+    )
+    agent_module = import_module("app.agent")
+    knowledge_agent = agent_module.build_knowledge_agent(
+        chat_model=fake_model,
+        tools=[],
+    )
+
+    knowledge_agent.invoke(
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "A 会话的项目代号是小云。",
+                }
+            ]
+        },
+        config={"configurable": {"thread_id": "thread-A"}},
+    )
+    thread_b_result = knowledge_agent.invoke(
+        {
+            "messages": [
+                {
+                    "role": "user",
+                    "content": "这是 B 会话。",
+                }
+            ]
+        },
+        config={"configurable": {"thread_id": "thread-B"}},
+    )
+
+    assert [message.content for message in thread_b_result["messages"]] == [
+        "这是 B 会话。",
+        "已收到 B 会话消息。",
+    ]
 
 
 def test_extract_tool_traces_matches_calls_with_results() -> None:
