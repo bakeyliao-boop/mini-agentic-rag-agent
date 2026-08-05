@@ -57,6 +57,17 @@ def test_build_knowledge_agent_registers_model_tools_and_system_prompt(
     )
 
 
+def test_system_prompt_requires_scoped_search_after_ls() -> None:
+    """通过 ls 定位目录后，系统规则应要求在该目录内搜索。"""
+
+    agent_module = import_module("app.agent")
+
+    assert (
+        "通过 ls 找到具体目录后，必须将该目录作为 search 的 path 参数"
+        in agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
+    )
+
+
 def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
     monkeypatch,
 ) -> None:

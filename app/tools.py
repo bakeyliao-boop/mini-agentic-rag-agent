@@ -1,6 +1,8 @@
 from pathlib import Path
+from typing import Annotated
 
 from langchain_core.tools import BaseTool, StructuredTool
+from pydantic import Field
 
 from app.indexer import search_chroma_index
 from app.knowledge_store import (
@@ -28,7 +30,7 @@ def build_knowledge_tools(
     def search_tool(
         query: str,
         path: str = "/",
-        limit: int = 5,
+        limit: Annotated[int, Field(ge=1, le=5)] = 5,
     ) -> dict[str, object]:
         """在指定虚拟路径范围内搜索候选内容。"""
 

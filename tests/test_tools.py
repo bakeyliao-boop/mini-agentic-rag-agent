@@ -2,6 +2,7 @@ from importlib import import_module
 
 import pytest
 from langchain_core.documents import Document
+from pydantic import ValidationError
 
 
 def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
@@ -139,7 +140,10 @@ def test_search_tool_rejects_limit_greater_than_five(tmp_path) -> None:
     )
     search_tool = generated_tools[1]
 
-    with pytest.raises(ValueError, match="limit must be between 1 and 5"):
+    with pytest.raises(
+        ValidationError,
+        match="Input should be less than or equal to 5",
+    ):
         search_tool.invoke(
             {
                 "query": "自动灌溉",
@@ -147,6 +151,23 @@ def test_search_tool_rejects_limit_greater_than_five(tmp_path) -> None:
                 "limit": 6,
             }
         )
+
+
+def test_search_tool_schema_exposes_limit_range(tmp_path) -> None:
+    """search Schema 应明确告诉模型 limit 只能位于 1 到 5。"""
+
+    knowledge_tools = import_module("app.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+    )
+    search_tool = generated_tools[1]
+
+    schema = search_tool.args_schema.model_json_schema()
+    limit_schema = schema["properties"]["limit"]
+
+    assert limit_schema["minimum"] == 1
+    assert limit_schema["maximum"] == 5
 
 
 def test_read_tool_returns_requested_markdown_page(tmp_path) -> None:
