@@ -269,6 +269,7 @@ def test_build_traditional_chat_model_uses_config_and_dashscope(
             "temperature": 0,
             "api_key": "test-key",
             "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            "extra_body": {"enable_thinking": False},
         }
     ]
 

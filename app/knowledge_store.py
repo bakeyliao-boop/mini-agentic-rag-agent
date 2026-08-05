@@ -71,7 +71,7 @@ def resolve_knowledge_path(
 
 
 def read_markdown_lines(source_path: Path) -> list[tuple[int, str]]:
-    """按稳定的 1-based 行号读取 UTF-8 Markdown 文件。
+    """按稳定的 1起始 行号读取 UTF-8 Markdown 文件。
 
     保留空行和行内空白，但不保留每行末尾的换行符。
     """

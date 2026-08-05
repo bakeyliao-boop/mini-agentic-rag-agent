@@ -6,9 +6,11 @@ from langchain.agents.middleware.tool_call_limit import (
 from langchain_core.language_models.fake_chat_models import (
     FakeMessagesListChatModel,
 )
-from langchain_core.messages import AIMessage, ToolMessage
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import StructuredTool
 from langgraph.checkpoint.memory import InMemorySaver
+
+from app.models import GroundedAnswer
 
 
 class ToolCallingFakeModel(FakeMessagesListChatModel):
@@ -16,6 +18,26 @@ class ToolCallingFakeModel(FakeMessagesListChatModel):
 
     def bind_tools(self, tools, *, tool_choice=None, **kwargs):
         return self
+
+
+def structured_answer_message(answer: str, call_id: str) -> AIMessage:
+    """生成供离线 Agent 测试使用的 GroundedAnswer 工具调用。"""
+
+    return AIMessage(
+        content="",
+        tool_calls=[
+            {
+                "name": "GroundedAnswer",
+                "args": {
+                    "answer_type": "conversation",
+                    "answer": answer,
+                    "evidence_ids": [],
+                },
+                "id": call_id,
+                "type": "tool_call",
+            }
+        ],
+    )
 
 
 def test_build_knowledge_agent_registers_model_tools_and_system_prompt(
@@ -118,6 +140,28 @@ def test_build_knowledge_agent_uses_in_memory_checkpointer(
 
     checkpointer = received_options.get("checkpointer")
     assert isinstance(checkpointer, InMemorySaver), "尚未配置内存会话状态"
+
+
+def test_build_knowledge_agent_uses_grounded_answer_response_format(
+    monkeypatch,
+) -> None:
+    """知识库 Agent 应使用 GroundedAnswer 作为结构化输出格式。"""
+
+    agent_module = import_module("app.agent")
+    received_options: dict[str, object] = {}
+
+    def fake_create_agent(**options):
+        received_options.update(options)
+        return object()
+
+    monkeypatch.setattr(agent_module, "create_agent", fake_create_agent)
+
+    agent_module.build_knowledge_agent(
+        chat_model=object(),
+        tools=[],
+    )
+
+    assert received_options.get("response_format") is GroundedAnswer
 
 
 def test_knowledge_agent_executes_search_then_read() -> None:
@@ -245,8 +289,11 @@ def test_knowledge_agent_remembers_messages_in_same_thread() -> None:
 
     fake_model = ToolCallingFakeModel(
         responses=[
-            AIMessage(content="我记住了。"),
-            AIMessage(content="你刚才说项目代号是小云。"),
+            structured_answer_message("我记住了。", "answer-call-1"),
+            structured_answer_message(
+                "你刚才说项目代号是小云。",
+                "answer-call-2",
+            ),
         ]
     )
     agent_module = import_module("app.agent")
@@ -283,12 +330,19 @@ def test_knowledge_agent_remembers_messages_in_same_thread() -> None:
         config=thread_config,
     )
 
-    assert [message.content for message in second_result["messages"]] == [
+    assert [
+        message.content
+        for message in second_result["messages"]
+        if isinstance(message, HumanMessage)
+    ] == [
         "项目代号是小云。",
-        "我记住了。",
         "我刚才说的项目代号是什么？",
-        "你刚才说项目代号是小云。",
     ]
+    assert second_result["structured_response"] == GroundedAnswer(
+        answer_type="conversation",
+        answer="你刚才说项目代号是小云。",
+        evidence_ids=[],
+    )
 
 
 def test_knowledge_agent_isolates_messages_between_threads() -> None:
@@ -296,8 +350,14 @@ def test_knowledge_agent_isolates_messages_between_threads() -> None:
 
     fake_model = ToolCallingFakeModel(
         responses=[
-            AIMessage(content="已收到 A 会话消息。"),
-            AIMessage(content="已收到 B 会话消息。"),
+            structured_answer_message(
+                "已收到 A 会话消息。",
+                "thread-a-answer",
+            ),
+            structured_answer_message(
+                "已收到 B 会话消息。",
+                "thread-b-answer",
+            ),
         ]
     )
     agent_module = import_module("app.agent")
@@ -329,10 +389,18 @@ def test_knowledge_agent_isolates_messages_between_threads() -> None:
         config={"configurable": {"thread_id": "thread-B"}},
     )
 
-    assert [message.content for message in thread_b_result["messages"]] == [
+    assert [
+        message.content
+        for message in thread_b_result["messages"]
+        if isinstance(message, HumanMessage)
+    ] == [
         "这是 B 会话。",
-        "已收到 B 会话消息。",
     ]
+    assert thread_b_result["structured_response"] == GroundedAnswer(
+        answer_type="conversation",
+        answer="已收到 B 会话消息。",
+        evidence_ids=[],
+    )
 
 
 def test_extract_tool_traces_matches_calls_with_results() -> None:

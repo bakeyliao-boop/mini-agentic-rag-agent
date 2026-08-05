@@ -4,6 +4,86 @@ from pathlib import Path
 
 from langchain_core.messages import AIMessage
 
+from app.evidence import EvidenceRegistry
+from app.models import GroundedAnswer
+
+
+def test_finalize_grounded_answer_downgrades_knowledge_without_evidence(
+    tmp_path: Path,
+) -> None:
+    """knowledge 回答没有有效 Evidence 时应降级为 insufficient。"""
+
+    agent_runner = import_module("app.agent_runner")
+    registry = EvidenceRegistry(run_id="run-001")
+    structured_response = GroundedAnswer(
+        answer_type="knowledge",
+        answer="气象站可以采集环境数据。",
+        evidence_ids=[],
+    )
+
+    result = agent_runner.finalize_grounded_answer(
+        structured_response,
+        registry,
+        tmp_path,
+    )
+
+    assert result == {
+        "answer_type": "insufficient",
+        "answer": "当前证据不足，无法从知识库确定答案。",
+        "citations": [],
+    }
+
+
+def test_finalize_grounded_answer_returns_valid_answer_and_citation(
+    tmp_path: Path,
+) -> None:
+    """有效 Evidence 应保留原回答，并生成对应 Citation。"""
+
+    agent_runner = import_module("app.agent_runner")
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "气象站可以采集环境数据。\n",
+        encoding="utf-8",
+    )
+    registry = EvidenceRegistry(run_id="run-001")
+    registered = registry.register_read_page(
+        {
+            "path": "/智慧农场.md",
+            "lines": [
+                {
+                    "line": 1,
+                    "text": "气象站可以采集环境数据。",
+                }
+            ],
+            "next_line": None,
+        }
+    )
+    structured_response = GroundedAnswer(
+        answer_type="knowledge",
+        answer="气象站可以采集环境数据。",
+        evidence_ids=[registered[0].evidence_id],
+    )
+
+    result = agent_runner.finalize_grounded_answer(
+        structured_response,
+        registry,
+        knowledge_root,
+    )
+
+    assert result == {
+        "answer_type": "knowledge",
+        "answer": "气象站可以采集环境数据。",
+        "citations": [
+            {
+                "path": "/智慧农场.md",
+                "start_line": 1,
+                "end_line": 1,
+                "quote": "气象站可以采集环境数据。",
+            }
+        ],
+    }
+
 
 def test_run_agentic_question_from_project_wires_all_components(
     tmp_path: Path,
@@ -28,6 +108,11 @@ def test_run_agentic_question_from_project_wires_all_components(
     fake_chat_model = object()
     fake_tools = [object(), object(), object()]
     fake_messages = [AIMessage(content="气象站可以采集环境数据。")]
+    fake_structured_response = GroundedAnswer(
+        answer_type="knowledge",
+        answer="气象站可以采集环境数据。",
+        evidence_ids=["smoke-thread:evidence-1"],
+    )
     fake_traces = [
         {
             "step": 1,
@@ -37,6 +122,18 @@ def test_run_agentic_question_from_project_wires_all_components(
             "status": "success",
         }
     ]
+    fake_finalized_answer = {
+        "answer_type": "knowledge",
+        "answer": "气象站可以采集环境数据。",
+        "citations": [
+            {
+                "path": "/智慧农场.md",
+                "start_line": 1,
+                "end_line": 1,
+                "quote": "气象站可以采集环境数据。",
+            }
+        ],
+    }
     events: list[tuple[object, ...]] = []
 
     def fake_build_embeddings(**options):
@@ -51,8 +148,10 @@ def test_run_agentic_question_from_project_wires_all_components(
         events.append(("chat", config, api_key, base_url))
         return fake_chat_model
 
-    def fake_build_tools(knowledge_root, vector_store):
-        events.append(("tools", knowledge_root, vector_store))
+    def fake_build_tools(knowledge_root, vector_store, evidence_registry):
+        events.append(
+            ("tools", knowledge_root, vector_store, evidence_registry)
+        )
         return fake_tools
 
     def fake_build_agent(chat_model, tools):
@@ -61,13 +160,31 @@ def test_run_agentic_question_from_project_wires_all_components(
         class FakeAgent:
             def invoke(self, input_data, config):
                 events.append(("invoke", input_data, config))
-                return {"messages": fake_messages}
+                return {
+                    "messages": fake_messages,
+                    "structured_response": fake_structured_response,
+                }
 
         return FakeAgent()
 
     def fake_extract_traces(messages):
         events.append(("trace", messages))
         return fake_traces
+
+    def fake_finalize_answer(
+        structured_response,
+        evidence_registry,
+        knowledge_root,
+    ):
+        events.append(
+            (
+                "finalize",
+                structured_response,
+                evidence_registry,
+                knowledge_root,
+            )
+        )
+        return fake_finalized_answer
 
     monkeypatch.setattr(
         agent_runner,
@@ -99,6 +216,11 @@ def test_run_agentic_question_from_project_wires_all_components(
         "extract_tool_traces",
         fake_extract_traces,
     )
+    monkeypatch.setattr(
+        agent_runner,
+        "finalize_grounded_answer",
+        fake_finalize_answer,
+    )
 
     result = agent_runner.run_agentic_question_from_project(
         project_root=tmp_path,
@@ -108,7 +230,9 @@ def test_run_agentic_question_from_project_wires_all_components(
     )
 
     assert result == {
+        "answer_type": "knowledge",
         "answer": "气象站可以采集环境数据。",
+        "citations": fake_finalized_answer["citations"],
         "tool_traces": fake_traces,
         "thread_id": "smoke-thread",
     }
@@ -119,13 +243,27 @@ def test_run_agentic_question_from_project_wires_all_components(
         "tools",
         "agent",
         "invoke",
+        "finalize",
         "trace",
     ]
-    assert events[3] == ("tools", knowledge_root.resolve(), fake_vector_store)
+    assert events[3][0:3] == (
+        "tools",
+        knowledge_root.resolve(),
+        fake_vector_store,
+    )
+    evidence_registry = events[3][3]
+    assert isinstance(evidence_registry, EvidenceRegistry)
+    assert evidence_registry.run_id.startswith("smoke-thread:")
     assert events[5] == (
         "invoke",
         {"messages": [{"role": "user", "content": "气象站能做什么？"}]},
         {"configurable": {"thread_id": "smoke-thread"}},
+    )
+    assert events[6] == (
+        "finalize",
+        fake_structured_response,
+        evidence_registry,
+        knowledge_root.resolve(),
     )
 
 

@@ -4,6 +4,8 @@ import pytest
 from langchain_core.documents import Document
 from pydantic import ValidationError
 
+from app.evidence import EvidenceRegistry
+
 
 def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
     """生成的知识库工具名称应固定为 ls、search、read。"""
@@ -19,6 +21,7 @@ def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
     generated_tools = build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
 
     assert [tool.name for tool in generated_tools] == ["ls", "search", "read"]
@@ -43,6 +46,7 @@ def test_ls_tool_lists_direct_children(tmp_path) -> None:
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
     ls_tool = generated_tools[0]
 
@@ -64,6 +68,7 @@ def test_ls_tool_rejects_parent_path_traversal(tmp_path) -> None:
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
     ls_tool = generated_tools[0]
 
@@ -105,6 +110,7 @@ def test_search_tool_returns_candidate_hits(tmp_path) -> None:
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=FakeVectorStore(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
     search_tool = generated_tools[1]
 
@@ -137,6 +143,7 @@ def test_search_tool_rejects_limit_greater_than_five(tmp_path) -> None:
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
     search_tool = generated_tools[1]
 
@@ -160,6 +167,7 @@ def test_search_tool_schema_exposes_limit_range(tmp_path) -> None:
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
     search_tool = generated_tools[1]
 
@@ -185,6 +193,7 @@ def test_read_tool_returns_requested_markdown_page(tmp_path) -> None:
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
     read_tool = generated_tools[2]
 
@@ -202,10 +211,56 @@ def test_read_tool_returns_requested_markdown_page(tmp_path) -> None:
             {
                 "line": 3,
                 "text": "气象站采集环境数据。",
+                "evidence_id": "test-run:evidence-1",
             }
         ],
         "next_line": 4,
     }
+
+
+def test_read_tool_registers_nonempty_lines_as_evidence(tmp_path) -> None:
+    """read 工具应注册非空原文，并把 evidence_id 返回给 Agent。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    source_path = knowledge_root / "课程资源" / "智慧农场.md"
+    source_path.parent.mkdir(parents=True)
+    source_path.write_text(
+        "气象站可以采集环境数据。\n",
+        encoding="utf-8",
+    )
+    registry = EvidenceRegistry(run_id="run-001")
+
+    knowledge_tools = import_module("app.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=registry,
+    )
+    read_tool = generated_tools[2]
+
+    result = read_tool.invoke(
+        {
+            "path": "/课程资源/智慧农场.md",
+            "start_line": 1,
+            "limit": 1,
+        }
+    )
+
+    assert result == {
+        "path": "/课程资源/智慧农场.md",
+        "lines": [
+            {
+                "line": 1,
+                "text": "气象站可以采集环境数据。",
+                "evidence_id": "run-001:evidence-1",
+            }
+        ],
+        "next_line": None,
+    }
+    evidence = registry.get("run-001:evidence-1")
+    assert evidence.path == "/课程资源/智慧农场.md"
+    assert evidence.start_line == 1
+    assert evidence.quote == "气象站可以采集环境数据。"
 
 
 def test_read_tool_rejects_limit_greater_than_eighty(tmp_path) -> None:
@@ -215,6 +270,7 @@ def test_read_tool_rejects_limit_greater_than_eighty(tmp_path) -> None:
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
     read_tool = generated_tools[2]
 

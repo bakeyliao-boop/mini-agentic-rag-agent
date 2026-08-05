@@ -4,16 +4,55 @@ import argparse
 import json
 from collections.abc import Mapping
 from pathlib import Path
+from uuid import uuid4
 
 from app.agent import build_knowledge_agent, extract_tool_traces
 from app.baseline_runner import _required_setting, load_settings_from_env
+from app.evidence import (
+    EvidenceRegistry,
+    build_citations,
+    validate_answer_evidence,
+    validate_evidence_sources,
+)
 from app.indexer import build_dashscope_embeddings, build_knowledge_index
+from app.models import GroundedAnswer
 from app.tools import build_knowledge_tools
 from app.traditional_rag import (
     TraditionalRagConfig,
     build_traditional_chat_model,
     resolve_traditional_corpus_root,
 )
+
+
+def finalize_grounded_answer(
+    structured_response: GroundedAnswer,
+    evidence_registry: EvidenceRegistry,
+    knowledge_root: Path,
+) -> dict[str, object]:
+    """校验证据并生成最终回答；校验失败时降级为证据不足。"""
+
+    try:
+        evidences = validate_answer_evidence(
+            structured_response,
+            evidence_registry,
+        )
+        validated_evidences = validate_evidence_sources(
+            evidences,
+            knowledge_root,
+        )
+    except ValueError:
+        return {
+            "answer_type": "insufficient",
+            "answer": "当前证据不足，无法从知识库确定答案。",
+            "citations": [],
+        }
+
+    citations = build_citations(validated_evidences)
+    return {
+        "answer_type": structured_response.answer_type,
+        "answer": structured_response.answer,
+        "citations": [citation.model_dump() for citation in citations],
+    }
 
 
 def run_agentic_question_from_project(
@@ -53,7 +92,14 @@ def run_agentic_question_from_project(
         api_key,
         base_url,
     )
-    tools = build_knowledge_tools(knowledge_root, vector_store)
+    evidence_registry = EvidenceRegistry(
+        run_id=f"{thread_id}:{uuid4().hex}",
+    )
+    tools = build_knowledge_tools(
+        knowledge_root,
+        vector_store,
+        evidence_registry,
+    )
     knowledge_agent = build_knowledge_agent(chat_model, tools)
 
     agent_result = knowledge_agent.invoke(
@@ -67,11 +113,17 @@ def run_agentic_question_from_project(
         },
         config={"configurable": {"thread_id": thread_id}},
     )
+
     messages = agent_result["messages"]
-    answer = messages[-1].content
+    structured_response = agent_result["structured_response"]
+    finalized_answer = finalize_grounded_answer(
+        structured_response,
+        evidence_registry,
+        knowledge_root,
+    )
 
     return {
-        "answer": answer,
+        **finalized_answer,
         "tool_traces": extract_tool_traces(messages),
         "thread_id": thread_id,
     }

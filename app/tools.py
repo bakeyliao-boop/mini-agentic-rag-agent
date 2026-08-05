@@ -4,6 +4,7 @@ from typing import Annotated
 from langchain_core.tools import BaseTool, StructuredTool
 from pydantic import Field
 
+from app.evidence import EvidenceRegistry
 from app.indexer import search_chroma_index
 from app.knowledge_store import (
     list_knowledge_entries,
@@ -15,6 +16,7 @@ from app.knowledge_store import (
 def build_knowledge_tools(
     knowledge_root: Path,
     vector_store: object,
+    evidence_registry: EvidenceRegistry,
 ) -> list[BaseTool]:
     """生成供 Agent 调用的 ls、search 和 read 工具。"""
 
@@ -48,12 +50,36 @@ def build_knowledge_tools(
     ) -> dict[str, object]:
         """按行读取指定 Markdown 文件的原文。"""
 
-        return read_knowledge_page(
+        read_result = read_knowledge_page(
             virtual_path=path,
             knowledge_root=knowledge_root,
             start_line=start_line,
             limit=limit,    #完整文件没结束+字符没超限 就一直读
         )
+        evidences = evidence_registry.register_read_page(read_result)
+        evidence_ids_by_line = {
+            evidence.start_line: evidence.evidence_id
+            for evidence in evidences
+        }
+        lines = read_result["lines"]
+        if not isinstance(lines, list):
+            raise ValueError("read result lines must be a list")
+
+        return {
+            "path": read_result["path"],
+            "lines": [
+                {
+                    **line,
+                    **(
+                        {"evidence_id": evidence_ids_by_line[line["line"]]}
+                        if line["line"] in evidence_ids_by_line
+                        else {}
+                    ),
+                }
+                for line in lines
+            ],
+            "next_line": read_result["next_line"],
+        }
 
     return [
         StructuredTool.from_function(

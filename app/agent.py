@@ -5,6 +5,8 @@ from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
 from langchain_core.tools import BaseTool
 from langgraph.checkpoint.memory import InMemorySaver
 
+from app.models import GroundedAnswer
+
 
 KNOWLEDGE_AGENT_SYSTEM_PROMPT = """你是一个基于本地知识库回答问题的助手。
 
@@ -35,6 +37,7 @@ def build_knowledge_agent(
             )
         ],
         checkpointer=InMemorySaver(),
+        response_format=GroundedAnswer,
     )
 
 

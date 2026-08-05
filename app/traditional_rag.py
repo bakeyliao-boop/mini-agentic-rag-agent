@@ -43,6 +43,7 @@ def build_traditional_chat_model(
         temperature=config.temperature,
         api_key=api_key,
         base_url=base_url,
+        extra_body={"enable_thinking": False},
     )
 
 
