@@ -622,3 +622,56 @@ def test_extract_tool_traces_records_tool_error() -> None:
             "status": "error",
         }
     ]
+
+
+def test_extract_tool_traces_ignores_grounded_answer() -> None:
+    """工具轨迹应忽略 LangChain 内部的 GroundedAnswer 调用。"""
+
+    agent_module = import_module("app.agent")
+    messages = [
+        AIMessage(
+            content="",
+            tool_calls=[
+                {
+                    "name": "search",
+                    "args": {"query": "气象站"},
+                    "id": "search-call",
+                    "type": "tool_call",
+                },
+                {
+                    "name": "GroundedAnswer",
+                    "args": {
+                        "answer_type": "knowledge",
+                        "answer": "气象站可以监测天气。",
+                        "evidence_ids": ["run-001:evidence-1"],
+                    },
+                    "id": "answer-call",
+                    "type": "tool_call",
+                },
+            ],
+        ),
+        ToolMessage(
+            content='{"hits": []}',
+            tool_call_id="search-call",
+            name="search",
+            status="success",
+        ),
+        ToolMessage(
+            content="Returning structured response",
+            tool_call_id="answer-call",
+            name="GroundedAnswer",
+            status="success",
+        ),
+    ]
+
+    result = agent_module.extract_tool_traces(messages)
+
+    assert result == [
+        {
+            "step": 1,
+            "tool_call_id": "search-call",
+            "name": "search",
+            "args": {"query": "气象站"},
+            "status": "success",
+        }
+    ]

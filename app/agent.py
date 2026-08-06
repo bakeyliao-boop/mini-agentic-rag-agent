@@ -55,6 +55,9 @@ def extract_tool_traces(
     for message in messages:
         if isinstance(message, AIMessage):
             for tool_call in message.tool_calls:
+                if tool_call["name"] not in KNOWLEDGE_TOOL_NAMES:
+                    continue
+
                 tool_call_id = tool_call["id"]
                 trace = {
                     "step": len(traces) + 1,

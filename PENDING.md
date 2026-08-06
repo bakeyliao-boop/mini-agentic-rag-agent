@@ -106,18 +106,19 @@ extra_body={"enable_thinking": False}
 
 状态：已临时解决接口冲突，待重新评测效果。
 
-## P-005：GroundedAnswer 被记录为普通工具轨迹
+## P-005：GroundedAnswer 被记录为普通工具轨迹（已解决）
 
 ### 当前问题
 
-LangChain 通过内部 `GroundedAnswer` 工具生成结构化输出，当前
+LangChain 通过内部 `GroundedAnswer` 工具生成结构化输出。此前
 `extract_tool_traces` 会把它与 `ls/search/read` 一起记录。
 
 ### 后续事项
 
-工具轨迹只保留 `ls/search/read`，结构化回答改由独立字段观察。
+`extract_tool_traces` 已按 `KNOWLEDGE_TOOL_NAMES` 过滤，工具轨迹只保留
+`ls/search/read`，结构化回答由独立字段观察。
 
-状态：待补充过滤测试并修复。
+状态：已解决并通过真实冒烟验证。
 
 ## P-006：Evidence 真实不等于回答完全忠实
 
