@@ -65,6 +65,27 @@ def test_run_traditional_baseline_rejects_empty_api_key(
         )
 
 
+def test_build_traditional_baseline_result_filename_separates_modes() -> None:
+    """思考与非思考基线应使用不同的结果文件名。"""
+
+    baseline_runner = importlib.import_module("app.baseline_runner")
+    traditional_rag = importlib.import_module("app.traditional_rag")
+
+    thinking_off = baseline_runner.build_traditional_baseline_result_filename(
+        traditional_rag.TraditionalRagConfig(enable_thinking=False)
+    )
+    thinking_on = baseline_runner.build_traditional_baseline_result_filename(
+        traditional_rag.TraditionalRagConfig(enable_thinking=True)
+    )
+
+    assert thinking_off == (
+        "traditional-baseline-qwen3.6-flash-thinking-off.json"
+    )
+    assert thinking_on == (
+        "traditional-baseline-qwen3.6-flash-thinking-on.json"
+    )
+
+
 def test_run_traditional_baseline_from_project_wires_all_components(
     tmp_path: Path,
     monkeypatch,
@@ -153,7 +174,7 @@ def test_run_traditional_baseline_from_project_wires_all_components(
         tmp_path
         / "evaluation"
         / "results"
-        / "traditional-baseline.json"
+        / "traditional-baseline-qwen3.6-flash-thinking-off.json"
     )
     assert output_path == expected_output_path
     assert [event[0] for event in events] == [

@@ -75,3 +75,35 @@ def extract_tool_traces(
                 trace["status"] = message.status
 
     return traces
+
+
+def extract_token_usage(
+    messages: list[BaseMessage],
+) -> dict[str, object]:
+    """累加 Agent 每轮模型消息中的 token 使用量。"""
+
+    input_tokens = 0
+    output_tokens = 0
+    total_tokens = 0
+    reasoning_tokens = 0
+
+    for message in messages:
+        if not isinstance(message, AIMessage):
+            continue
+
+        usage_metadata = message.usage_metadata or {}
+        input_tokens += int(usage_metadata.get("input_tokens", 0))
+        output_tokens += int(usage_metadata.get("output_tokens", 0))
+        total_tokens += int(usage_metadata.get("total_tokens", 0))
+
+        output_details = usage_metadata.get("output_token_details") or {}
+        reasoning_tokens += int(output_details.get("reasoning", 0))
+
+    return {
+        "input_tokens": input_tokens,
+        "output_tokens": output_tokens,
+        "total_tokens": total_tokens,
+        "output_token_details": {
+            "reasoning": reasoning_tokens,
+        },
+    }

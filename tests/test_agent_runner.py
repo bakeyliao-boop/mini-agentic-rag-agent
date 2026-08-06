@@ -148,6 +148,12 @@ def test_run_agentic_question_from_project_wires_all_components(
             "status": "success",
         }
     ]
+    fake_token_usage = {
+        "input_tokens": 180,
+        "output_tokens": 35,
+        "total_tokens": 215,
+        "output_token_details": {"reasoning": 0},
+    }
     fake_finalized_answer = {
         "answer_type": "knowledge",
         "answer": "气象站可以采集环境数据。",
@@ -197,6 +203,10 @@ def test_run_agentic_question_from_project_wires_all_components(
         events.append(("trace", messages))
         return fake_traces
 
+    def fake_extract_token_usage(messages):
+        events.append(("token", messages))
+        return fake_token_usage
+
     def fake_finalize_answer(
         structured_response,
         evidence_registry,
@@ -244,6 +254,12 @@ def test_run_agentic_question_from_project_wires_all_components(
     )
     monkeypatch.setattr(
         agent_runner,
+        "extract_token_usage",
+        fake_extract_token_usage,
+        raising=False,
+    )
+    monkeypatch.setattr(
+        agent_runner,
         "finalize_grounded_answer",
         fake_finalize_answer,
     )
@@ -260,6 +276,7 @@ def test_run_agentic_question_from_project_wires_all_components(
         "answer": "气象站可以采集环境数据。",
         "citations": fake_finalized_answer["citations"],
         "tool_traces": fake_traces,
+        "token_usage": fake_token_usage,
         "thread_id": "smoke-thread",
     }
     assert [event[0] for event in events] == [
@@ -271,6 +288,7 @@ def test_run_agentic_question_from_project_wires_all_components(
         "invoke",
         "finalize",
         "trace",
+        "token",
     ]
     assert events[3][0:3] == (
         "tools",

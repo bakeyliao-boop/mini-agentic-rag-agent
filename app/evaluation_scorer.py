@@ -8,13 +8,24 @@ from pathlib import Path
 
 REFUSAL_MARKERS = (
     "未说明",
+    "没有说明",
     "未包含",
+    "未提及",
     "没有足够",
     "没有相关",
     "无相关",
     "无法回答",
     "不能回答",
     "不足以",
+)
+
+ANSWER_POINT_FILLER_TERMS = (
+    "可以",
+    "能够",
+    "进行",
+    "并且",
+    "以及",
+    "的",
 )
 
 
@@ -25,6 +36,30 @@ def _normalize_text(value: object) -> str:
         return ""
     normalized = unicodedata.normalize("NFKC", value).casefold()
     return "".join(character for character in normalized if character.isalnum())
+
+
+def _normalize_answer_point_text(value: object) -> str:
+    """在基础规范化后忽略不改变核心含义的少量连接词。"""
+
+    normalized = _normalize_text(value)
+    for filler_term in ANSWER_POINT_FILLER_TERMS:
+        normalized = normalized.replace(filler_term, "")
+    return normalized
+
+
+def _answer_point_matches(point: str, answer: object) -> bool:
+    """判断答案是否包含答案点的核心连续内容。"""
+
+    normalized_point = _normalize_answer_point_text(point)
+    normalized_answer = _normalize_answer_point_text(answer)
+    return bool(normalized_point) and normalized_point in normalized_answer
+
+
+def build_evaluation_score_filename(result_filename: str) -> str:
+    """根据一次基线结果文件名生成对应的独立评分文件名。"""
+
+    result_path = Path(result_filename)
+    return f"{result_path.stem}-score.json"
 
 
 def _rate(numerator: int, denominator: int) -> float | None:
@@ -165,7 +200,7 @@ def score_evaluation(
         matched_points = [
             point
             for point in answer_points
-            if _normalize_text(point) in normalized_answer
+            if _answer_point_matches(point, answer)
         ]
         answer_points_total += len(answer_points)
         answer_points_matched += len(matched_points)
@@ -230,7 +265,7 @@ def score_evaluation(
         "version": run_result.get("version"),
         "corpus_id": run_result.get("corpus_id"),
         "scoring_method": {
-            "answer_points": "normalized_exact_substring",
+            "answer_points": "normalized_content_substring",
             "refusal": "fixed_phrase_match",
             "semantic_judge_used": False,
         },
@@ -309,21 +344,30 @@ def score_files(
 def main(project_root: Path | None = None) -> None:
     """评分项目中的传统 RAG baseline，并打印评分文件路径。"""
 
+    from app.baseline_runner import (
+        build_traditional_baseline_result_filename,
+    )
+    from app.traditional_rag import TraditionalRagConfig
+
     resolved_project_root = (
         project_root
         if project_root is not None
         else Path(__file__).resolve().parent.parent
     )
+    result_filename = build_traditional_baseline_result_filename(
+        TraditionalRagConfig()
+    )
+    score_filename = build_evaluation_score_filename(result_filename)
     output_path = score_files(
         resolved_project_root / "evaluation" / "questions.json",
         resolved_project_root
         / "evaluation"
         / "results"
-        / "traditional-baseline.json",
+        / result_filename,
         resolved_project_root
         / "evaluation"
         / "results"
-        / "traditional-baseline-score.json",
+        / score_filename,
     )
     print(f"Evaluation score saved to: {output_path}")
 

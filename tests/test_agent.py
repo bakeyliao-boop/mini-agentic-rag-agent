@@ -675,3 +675,44 @@ def test_extract_tool_traces_ignores_grounded_answer() -> None:
             "status": "success",
         }
     ]
+
+
+def test_extract_token_usage_sums_all_ai_message_usage() -> None:
+    """Agent token 统计应累加每一轮模型调用，并忽略非模型消息。"""
+
+    agent_module = import_module("app.agent")
+    messages = [
+        HumanMessage(content="气象站能做什么？"),
+        AIMessage(
+            content="",
+            usage_metadata={
+                "input_tokens": 100,
+                "output_tokens": 20,
+                "total_tokens": 120,
+                "output_token_details": {"reasoning": 0},
+            },
+        ),
+        ToolMessage(
+            content='{"hits": []}',
+            tool_call_id="search-call",
+            status="success",
+        ),
+        AIMessage(
+            content="根据知识库内容回答。",
+            usage_metadata={
+                "input_tokens": 80,
+                "output_tokens": 15,
+                "total_tokens": 95,
+                "output_token_details": {"reasoning": 0},
+            },
+        ),
+    ]
+
+    result = agent_module.extract_token_usage(messages)
+
+    assert result == {
+        "input_tokens": 180,
+        "output_tokens": 35,
+        "total_tokens": 215,
+        "output_token_details": {"reasoning": 0},
+    }

@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Annotated
 
-from langchain_core.tools import BaseTool, StructuredTool
+from langchain_core.tools import BaseTool, StructuredTool, ToolException
 from pydantic import Field
 
 from app.evidence import EvidenceRegistry
@@ -24,9 +24,17 @@ def build_knowledge_tools(
         """列出指定虚拟目录的下一层文件和目录。"""
 
         normalized_path = normalize_virtual_path(path)
+        try:
+            entries = list_knowledge_entries(
+                normalized_path,
+                knowledge_root,
+            )
+        except (FileNotFoundError, NotADirectoryError) as error:
+            raise ToolException(str(error)) from error
+
         return {
             "path": normalized_path,
-            "entries": list_knowledge_entries(normalized_path, knowledge_root), #返回下一层路径和类型
+            "entries": entries,
         }
 
     def search_tool(
@@ -86,6 +94,7 @@ def build_knowledge_tools(
             func=ls_tool,
             name="ls",
             description="列出一个虚拟目录的直接子项，不递归读取正文。",
+            handle_tool_error=True,
         ),
         StructuredTool.from_function(
             func=search_tool,

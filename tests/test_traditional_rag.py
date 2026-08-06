@@ -193,7 +193,7 @@ def test_answer_with_traditional_rag_returns_token_usage(
 
 
 def test_traditional_rag_config_uses_fixed_baseline_defaults() -> None:
-    """传统 RAG 基线应固定模型、温度、top-k 和语料版本。"""
+    """传统 RAG 基线应固定模型、思考模式、top-k 和语料版本。"""
 
     traditional_rag = importlib.import_module("app.traditional_rag")
 
@@ -201,6 +201,7 @@ def test_traditional_rag_config_uses_fixed_baseline_defaults() -> None:
 
     assert config.model == "qwen3.6-flash"
     assert config.temperature == 0
+    assert config.enable_thinking is False
     assert config.top_k == 5
     assert config.corpus_version == "education-v1"
 
@@ -241,7 +242,7 @@ def test_build_traditional_chat_model_uses_config_and_dashscope(
     """模型工厂应把固定配置和百炼连接参数传给 ChatOpenAI。"""
 
     traditional_rag = importlib.import_module("app.traditional_rag")
-    config = traditional_rag.TraditionalRagConfig()
+    config = traditional_rag.TraditionalRagConfig(enable_thinking=True)
     received_options: list[dict[str, object]] = []
     fake_model = object()
 
@@ -269,7 +270,7 @@ def test_build_traditional_chat_model_uses_config_and_dashscope(
             "temperature": 0,
             "api_key": "test-key",
             "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-            "extra_body": {"enable_thinking": False},
+            "extra_body": {"enable_thinking": True},
         }
     ]
 

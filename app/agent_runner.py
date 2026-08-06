@@ -3,10 +3,15 @@
 import argparse
 import json
 from collections.abc import Mapping
+from dataclasses import dataclass
 from pathlib import Path
 from uuid import uuid4
 
-from app.agent import build_knowledge_agent, extract_tool_traces
+from app.agent import (
+    build_knowledge_agent,
+    extract_token_usage,
+    extract_tool_traces,
+)
 from app.baseline_runner import _required_setting, load_settings_from_env
 from app.evidence import (
     EvidenceRegistry,
@@ -22,6 +27,15 @@ from app.traditional_rag import (
     build_traditional_chat_model,
     resolve_traditional_corpus_root,
 )
+
+
+@dataclass(frozen=True)
+class AgenticRuntime:
+    """可在同一批问题之间复用的知识库、索引和对话模型。"""
+
+    knowledge_root: Path
+    vector_store: object
+    chat_model: object
 
 
 def finalize_grounded_answer(
@@ -77,13 +91,11 @@ def finalize_agent_result(
     )
 
 
-def run_agentic_question_from_project(
+def build_agentic_runtime_from_project(
     project_root: Path,
-    question: str,
-    thread_id: str,
     settings: Mapping[str, str],
-) -> dict[str, object]:
-    """连接真实组件，运行一个知识库问题并返回回答和工具轨迹。"""
+) -> AgenticRuntime:
+    """构建可供多道问题共享的知识库索引和对话模型。"""
 
     config = TraditionalRagConfig()
     api_key = _required_setting(settings, "DASHSCOPE_API_KEY")
@@ -114,15 +126,30 @@ def run_agentic_question_from_project(
         api_key,
         base_url,
     )
+
+    return AgenticRuntime(
+        knowledge_root=knowledge_root,
+        vector_store=vector_store,
+        chat_model=chat_model,
+    )
+
+
+def run_agentic_question(
+    runtime: AgenticRuntime,
+    question: str,
+    thread_id: str,
+) -> dict[str, object]:
+    """使用共享运行环境执行一道问题，并创建本题独立证据注册表。"""
+
     evidence_registry = EvidenceRegistry(
         run_id=f"{thread_id}:{uuid4().hex}",
     )
     tools = build_knowledge_tools(
-        knowledge_root,
-        vector_store,
+        runtime.knowledge_root,
+        runtime.vector_store,
         evidence_registry,
     )
-    knowledge_agent = build_knowledge_agent(chat_model, tools)
+    knowledge_agent = build_knowledge_agent(runtime.chat_model, tools)
 
     agent_result = knowledge_agent.invoke(
         {
@@ -140,14 +167,34 @@ def run_agentic_question_from_project(
     finalized_answer = finalize_agent_result(
         agent_result,
         evidence_registry,
-        knowledge_root,
+        runtime.knowledge_root,
     )
 
     return {
         **finalized_answer,
         "tool_traces": extract_tool_traces(messages),
+        "token_usage": extract_token_usage(messages),
         "thread_id": thread_id,
     }
+
+
+def run_agentic_question_from_project(
+    project_root: Path,
+    question: str,
+    thread_id: str,
+    settings: Mapping[str, str],
+) -> dict[str, object]:
+    """构建项目运行环境，并执行一个知识库问题。"""
+
+    runtime = build_agentic_runtime_from_project(
+        project_root=project_root,
+        settings=settings,
+    )
+    return run_agentic_question(
+        runtime=runtime,
+        question=question,
+        thread_id=thread_id,
+    )
 
 
 def main(

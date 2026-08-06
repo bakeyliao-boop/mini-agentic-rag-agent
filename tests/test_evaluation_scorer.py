@@ -1,7 +1,12 @@
 import json
 from pathlib import Path
 
-from app.evaluation_scorer import score_evaluation, score_files
+from app import evaluation_scorer
+from app.evaluation_scorer import (
+    build_evaluation_score_filename,
+    score_evaluation,
+    score_files,
+)
 
 
 def test_score_evaluation_calculates_quality_and_cost_metrics() -> None:
@@ -161,3 +166,117 @@ def test_score_files_writes_score_json(tmp_path: Path) -> None:
     assert returned_path == output_path
     saved_score = json.loads(output_path.read_text(encoding="utf-8"))
     assert saved_score["completeness"]["complete"] is True
+
+
+def test_build_evaluation_score_filename_preserves_baseline_version() -> None:
+    """评分文件名应保留模型和思考模式，避免覆盖旧评分。"""
+
+    result = build_evaluation_score_filename(
+        "traditional-baseline-qwen3.6-flash-thinking-off.json"
+    )
+
+    assert result == (
+        "traditional-baseline-qwen3.6-flash-thinking-off-score.json"
+    )
+
+
+def test_score_evaluation_allows_minor_filler_word_differences() -> None:
+    """答案只多出“的”等连接词时，仍应命中同一个答案点。"""
+
+    dataset = {
+        "questions": [
+            {
+                "id": "exact-001",
+                "expected_answer_type": "knowledge",
+                "expected_paths": ["/智慧农场.md"],
+                "answer_points": ["根据不同农作物进行分类灌溉"],
+            }
+        ]
+    }
+    run_result = {
+        "results": [
+            {
+                "id": "exact-001",
+                "answer": "系统可以根据不同的农作物进行分类灌溉。",
+                "hits": [{"path": "/智慧农场.md"}],
+            }
+        ]
+    }
+
+    score = score_evaluation(dataset, run_result)
+
+    assert score["answer_points"] == {
+        "matched": 1,
+        "total": 1,
+        "coverage": 1.0,
+    }
+
+
+def test_score_evaluation_accepts_common_missing_information_phrases() -> None:
+    """“没有说明”和“未提及”都应被识别为知识不足拒答。"""
+
+    dataset = {
+        "questions": [
+            {
+                "id": "outside-001",
+                "expected_answer_type": "insufficient",
+            },
+            {
+                "id": "outside-002",
+                "expected_answer_type": "insufficient",
+            },
+        ]
+    }
+    run_result = {
+        "results": [
+            {
+                "id": "outside-001",
+                "answer": "知识库没有说明量子计算机的工作原理。",
+            },
+            {
+                "id": "outside-002",
+                "answer": "现有材料未提及该内容。",
+            },
+        ]
+    }
+
+    score = score_evaluation(dataset, run_result)
+
+    assert score["refusal"] == {
+        "eligible_questions": 2,
+        "correct_refusals": 2,
+        "accuracy": 1.0,
+    }
+
+
+def test_main_scores_current_baseline_to_independent_filename(
+    tmp_path: Path,
+    capsys,
+) -> None:
+    """默认入口应读取新基线，并写入与它对应的独立评分文件。"""
+
+    evaluation_directory = tmp_path / "evaluation"
+    results_directory = evaluation_directory / "results"
+    results_directory.mkdir(parents=True)
+    (evaluation_directory / "questions.json").write_text(
+        json.dumps({"questions": []}),
+        encoding="utf-8",
+    )
+    result_filename = (
+        "traditional-baseline-qwen3.6-flash-thinking-off.json"
+    )
+    (results_directory / result_filename).write_text(
+        json.dumps({"results": []}),
+        encoding="utf-8",
+    )
+
+    evaluation_scorer.main(project_root=tmp_path)
+
+    expected_path = results_directory / (
+        "traditional-baseline-qwen3.6-flash-thinking-off-score.json"
+    )
+    assert expected_path.is_file()
+    assert not (results_directory / "traditional-baseline-score.json").exists()
+    assert capsys.readouterr().out == (
+        f"Evaluation score saved to: {expected_path}\n"
+    )

@@ -1,0 +1,533 @@
+{
+  "version": 2,
+  "corpus_id": "education-v1",
+  "config": {
+    "model": "qwen3.6-flash",
+    "temperature": 0,
+    "enable_thinking": false,
+    "top_k": 5,
+    "corpus_version": "education-v1"
+  },
+  "results": [
+    {
+      "id": "directory-001",
+      "category": "directory",
+      "question": "课程资源目录下有哪些直接子目录？只列出下一层。",
+      "expected_answer_type": "directory",
+      "answer": "根据提供的知识库候选内容，无法回答“课程资源目录下有哪些直接子目录”这一问题。\n\n**原因：**\n提供的候选内容均为具体的**课程概述（course_overview）**或**视频转录（video_transcript）**元数据，包含年级、学科、单元、课时等信息，但**不包含**任何关于文件系统结构、文件夹层级或“课程资源目录”下子目录列表的信息。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.4514981508255005,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.43743574619293213,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.4154876470565796,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.4084721803665161,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.34403693675994873,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        }
+      ],
+      "latency_ms": 5460.675067999546,
+      "token_usage": {
+        "input_tokens": 904,
+        "output_tokens": 82,
+        "total_tokens": 986,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "exact-001",
+      "category": "exact_fact",
+      "question": "智慧农场的自动灌溉系统如何针对不同农作物进行灌溉？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据知识库内容，智慧农场的自动灌溉系统可以根据不同的农作物进行**分类灌溉**。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.7124446630477905,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.3639910817146301,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.31721627712249756,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.28396499156951904,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.19105470180511475,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        }
+      ],
+      "latency_ms": 1736.556797999583,
+      "token_usage": {
+        "input_tokens": 903,
+        "output_tokens": 18,
+        "total_tokens": 921,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "exact-002",
+      "category": "exact_fact",
+      "question": "智慧农场如何利用气象站降低农业生产风险？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据知识库内容，智慧农场利用气象站降低农业生产风险的方式如下：\n\n自动灌溉系统可以连接气象站等设备，**实时监测天气状况**，**预测可能发生的农业灾害**，并**提前采取防治措施**。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.6257559061050415,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.2730017900466919,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.264689564704895,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.2229527235031128,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.15523815155029297,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        }
+      ],
+      "latency_ms": 1841.4516940010799,
+      "token_usage": {
+        "input_tokens": 900,
+        "output_tokens": 47,
+        "total_tokens": 947,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "exact-003",
+      "category": "exact_fact",
+      "question": "智慧农场中的计算机如何控制肥料供应？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据知识库内容，在智慧农场中，计算机可以自动控制肥料的种类和用量，从而为农作物提供合适的养分供应。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.7076444625854492,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.4550393223762512,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.3276716470718384,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.3156338930130005,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.24199151992797852,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        }
+      ],
+      "latency_ms": 1229.5137389992306,
+      "token_usage": {
+        "input_tokens": 900,
+        "output_tokens": 26,
+        "total_tokens": 926,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "exact-004",
+      "category": "exact_fact",
+      "question": "《初探数字化》列出了哪些学习任务？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据知识库内容，《初探数字化》列出的学习任务如下：\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.6951925754547119,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.4822899103164673,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.43905794620513916,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.42985832691192627,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.37883174419403076,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        }
+      ],
+      "latency_ms": 1492.415376000281,
+      "token_usage": {
+        "input_tokens": 901,
+        "output_tokens": 43,
+        "total_tokens": 944,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "exact-005",
+      "category": "exact_fact",
+      "question": "《身边的系统》列举了哪些系统示例？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据知识库内容，《身边的系统》列举的系统示例包括：\n\n*   交通控制系统\n*   列车控制系统\n*   数据交换系统\n*   门禁系统",
+      "hits": [
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.6534966230392456,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.4457433819770813,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.4343738555908203,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.3840140104293823,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.31993114948272705,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        }
+      ],
+      "latency_ms": 1261.5496029993665,
+      "token_usage": {
+        "input_tokens": 901,
+        "output_tokens": 37,
+        "total_tokens": 938,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "exact-006",
+      "category": "exact_fact",
+      "question": "《互联网与物联网》希望学生对物联网未来形成什么认识？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据《互联网与物联网》一课的学习目标，希望学生能**畅想物联网未来的发展，感受万物互联的场景和价值**。",
+      "hits": [
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.7025492787361145,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.41789281368255615,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.39097654819488525,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.38657426834106445,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.38364970684051514,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        }
+      ],
+      "latency_ms": 1341.5964759988128,
+      "token_usage": {
+        "input_tokens": 904,
+        "output_tokens": 25,
+        "total_tokens": 929,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "ambiguity-001",
+      "category": "ambiguity",
+      "question": "“自动控制系统”目录中的《课程介绍》和《智慧农场》分别是什么类型的资源？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据提供的知识库内容：\n\n1.  **《课程介绍》**（对应 corpus_id: `primary-grade6-automatic-control-overview`，标题为“自动控制系统”）：\n    *   `resource_type` 字段显示为 **course_overview**。\n    *   因此，它是**课程概览**类型的资源。\n\n2.  **《智慧农场》**（对应 corpus_id: `primary-grade6-smart-farm`，标题为“智慧农场”）：\n    *   `resource_type` 字段显示为 **video_transcript**。\n    *   因此，它是**视频转录文本**类型的资源。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.7282341718673706,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.5755202174186707,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.48398125171661377,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.45613038539886475,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.4163365364074707,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        }
+      ],
+      "latency_ms": 4815.430947001005,
+      "token_usage": {
+        "input_tokens": 910,
+        "output_tokens": 137,
+        "total_tokens": 1047,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "multi-document-001",
+      "category": "multi_document",
+      "question": "六年级《自动控制系统》课程内容与《智慧农场》案例之间是什么关系？",
+      "expected_answer_type": "knowledge",
+      "answer": "根据提供的知识库内容，六年级《自动控制系统》课程内容与《智慧农场》案例之间的关系如下：\n\n1.  **理论与应用的关系**：\n    *   《自动控制系统》是六年级信息科技课程（第一单元第1课）的**理论教学内容**，其学习目标包括“认识常见的自动控制系统”和“理解计算机在自动控制系统中的作用”。\n    *   《智慧农场》是该课程的**具体应用案例**。它展示了自动控制系统在农业领域的实际落地场景。\n\n2.  **具体内容的对应**：\n    *   《智慧农场》中的功能模块（如分类灌溉、气象监测与灾害预警、肥料控制）均体现了**自动控制系统**的工作原理。\n    *   特别是其中提到的“计算机可以自动控制肥料的种类和用量”，直接呼应了课程目标中关于“理解计算机在自动控制系统中的作用”这一知识点。\n\n综上所述，《智慧农场》是用于辅助学生理解和认识《自动控制系统》这一抽象概念的典型生活化/行业化案例。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.7999616861343384,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.6510621905326843,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.4881179928779602,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.45733046531677246,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.3791382312774658,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        }
+      ],
+      "latency_ms": 4505.95206700018,
+      "token_usage": {
+        "input_tokens": 907,
+        "output_tokens": 206,
+        "total_tokens": 1113,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    },
+    {
+      "id": "out-of-scope-001",
+      "category": "out_of_scope",
+      "question": "这个知识库是否说明了量子计算机的工作原理？",
+      "expected_answer_type": "insufficient",
+      "answer": "根据提供的知识库候选内容，**没有**说明量子计算机的工作原理。\n\n知识库中涉及的内容主要包括：\n1.  **自动控制系统**（小学六年级）：介绍了常见的自动控制系统、计算机在其中的作用，以及智慧农场中的分类灌溉、气象监测和肥料控制等应用。\n2.  **身边的系统**（小学五年级）：列举了交通控制、列车控制、数据交换和门禁系统等生活实例。\n3.  **初探数字化**（小学四年级）：讲解了数字化的概念、动画与视频原理及数据数字化。\n4.  **互联网和物联网**（初中七年级）：梳理了物联网的典型应用、特征、架构及其与互联网的异同。\n\n以上所有材料均未提及“量子计算机”或相关工作原理。",
+      "hits": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 23,
+          "score": 0.35812389850616455,
+          "preview": "---\ncorpus_id: primary-grade6-automatic-control-overview\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - teacher\n---\n\n# 自动控制系统\n\n## 学习内容\n\n1. 认识常见的自动控制系统。\n2. 理解计算机在自动控制系统中的作用。"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 31,
+          "score": 0.34996092319488525,
+          "preview": "---\ncorpus_id: primary-grade6-smart-farm\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: transcript_normalized\nresource_type: video_transcript\nperiod: 小学\ngrade: 六年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学六年级下\nunit: 第一单元 控制系统中的反馈\nlesson: 第1课 自动控制系统\naudience:\n  - student\n  - teacher\n---\n\n# 智慧农场\n\n## 00:00.000 分类灌溉\n\n智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。\n\n## 00:12.380 气象监测与灾害预警\n\n自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。\n\n## 00:37.373 肥料控制\n\n计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.31014084815979004,
+          "preview": "---\ncorpus_id: primary-grade5-systems-around-us\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 五年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学五年级下\nunit: 第一单元 生活中的系统\nlesson: 第1课 身边的系统\naudience:\n  - teacher\n---\n\n# 身边的系统\n\n## 课程内容\n\n本课从生活中的系统出发，引导学习者观察身边不同类型的系统。\n\n## 系统示例\n\n- 交通控制系统\n- 列车控制系统\n- 数据交换系统\n- 门禁系统"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 1,
+          "end_line": 29,
+          "score": 0.29973864555358887,
+          "preview": "---\ncorpus_id: primary-grade4-digitalization\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 小学\ngrade: 四年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 小学四年级下\nunit: 第一单元 数字世界\nlesson: 第1课 初探数字化\naudience:\n  - teacher\n---\n\n# 初探数字化\n\n## 课程主题\n\n- 数字化的概念与作用。\n- 数字生活的认识。\n\n## 学习任务\n\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。"
+        },
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 1,
+          "end_line": 24,
+          "score": 0.2666531801223755,
+          "preview": "---\ncorpus_id: junior-grade7-internet-and-iot\nsource_system: xxkj\nsource_kind: mysql_snapshot\ncontent_origin: basic_info_cleaned\nresource_type: course_overview\nperiod: 初中\ngrade: 七年级\nsubject: 信息科技\nedition: 浙江教育版 2023\ntextbook: 信息科技 初中七年级下\nunit: 第一单元 认识物联网\nlesson: 第1课 互联网和物联网\naudience:\n  - teacher\n---\n\n# 互联网与物联网\n\n## 学习目标\n\n1. 梳理物联网的典型应用，理解物联网的特征和架构。\n2. 体会物联网对工作、学习和生活的影响，初步理解物联网与互联网的异同。\n3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        }
+      ],
+      "latency_ms": 3175.0490679987706,
+      "token_usage": {
+        "input_tokens": 899,
+        "output_tokens": 158,
+        "total_tokens": 1057,
+        "input_token_details": {},
+        "output_token_details": {}
+      }
+    }
+  ]
+}

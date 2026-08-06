@@ -48,6 +48,17 @@ def _required_setting(
     return value.strip()
 
 
+def build_traditional_baseline_result_filename(
+    config: TraditionalRagConfig,
+) -> str:
+    """根据模型和思考模式生成不会覆盖旧基线的结果文件名。"""
+
+    thinking_mode = (
+        "thinking-on" if config.enable_thinking else "thinking-off"
+    )
+    return f"traditional-baseline-{config.model}-{thinking_mode}.json"
+
+
 def run_traditional_baseline_from_project(
     project_root: Path,
     settings: Mapping[str, str],
@@ -99,7 +110,7 @@ def run_traditional_baseline_from_project(
         project_root
         / "evaluation"
         / "results"
-        / "traditional-baseline.json"
+        / build_traditional_baseline_result_filename(config)
     )
     save_evaluation_result(result, output_path)
     return output_path

@@ -2,6 +2,7 @@ from importlib import import_module
 
 import pytest
 from langchain_core.documents import Document
+from langchain_core.messages import ToolMessage
 from pydantic import ValidationError
 
 from app.evidence import EvidenceRegistry
@@ -77,6 +78,38 @@ def test_ls_tool_rejects_parent_path_traversal(tmp_path) -> None:
         match=r"virtual path must not contain '\.' or '\.\.' segments",
     ):
         ls_tool.invoke({"path": "/../secret"})
+
+
+def test_ls_tool_returns_recoverable_error_for_missing_directory(
+    tmp_path,
+) -> None:
+    """不存在的目录应成为 Agent 可观察的工具错误，而不是中断运行。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    knowledge_tools = import_module("app.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    ls_tool = generated_tools[0]
+
+    result = ls_tool.invoke(
+        {
+            "name": "ls",
+            "args": {"path": "/课程资源目录"},
+            "id": "ls-call",
+            "type": "tool_call",
+        }
+    )
+
+    assert isinstance(result, ToolMessage)
+    assert result.status == "error"
+    assert result.tool_call_id == "ls-call"
+    assert result.content == (
+        "knowledge directory does not exist: /课程资源目录"
+    )
 
 
 def test_search_tool_returns_candidate_hits(tmp_path) -> None:

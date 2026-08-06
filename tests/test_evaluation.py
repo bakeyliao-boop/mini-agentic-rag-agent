@@ -221,6 +221,7 @@ def test_run_traditional_baseline_runs_each_question_and_collects_results(
     assert result["config"] == {
         "model": "qwen3.6-flash",
         "temperature": 0,
+        "enable_thinking": False,
         "top_k": 5,
         "corpus_version": "education-v1",
     }
@@ -232,6 +233,99 @@ def test_run_traditional_baseline_runs_each_question_and_collects_results(
         "回答：智慧农场如何灌溉？",
         "回答：气象站有什么作用？",
     ]
+
+
+def test_run_agentic_evaluation_runs_each_question_and_collects_results() -> None:
+    """Agentic 评测应逐题执行，并汇总引用、工具轨迹和耗时。"""
+
+    dataset = {
+        "version": 2,
+        "corpus_id": "education-v1",
+        "questions": [
+            {
+                "id": "exact-001",
+                "category": "exact_fact",
+                "question": "智慧农场如何灌溉？",
+                "expected_answer_type": "knowledge",
+            },
+            {
+                "id": "outside-001",
+                "category": "out_of_scope",
+                "question": "知识库介绍量子计算机了吗？",
+                "expected_answer_type": "insufficient",
+            },
+        ],
+    }
+    received_calls: list[tuple[str, str]] = []
+    timestamps = iter([1.0, 1.125, 2.0, 2.25])
+
+    def fake_run_question(question: str, thread_id: str) -> dict[str, object]:
+        """
+        模拟实现 run_question()，返回固定答案和工具调用轨迹。
+        LLM + ls + search + read + EvidenceRegistry
+        """
+        received_calls.append((question, thread_id))
+        if thread_id == "evaluation-exact-001":
+            return {
+                "answer_type": "knowledge",
+                "answer": "系统会根据不同农作物分类灌溉。",
+                "citations": [
+                    {
+                        "path": "/智慧农场.md",
+                        "start_line": 1,
+                        "end_line": 1,
+                        "quote": "系统会根据不同农作物分类灌溉。",
+                    }
+                ],
+                "tool_traces": [
+                    {"step": 1, "name": "search", "status": "success"},
+                    {"step": 2, "name": "read", "status": "success"},
+                ],
+            }
+        return {
+            "answer_type": "insufficient",
+            "answer": "当前证据不足。",
+            "citations": [],
+            "tool_traces": [
+                {"step": 1, "name": "search", "status": "success"}
+            ],
+        }
+
+    result = evaluation.run_agentic_evaluation(
+        dataset=dataset,
+        run_question=fake_run_question,
+        config=TraditionalRagConfig(),
+        prompt_version="Prompt-V1.2",
+        clock=lambda: next(timestamps),
+    )
+
+    assert received_calls == [
+        ("智慧农场如何灌溉？", "evaluation-exact-001"),
+        ("知识库介绍量子计算机了吗？", "evaluation-outside-001"),
+    ]
+    assert result["config"] == {
+        "model": "qwen3.6-flash",
+        "temperature": 0,
+        "enable_thinking": False,
+        "corpus_version": "education-v1",
+        "prompt_version": "Prompt-V1.2",
+    }
+    assert [item["id"] for item in result["results"]] == [
+        "exact-001",
+        "outside-001",
+    ]
+    assert [item["answer_type"] for item in result["results"]] == [
+        "knowledge",
+        "insufficient",
+    ]
+    assert [item["latency_ms"] for item in result["results"]] == [
+        125.0,
+        250.0,
+    ]
+    assert [item["tool_call_count"] for item in result["results"]] == [2, 1]
+    assert result["results"][0]["citations"][0]["path"] == (
+        "/智慧农场.md"
+    )
 
 
 def test_save_evaluation_result_writes_readable_utf8_json(

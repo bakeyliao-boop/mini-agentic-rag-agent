@@ -16,6 +16,7 @@ class TraditionalRagConfig:
 
     model: str = "qwen3.6-flash"
     temperature: float = 0
+    enable_thinking: bool = False
     top_k: int = 5
     corpus_version: str = "education-v1"
 
@@ -43,7 +44,7 @@ def build_traditional_chat_model(
         temperature=config.temperature,
         api_key=api_key,
         base_url=base_url,
-        extra_body={"enable_thinking": False},
+        extra_body={"enable_thinking": config.enable_thinking},
     )
 
 
