@@ -85,6 +85,32 @@ def test_finalize_grounded_answer_returns_valid_answer_and_citation(
     }
 
 
+def test_finalize_agent_result_downgrades_missing_structured_response(
+    tmp_path: Path,
+) -> None:
+    """Agent 提前结束且没有结构化回答时应降级为 insufficient。"""
+
+    agent_runner = import_module("app.agent_runner")
+    registry = EvidenceRegistry(run_id="run-001")
+    agent_result = {
+        "messages": [
+            AIMessage(content="知识库工具调用次数已达到上限。")
+        ]
+    }
+
+    result = agent_runner.finalize_agent_result(
+        agent_result,
+        registry,
+        tmp_path,
+    )
+
+    assert result == {
+        "answer_type": "insufficient",
+        "answer": "当前证据不足，无法从知识库确定答案。",
+        "citations": [],
+    }
+
+
 def test_run_agentic_question_from_project_wires_all_components(
     tmp_path: Path,
     monkeypatch,
@@ -103,7 +129,7 @@ def test_run_agentic_question_from_project_wires_all_components(
     }
     knowledge_root = tmp_path / "knowledge" / "education-v1"
     knowledge_root.mkdir(parents=True)
-    fake_embeddings = object()
+    fake_embeddings = object()  #E
     fake_vector_store = object()
     fake_chat_model = object()
     fake_tools = [object(), object(), object()]
@@ -134,11 +160,11 @@ def test_run_agentic_question_from_project_wires_all_components(
             }
         ],
     }
-    events: list[tuple[object, ...]] = []
+    events: list[tuple[object, ...]] = []   #使用events记录调用顺序
 
     def fake_build_embeddings(**options):
         events.append(("embedding", options))
-        return fake_embeddings
+        return fake_embeddings  #return E
 
     def fake_build_index(root, persist_directory, embedding):
         events.append(("index", root, persist_directory, embedding))

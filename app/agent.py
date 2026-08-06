@@ -6,18 +6,21 @@ from langchain_core.tools import BaseTool
 from langgraph.checkpoint.memory import InMemorySaver
 
 from app.models import GroundedAnswer
+from app.prompts import (
+    KNOWLEDGE_AGENT_PROMPT_VERSION,
+    KNOWLEDGE_AGENT_SYSTEM_PROMPT,
+)
+
+KNOWLEDGE_TOOL_NAMES = frozenset({"ls", "search", "read"})
 
 
-KNOWLEDGE_AGENT_SYSTEM_PROMPT = """你是一个基于本地知识库回答问题的助手。
+class KnowledgeToolCallLimitMiddleware(ToolCallLimitMiddleware):
+    """只限制知识库工具，不把结构化回答当作知识库工具。"""
 
-你可以使用 ls、search 和 read 三个工具：
-- ls 用于浏览知识库目录。
-- search 只用于定位候选内容，返回结果不能直接作为回答证据。
-- read 用于读取并核实 Markdown 原文。
+    def _matches_tool_filter(self, tool_call: dict[str, object]) -> bool:
+        """判断一次调用是否属于 ls、search 或 read。"""
 
-处理目录或范围问题时，应使用 ls 逐层定位目标目录。通过 ls 找到具体目录后，必须将该目录作为 search 的 path 参数。
-回答知识类问题前，必须使用 read 核实原文；证据不足时应明确说明无法从知识库确定答案。
-"""
+        return tool_call.get("name") in KNOWLEDGE_TOOL_NAMES
 
 
 def build_knowledge_agent(
@@ -31,9 +34,9 @@ def build_knowledge_agent(
         tools=tools,
         system_prompt=KNOWLEDGE_AGENT_SYSTEM_PROMPT,
         middleware=[
-            ToolCallLimitMiddleware(
+            KnowledgeToolCallLimitMiddleware(
                 run_limit=6,
-                exit_behavior="error",
+                exit_behavior="end",
             )
         ],
         checkpointer=InMemorySaver(),

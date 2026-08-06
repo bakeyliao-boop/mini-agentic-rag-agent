@@ -55,6 +55,28 @@ def finalize_grounded_answer(
     }
 
 
+def finalize_agent_result(
+    agent_result: Mapping[str, object],
+    evidence_registry: EvidenceRegistry,
+    knowledge_root: Path,
+) -> dict[str, object]:
+    """处理 Agent 结果；缺少结构化回答时降级为证据不足。"""
+
+    structured_response = agent_result.get("structured_response")
+    if not isinstance(structured_response, GroundedAnswer):
+        return {
+            "answer_type": "insufficient",
+            "answer": "当前证据不足，无法从知识库确定答案。",
+            "citations": [],
+        }
+
+    return finalize_grounded_answer(
+        structured_response,
+        evidence_registry,
+        knowledge_root,
+    )
+
+
 def run_agentic_question_from_project(
     project_root: Path,
     question: str,
@@ -115,9 +137,8 @@ def run_agentic_question_from_project(
     )
 
     messages = agent_result["messages"]
-    structured_response = agent_result["structured_response"]
-    finalized_answer = finalize_grounded_answer(
-        structured_response,
+    finalized_answer = finalize_agent_result(
+        agent_result,
         evidence_registry,
         knowledge_root,
     )

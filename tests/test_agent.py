@@ -90,6 +90,31 @@ def test_system_prompt_requires_scoped_search_after_ls() -> None:
     )
 
 
+def test_knowledge_agent_stops_searching_after_sufficient_read() -> None:
+    """read 已提供充分证据后，Agent 应立即提交结构化回答。"""
+
+    agent_module = import_module("app.agent")
+    system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
+
+    assert (
+        "read 已返回足以回答问题的原文时，禁止继续调用 search 或 ls"
+        in system_prompt
+    )
+    assert (
+        "必须立即提交 GroundedAnswer，并引用 read 返回的 evidence_id"
+        in system_prompt
+    )
+    assert "禁止使用相似关键词重复 search" in system_prompt
+
+
+def test_knowledge_agent_uses_explicit_prompt_version() -> None:
+    """当前 Agent Prompt 应具有可追踪的独立版本号。"""
+
+    agent_module = import_module("app.agent")
+
+    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.2"
+
+
 def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
     monkeypatch,
 ) -> None:
@@ -116,7 +141,38 @@ def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
     tool_call_limiter = middleware[0]
     assert isinstance(tool_call_limiter, ToolCallLimitMiddleware)
     assert tool_call_limiter.run_limit == 6
-    assert tool_call_limiter.exit_behavior == "error"
+    assert tool_call_limiter.exit_behavior == "end"
+
+
+def test_build_knowledge_agent_does_not_count_grounded_answer_as_tool(
+    monkeypatch,
+) -> None:
+    """结构化 GroundedAnswer 不应占用知识库工具调用次数。"""
+
+    agent_module = import_module("app.agent")
+    received_options: dict[str, object] = {}
+
+    def fake_create_agent(**options):
+        received_options.update(options)
+        return object()
+
+    monkeypatch.setattr(agent_module, "create_agent", fake_create_agent)
+
+    agent_module.build_knowledge_agent(
+        chat_model=object(),
+        tools=[],
+    )
+
+    middleware = received_options["middleware"]
+    tool_call_limiter = middleware[0]
+
+    assert tool_call_limiter._matches_tool_filter({"name": "ls"}) is True
+    assert (
+        tool_call_limiter._matches_tool_filter(
+            {"name": "GroundedAnswer"}
+        )
+        is False
+    )
 
 
 def test_build_knowledge_agent_uses_in_memory_checkpointer(
