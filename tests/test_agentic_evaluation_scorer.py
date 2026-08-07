@@ -256,7 +256,7 @@ def test_main_scores_current_agentic_result_to_independent_file(
         encoding="utf-8",
     )
     result_filename = (
-        "agentic-baseline-qwen3.6-flash-thinking-off-prompt-v1.2.json"
+        "agentic-baseline-qwen3.6-flash-thinking-off-prompt-v1.3.json"
     )
     (results_directory / result_filename).write_text(
         json.dumps(
@@ -273,7 +273,7 @@ def test_main_scores_current_agentic_result_to_independent_file(
 
     expected_path = results_directory / (
         "agentic-baseline-qwen3.6-flash-thinking-off-"
-        "prompt-v1.2-score.json"
+        "prompt-v1.3-score.json"
     )
     assert expected_path.is_file()
     assert capsys.readouterr().out == (

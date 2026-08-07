@@ -1,4 +1,5 @@
 from importlib import import_module
+from pathlib import Path
 
 from langchain.agents.middleware.tool_call_limit import (
     ToolCallLimitMiddleware,
@@ -79,15 +80,40 @@ def test_build_knowledge_agent_registers_model_tools_and_system_prompt(
     )
 
 
-def test_system_prompt_requires_scoped_search_after_ls() -> None:
-    """通过 ls 定位目录后，系统规则应要求在该目录内搜索。"""
+def test_system_prompt_answers_pure_directory_question_after_ls() -> None:
+    """纯目录题在 ls 返回直接子项后应立即回答。"""
 
     agent_module = import_module("app.agent")
+    system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
 
     assert (
-        "通过 ls 找到具体目录后，必须将该目录作为 search 的 path 参数"
-        in agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
+        "只有用户询问某个目录有哪些直接子项、有哪些文件或目录、或者路径是否存在时，才属于目录题"
+        in system_prompt
     )
+    assert (
+        "ls 已返回目标目录所需的直接子项时，立即提交 answer_type=directory"
+        in system_prompt
+    )
+    assert "目录题不需要调用 search 或 read" in system_prompt
+    assert "自然语言中的“目录”不能直接拼进虚拟路径" in system_prompt
+
+
+def test_system_prompt_searches_when_directory_is_only_scope() -> None:
+    """目录名只限定知识题范围时，不应从根目录逐层猜路径。"""
+
+    agent_module = import_module("app.agent")
+    system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
+
+    assert (
+        "目录名只用于限定问题范围，而用户询问文件内容、属性或资源类型时，仍属于知识题"
+        in system_prompt
+    )
+    assert (
+        "完整虚拟路径未知时，禁止猜测路径或从根目录选择一个分支逐层试探"
+        in system_prompt
+    )
+    assert "应先在根路径 / 使用 search 定位" in system_prompt
+    assert "只使用工具返回的完整虚拟路径" in system_prompt
 
 
 def test_knowledge_agent_stops_searching_after_sufficient_read() -> None:
@@ -112,7 +138,24 @@ def test_knowledge_agent_uses_explicit_prompt_version() -> None:
 
     agent_module = import_module("app.agent")
 
-    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.2"
+    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.3"
+
+
+def test_prompt_version_log_records_problem_experiment_and_result() -> None:
+    """Prompt 版本记录应保存问题、实验假设和真实结果。"""
+
+    project_root = Path(__file__).resolve().parent.parent
+    version_log = (project_root / "PROMPT_VERSIONS.md").read_text(
+        encoding="utf-8"
+    )
+
+    assert "## Prompt-V1.2" in version_log
+    assert "directory-001" in version_log
+    assert "ambiguity-001" in version_log
+    assert "## Prompt-V1.3" in version_log
+    assert "已运行新基线验证" in version_log
+    assert "回答类型准确率" in version_log
+    assert "out-of-scope-001" in version_log
 
 
 def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
