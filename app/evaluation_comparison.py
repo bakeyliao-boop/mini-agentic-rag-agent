@@ -8,12 +8,20 @@ from pathlib import Path
 TRADITIONAL_SCORE_FILENAME = (
     "traditional-baseline-qwen3.6-flash-thinking-off-score.json"
 )
+TRADITIONAL_SEMANTIC_SCORE_FILENAME = (
+    "traditional-baseline-qwen3.6-flash-thinking-off-"
+    "semantic-score.json"
+)
 AGENTIC_SCORE_FILENAME = (
     "agentic-baseline-qwen3.6-flash-thinking-off-"
-    "prompt-v1.2-score.json"
+    "prompt-v1.5-score.json"
+)
+AGENTIC_SEMANTIC_SCORE_FILENAME = (
+    "agentic-baseline-qwen3.6-flash-thinking-off-"
+    "prompt-v1.5-semantic-score.json"
 )
 COMPARISON_REPORT_FILENAME = (
-    "rag-comparison-qwen3.6-flash-thinking-off-prompt-v1.2.md"
+    "rag-comparison-qwen3.6-flash-thinking-off-prompt-v1.5.md"
 )
 
 
@@ -59,17 +67,40 @@ def _compare_metric(
 def compare_evaluation_scores(
     traditional_score: dict[str, object],
     agentic_score: dict[str, object],
+    traditional_semantic_score: dict[str, object] | None = None,
+    agentic_semantic_score: dict[str, object] | None = None,
 ) -> dict[str, object]:
     """对齐两种 RAG 的共同指标，并保留 Agentic 专属指标。"""
+
+    if (traditional_semantic_score is None) != (
+        agentic_semantic_score is None
+    ):
+        raise ValueError("both semantic score files must be provided")
+
+    uses_semantic_scores = traditional_semantic_score is not None
+    traditional_answer_score = (
+        traditional_semantic_score
+        if traditional_semantic_score is not None
+        else traditional_score
+    )
+    agentic_answer_score = (
+        agentic_semantic_score
+        if agentic_semantic_score is not None
+        else agentic_score
+    )
 
     common_metrics = {
         "answer_point_coverage": _compare_metric(
             _nested_number(
-                traditional_score,
+                traditional_answer_score,
                 "answer_points",
                 "coverage",
             ),
-            _nested_number(agentic_score, "answer_points", "coverage"),
+            _nested_number(
+                agentic_answer_score,
+                "answer_points",
+                "coverage",
+            ),
             higher_is_better=True,
         ),
         "directory_accuracy": _compare_metric(
@@ -139,10 +170,68 @@ def compare_evaluation_scores(
             "tools",
             "average_calls_per_question",
         ),
+        "total_tool_calls": _nested_number(
+            agentic_score,
+            "tools",
+            "total_calls",
+        ),
+        "error_tool_calls": _nested_number(
+            agentic_score,
+            "tools",
+            "error_calls",
+        ),
+    }
+    corpus_id = traditional_score.get("corpus_id", "unknown")
+    if not isinstance(corpus_id, str):
+        raise ValueError("corpus_id must be a string")
+    evaluation_scope = {
+        "corpus_id": corpus_id,
+        "question_count": int(
+            _nested_number(
+                traditional_score,
+                "completeness",
+                "question_count",
+            )
+        ),
+        "knowledge_question_count": (
+            int(
+                _nested_number(
+                    traditional_answer_score,
+                    "answer_points",
+                    "eligible_questions",
+                )
+            )
+            if uses_semantic_scores
+            else 0
+        ),
+        "answer_point_count": (
+            int(
+                _nested_number(
+                    traditional_answer_score,
+                    "answer_points",
+                    "total",
+                )
+            )
+            if uses_semantic_scores
+            else 0
+        ),
+        "answer_scoring": (
+            "llm_semantic_judge"
+            if uses_semantic_scores
+            else "normalized_content_substring"
+        ),
+    }
+    latency = common_metrics["average_latency_ms"]
+    tokens = common_metrics["average_tokens"]
+    cost_ratios = {
+        "latency": float(latency["agentic"]) / float(latency["traditional"]),
+        "tokens": float(tokens["agentic"]) / float(tokens["traditional"]),
     }
     return {
+        "evaluation_scope": evaluation_scope,
         "common_metrics": common_metrics,
         "agentic_metrics": agentic_metrics,
+        "cost_ratios": cost_ratios,
     }
 
 
@@ -260,15 +349,29 @@ def _render_markdown_table(
 def render_comparison_markdown(
     comparison: dict[str, object],
 ) -> str:
-    """把结构化对比结果渲染为 Markdown 表格。"""
+    """把结构化对比结果渲染为正式 Markdown 报告。"""
 
+    scope = comparison["evaluation_scope"]
     common = comparison["common_metrics"]
     agentic = comparison["agentic_metrics"]
-    if not isinstance(common, dict) or not isinstance(agentic, dict):
+    cost_ratios = comparison["cost_ratios"]
+    if not all(
+        isinstance(section, dict)
+        for section in (scope, common, agentic, cost_ratios)
+    ):
         raise ValueError("invalid evaluation comparison")
 
+    semantic_scoring = scope["answer_scoring"] == "llm_semantic_judge"
+    answer_metric_label = (
+        "知识答案语义覆盖率"
+        if semantic_scoring
+        else "答案点覆盖率"
+    )
     common_rows = [
-        _percentage_row("答案点覆盖率", common["answer_point_coverage"]),
+        _percentage_row(
+            answer_metric_label,
+            common["answer_point_coverage"],
+        ),
         _percentage_row("目录题准确率", common["directory_accuracy"]),
         _percentage_row("拒答准确率", common["refusal_accuracy"]),
         _number_row("平均延迟", common["average_latency_ms"], "ms"),
@@ -280,6 +383,8 @@ def render_comparison_markdown(
         ["引用原文有效率", f"{float(agentic['citation_source_validity']):.1%}"],
         ["read 合规率", f"{float(agentic['knowledge_read_compliance']):.1%}"],
         ["平均工具调用次数", f"{float(agentic['average_tool_calls']):.1f}"],
+        ["工具调用总数", f"{float(agentic['total_tool_calls']):.0f}"],
+        ["工具错误数", f"{float(agentic['error_tool_calls']):.0f}"],
     ]
     common_table = _render_markdown_table(
         [
@@ -298,17 +403,88 @@ def render_comparison_markdown(
         right_aligned_columns={1},
     )
 
+    answer_metric = common["answer_point_coverage"]
+    directory_metric = common["directory_accuracy"]
+    refusal_metric = common["refusal_accuracy"]
+    latency_ratio = float(cost_ratios["latency"])
+    token_ratio = float(cost_ratios["tokens"])
+    if answer_metric["better"] == "tie":
+        answer_conclusion = (
+            "当前固定题集中，两种方案的知识答案正确性持平"
+        )
+    else:
+        answer_conclusion = (
+            f"知识答案正确性由{_winner_label(answer_metric['better'])}领先"
+        )
+    directory_conclusion = (
+        "目录题由"
+        f"{_winner_label(directory_metric['better'])}表现更好"
+        if directory_metric["better"] != "tie"
+        else "目录题表现相同"
+    )
+    refusal_conclusion = (
+        "两种方案都能正确拒答知识库外问题"
+        if refusal_metric["better"] == "tie"
+        and math.isclose(float(refusal_metric["traditional"]), 1.0)
+        else f"拒答题由{_winner_label(refusal_metric['better'])}表现更好"
+    )
+
     return "\n".join(
         [
-            "# 传统 RAG 与 Agentic RAG 自动对比",
+            "# 传统 RAG 与 Agentic RAG A/B 对比报告",
             "",
-            "## 共同指标",
+            "## 评测范围",
+            "",
+            f"- 语料版本：`{scope['corpus_id']}`",
+            f"- 固定问题数：{int(scope['question_count'])}",
+            (
+                "- 知识问答："
+                f"{int(scope['knowledge_question_count'])} 题，"
+                f"共 {int(scope['answer_point_count'])} 个答案点"
+            ),
+            "- 回答模型：Qwen3.6-Flash，关闭思考模式",
+            "- Agent 提示词：Prompt V1.5",
+            "- 知识答案评分：独立 LLM 语义裁判",
+            "- 目录、拒答、引用与性能：确定性评分",
+            "",
+            "## 核心指标",
             "",
             common_table,
             "",
             "## Agentic 专属指标",
             "",
             agentic_table,
+            "",
+            "## 结论",
+            "",
+            f"1. {answer_conclusion}。",
+            f"2. {directory_conclusion}。",
+            f"3. {refusal_conclusion}。",
+            (
+                "4. Agentic RAG 的平均延迟约为传统 RAG 的 "
+                f"{latency_ratio:.2f} 倍，平均 Token 约为 "
+                f"{token_ratio:.1f} 倍。"
+            ),
+            (
+                "5. Agentic RAG 的知识题引用覆盖率、引用原文有效率"
+                "和 read 合规率均可由服务端验证。"
+            ),
+            "",
+            "## 适用建议",
+            "",
+            "- 简单、单跳知识问答：优先传统 RAG，延迟和 Token 成本更低。",
+            (
+                "- 目录定位、多步查找、需要精确引用的问答：优先 "
+                "Agentic RAG。"
+            ),
+            "- 当前实验不支持用 Agentic RAG 全面替代传统 RAG。",
+            "",
+            "## 评测边界",
+            "",
+            (
+                f"本报告结论仅适用于 `{scope['corpus_id']}` 语料和当前 "
+                f"{int(scope['question_count'])} 道固定问题。"
+            ),
             "",
         ]
     )
@@ -327,12 +503,27 @@ def compare_evaluation_files(
     traditional_score_path: Path,
     agentic_score_path: Path,
     output_path: Path,
+    traditional_semantic_score_path: Path | None = None,
+    agentic_semantic_score_path: Path | None = None,
 ) -> Path:
-    """读取两份评分文件并写入 Markdown 对比报告。"""
+    """读取确定性与语义评分文件并写入 Markdown 对比报告。"""
+
+    traditional_semantic_score = (
+        _load_json_object(traditional_semantic_score_path)
+        if traditional_semantic_score_path is not None
+        else None
+    )
+    agentic_semantic_score = (
+        _load_json_object(agentic_semantic_score_path)
+        if agentic_semantic_score_path is not None
+        else None
+    )
 
     comparison = compare_evaluation_scores(
         traditional_score=_load_json_object(traditional_score_path),
         agentic_score=_load_json_object(agentic_score_path),
+        traditional_semantic_score=traditional_semantic_score,
+        agentic_semantic_score=agentic_semantic_score,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
@@ -357,6 +548,12 @@ def main(project_root: Path | None = None) -> None:
             results_directory / TRADITIONAL_SCORE_FILENAME
         ),
         agentic_score_path=results_directory / AGENTIC_SCORE_FILENAME,
+        traditional_semantic_score_path=(
+            results_directory / TRADITIONAL_SEMANTIC_SCORE_FILENAME
+        ),
+        agentic_semantic_score_path=(
+            results_directory / AGENTIC_SEMANTIC_SCORE_FILENAME
+        ),
         output_path=results_directory / COMPARISON_REPORT_FILENAME,
     )
     print(f"Evaluation comparison saved to: {output_path}")

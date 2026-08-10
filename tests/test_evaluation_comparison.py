@@ -8,6 +8,8 @@ def _traditional_score() -> dict[str, object]:
     """构造一份最小的传统 RAG 评分。"""
 
     return {
+        "corpus_id": "education-v1",
+        "completeness": {"question_count": 10},
         "answer_points": {"coverage": 0.56},
         "directory": {"accuracy": 0.0},
         "refusal": {"accuracy": 1.0},
@@ -22,6 +24,8 @@ def _agentic_score() -> dict[str, object]:
     """构造一份最小的 Agentic RAG 评分。"""
 
     return {
+        "corpus_id": "education-v1",
+        "completeness": {"question_count": 10},
         "answer_types": {"accuracy": 0.8},
         "answer_points": {"coverage": 0.48},
         "citations": {
@@ -33,10 +37,29 @@ def _agentic_score() -> dict[str, object]:
         "tools": {
             "knowledge_read_compliance": 0.875,
             "average_calls_per_question": 3.2,
+            "total_calls": 32,
+            "error_calls": 1,
         },
         "performance": {
-            "latency_ms": {"average": 3939.0},
-            "tokens": {"average_total": 8575.5},
+            "latency_ms": {"average": 4144.9},
+            "tokens": {"average_total": 12018.7},
+        },
+    }
+
+
+def _semantic_score(coverage: float) -> dict[str, object]:
+    """构造一份最小的独立语义评分。"""
+
+    return {
+        "scoring_method": {
+            "answer_points": "llm_semantic_judge",
+            "semantic_judge_used": True,
+        },
+        "answer_points": {
+            "eligible_questions": 8,
+            "matched": int(20 * coverage),
+            "total": 20,
+            "coverage": coverage,
         },
     }
 
@@ -101,6 +124,37 @@ def test_render_comparison_markdown_aligns_raw_table_columns() -> None:
         assert all(widths == expected_widths for widths in row_widths)
 
 
+def test_compare_evaluation_scores_uses_semantic_answer_coverage() -> None:
+    """正式报告的知识答案指标应读取双方独立语义评分。"""
+
+    comparison_module = import_module("app.evaluation_comparison")
+
+    comparison = comparison_module.compare_evaluation_scores(
+        traditional_score=_traditional_score(),
+        agentic_score=_agentic_score(),
+        traditional_semantic_score=_semantic_score(1.0),
+        agentic_semantic_score=_semantic_score(1.0),
+    )
+    markdown = comparison_module.render_comparison_markdown(comparison)
+
+    assert comparison["common_metrics"]["answer_point_coverage"] == {
+        "traditional": 1.0,
+        "agentic": 1.0,
+        "delta": 0.0,
+        "better": "tie",
+    }
+    assert comparison["evaluation_scope"] == {
+        "corpus_id": "education-v1",
+        "question_count": 10,
+        "knowledge_question_count": 8,
+        "answer_point_count": 20,
+        "answer_scoring": "llm_semantic_judge",
+    }
+    assert "知识答案语义覆盖率" in markdown
+    assert "当前固定题集中，两种方案的知识答案正确性持平" in markdown
+    assert "12.3 倍" in markdown
+
+
 def test_main_writes_versioned_comparison_report(
     tmp_path: Path,
     capsys,
@@ -115,7 +169,15 @@ def test_main_writes_versioned_comparison_report(
     )
     agentic_filename = (
         "agentic-baseline-qwen3.6-flash-thinking-off-"
-        "prompt-v1.2-score.json"
+        "prompt-v1.5-score.json"
+    )
+    traditional_semantic_filename = (
+        "traditional-baseline-qwen3.6-flash-thinking-off-"
+        "semantic-score.json"
+    )
+    agentic_semantic_filename = (
+        "agentic-baseline-qwen3.6-flash-thinking-off-"
+        "prompt-v1.5-semantic-score.json"
     )
     (results_directory / traditional_filename).write_text(
         json.dumps(_traditional_score()),
@@ -125,14 +187,24 @@ def test_main_writes_versioned_comparison_report(
         json.dumps(_agentic_score()),
         encoding="utf-8",
     )
+    (results_directory / traditional_semantic_filename).write_text(
+        json.dumps(_semantic_score(1.0)),
+        encoding="utf-8",
+    )
+    (results_directory / agentic_semantic_filename).write_text(
+        json.dumps(_semantic_score(1.0)),
+        encoding="utf-8",
+    )
 
     comparison_module.main(project_root=tmp_path)
 
     expected_path = results_directory / (
-        "rag-comparison-qwen3.6-flash-thinking-off-prompt-v1.2.md"
+        "rag-comparison-qwen3.6-flash-thinking-off-prompt-v1.5.md"
     )
     assert expected_path.is_file()
-    assert "答案点覆盖率" in expected_path.read_text(encoding="utf-8")
+    report = expected_path.read_text(encoding="utf-8")
+    assert "知识答案语义覆盖率" in report
+    assert "## 结论" in report
     assert capsys.readouterr().out == (
         f"Evaluation comparison saved to: {expected_path}\n"
     )
