@@ -9,7 +9,7 @@ from app.evidence import EvidenceRegistry
 
 
 def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
-    """生成的知识库工具名称应固定为 ls、search、read。"""
+    """生成的知识库工具名称应固定为 ls、glob、search、read。"""
 
     knowledge_tools = import_module("app.tools")
     build_knowledge_tools = getattr(
@@ -25,7 +25,291 @@ def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
         evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
 
-    assert [tool.name for tool in generated_tools] == ["ls", "search", "read"]
+    assert [tool.name for tool in generated_tools] == [
+        "ls",
+        "glob",
+        "search",
+        "read",
+    ]
+
+
+def test_glob_tool_schema_requires_structured_target(tmp_path) -> None:
+    """glob Schema 应要求 Agent 传入目标名称和目标类型。"""
+
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    schema = glob_tool.args_schema.model_json_schema()
+
+    assert set(schema["properties"]) == {
+        "path",
+        "target",
+        "target_type",
+    }
+    assert set(schema["required"]) == {"target", "target_type"}
+    assert schema["properties"]["target_type"]["enum"] == [
+        "directory",
+        "filename",
+    ]
+
+
+def test_glob_tool_returns_matching_paths(tmp_path) -> None:
+    """glob 工具应返回指定虚拟目录范围内匹配的文件。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    target_directory = knowledge_root / "课程资源" / "自动控制系统"
+    target_directory.mkdir(parents=True)
+    (target_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n",
+        encoding="utf-8",
+    )
+
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/课程资源",
+            "target": "自动控制系统",
+            "target_type": "directory",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/自动控制系统/智慧农场.md",
+                "name": "智慧农场.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_matches_filename_target(tmp_path) -> None:
+    """filename 类型应按文件名关键词匹配 Markdown 文件。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    course_directory = knowledge_root / "课程资源"
+    course_directory.mkdir(parents=True)
+    (course_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n",
+        encoding="utf-8",
+    )
+    (course_directory / "智慧交通.md").write_text(
+        "# 智慧交通\n",
+        encoding="utf-8",
+    )
+
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/",
+            "target": "智慧农场",
+            "target_type": "filename",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/智慧农场.md",
+                "name": "智慧农场.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_matches_filename_target_with_md_suffix(tmp_path) -> None:
+    """filename 类型应接受已经包含 .md 后缀的文件名。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    course_directory = knowledge_root / "课程资源"
+    course_directory.mkdir(parents=True)
+    (course_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n",
+        encoding="utf-8",
+    )
+
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/",
+            "target": "智慧农场.md",
+            "target_type": "filename",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/智慧农场.md",
+                "name": "智慧农场.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_rejects_blank_target(tmp_path) -> None:
+    """glob 工具应拒绝只包含空白字符的目标名称。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": "   ",
+                "target_type": "filename",
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    "target",
+    [
+        "课程资源/自动控制系统",
+        r"课程资源\自动控制系统",
+    ],
+)
+def test_glob_tool_rejects_path_separator_in_target(
+    tmp_path,
+    target: str,
+) -> None:
+    """target 只能是单个名称，不能包含路径分隔符。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": target,
+                "target_type": "directory",
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    "target",
+    [
+        "*自动控制系统*",
+        "智慧农场?",
+        "[智慧]农场",
+    ],
+)
+def test_glob_tool_rejects_wildcards_in_target(
+    tmp_path,
+    target: str,
+) -> None:
+    """target 是普通名称，不能包含 glob 通配符。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": target,
+                "target_type": "filename",
+            }
+        )
+
+
+@pytest.mark.parametrize("target", [".", ".."])
+def test_glob_tool_rejects_dot_path_segments(
+    tmp_path,
+    target: str,
+) -> None:
+    """target 不应接受当前目录或父目录路径段。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": target,
+                "target_type": "directory",
+            }
+        )
+
+
+def test_glob_tool_handles_missing_directory(tmp_path) -> None:
+    """不存在的目录应成为 Agent 可观察的 glob 工具错误。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("app.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    result = glob_tool.invoke(
+        {
+            "name": "glob",
+            "args": {
+                "path": "/不存在的目录",
+                "target": "智慧农场",
+                "target_type": "filename",
+            },
+            "id": "glob-call",
+            "type": "tool_call",
+        }
+    )
+
+    assert isinstance(result, ToolMessage)
+    assert result.status == "error"
+    assert result.tool_call_id == "glob-call"
+    assert result.content == (
+        "knowledge directory does not exist: /不存在的目录"
+    )
 
 
 def test_ls_tool_lists_direct_children(tmp_path) -> None:
@@ -145,7 +429,7 @@ def test_search_tool_returns_candidate_hits(tmp_path) -> None:
         vector_store=FakeVectorStore(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
-    search_tool = generated_tools[1]
+    search_tool = generated_tools[2]
 
     result = search_tool.invoke(
         {
@@ -178,7 +462,7 @@ def test_search_tool_rejects_limit_greater_than_five(tmp_path) -> None:
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
-    search_tool = generated_tools[1]
+    search_tool = generated_tools[2]
 
     with pytest.raises(
         ValidationError,
@@ -202,7 +486,7 @@ def test_search_tool_schema_exposes_limit_range(tmp_path) -> None:
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
-    search_tool = generated_tools[1]
+    search_tool = generated_tools[2]
 
     schema = search_tool.args_schema.model_json_schema()
     limit_schema = schema["properties"]["limit"]
@@ -228,7 +512,7 @@ def test_read_tool_returns_requested_markdown_page(tmp_path) -> None:
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
-    read_tool = generated_tools[2]
+    read_tool = generated_tools[3]
 
     result = read_tool.invoke(
         {
@@ -269,7 +553,7 @@ def test_read_tool_registers_nonempty_lines_as_evidence(tmp_path) -> None:
         vector_store=object(),
         evidence_registry=registry,
     )
-    read_tool = generated_tools[2]
+    read_tool = generated_tools[3]
 
     result = read_tool.invoke(
         {
@@ -305,7 +589,7 @@ def test_read_tool_rejects_limit_greater_than_eighty(tmp_path) -> None:
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
     )
-    read_tool = generated_tools[2]
+    read_tool = generated_tools[3]
 
     with pytest.raises(
         ValueError,

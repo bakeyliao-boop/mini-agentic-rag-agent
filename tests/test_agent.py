@@ -116,6 +116,46 @@ def test_system_prompt_searches_when_directory_is_only_scope() -> None:
     assert "只使用工具返回的完整虚拟路径" in system_prompt
 
 
+def test_prompt_v14_uses_glob_to_discover_unknown_paths() -> None:
+    """Prompt-V1.4 应要求使用 glob 发现路径，并限制其证据用途。"""
+
+    agent_module = import_module("app.agent")
+    system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
+
+    assert "你可以使用 ls、glob、search 和 read 四个工具" in system_prompt
+    assert (
+        "完整虚拟路径未知但已知目录名或文件名时，应先使用 glob 定位"
+        in system_prompt
+    )
+    assert (
+        "glob 只用于定位文件路径，返回结果不能直接作为回答证据"
+        in system_prompt
+    )
+    assert (
+        "只能使用 glob 返回的完整虚拟路径继续调用 search 或 read"
+        in system_prompt
+    )
+    assert "禁止猜测或自行拼接虚拟路径" in system_prompt
+
+
+def test_prompt_v15_uses_structured_glob_arguments() -> None:
+    """Prompt-V1.5 应要求 Agent 使用结构化 glob 参数。"""
+
+    agent_module = import_module("app.agent")
+    system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
+
+    assert (
+        "glob 只接受 target、target_type 和可选的 path，不要传入 pattern"
+        in system_prompt
+    )
+    assert (
+        "问题表述为“某目录中的文件或资源”时，target_type 使用 directory"
+        in system_prompt
+    )
+    assert "按文件名或标题定位时，target_type 使用 filename" in system_prompt
+    assert "禁止先把目录名拼成 ls 路径" in system_prompt
+
+
 def test_knowledge_agent_stops_searching_after_sufficient_read() -> None:
     """read 已提供充分证据后，Agent 应立即提交结构化回答。"""
 
@@ -138,7 +178,7 @@ def test_knowledge_agent_uses_explicit_prompt_version() -> None:
 
     agent_module = import_module("app.agent")
 
-    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.3"
+    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.5"
 
 
 def test_prompt_version_log_records_problem_experiment_and_result() -> None:
@@ -156,6 +196,11 @@ def test_prompt_version_log_records_problem_experiment_and_result() -> None:
     assert "已运行新基线验证" in version_log
     assert "回答类型准确率" in version_log
     assert "out-of-scope-001" in version_log
+    assert "## Prompt-V1.4" in version_log
+    assert "路径猜测" in version_log
+    assert "## Prompt-V1.5" in version_log
+    assert "结构化 glob 参数" in version_log
+    assert "尚未运行 Prompt-V1.5 真实基线" in version_log
 
 
 def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
@@ -216,6 +261,18 @@ def test_build_knowledge_agent_does_not_count_grounded_answer_as_tool(
         )
         is False
     )
+
+
+def test_knowledge_tool_call_limiter_counts_glob() -> None:
+    """glob 应与 ls、search、read 一样占用工具调用次数。"""
+
+    agent_module = import_module("app.agent")
+    tool_call_limiter = agent_module.KnowledgeToolCallLimitMiddleware(
+        run_limit=6,
+        exit_behavior="end",
+    )
+
+    assert tool_call_limiter._matches_tool_filter({"name": "glob"}) is True
 
 
 def test_build_knowledge_agent_uses_in_memory_checkpointer(
@@ -581,6 +638,48 @@ def test_extract_tool_traces_matches_calls_with_results() -> None:
             },
             "status": "success",
         },
+    ]
+
+
+def test_extract_tool_traces_records_glob() -> None:
+    """工具轨迹必须记录 glob 的参数和执行状态。"""
+
+    agent_module = import_module("app.agent")
+    messages = [
+        AIMessage(
+            content="",
+            tool_calls=[
+                {
+                    "name": "glob",
+                    "args": {
+                        "path": "/课程资源",
+                        "pattern": "**/自动控制系统/*.md",
+                    },
+                    "id": "glob-call",
+                    "type": "tool_call",
+                }
+            ],
+        ),
+        ToolMessage(
+            content='{"matches": []}',
+            tool_call_id="glob-call",
+            status="success",
+        ),
+    ]
+
+    result = agent_module.extract_tool_traces(messages)
+
+    assert result == [
+        {
+            "step": 1,
+            "tool_call_id": "glob-call",
+            "name": "glob",
+            "args": {
+                "path": "/课程资源",
+                "pattern": "**/自动控制系统/*.md",
+            },
+            "status": "success",
+        }
     ]
 
 

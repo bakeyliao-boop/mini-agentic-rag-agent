@@ -104,7 +104,7 @@ def glob_knowledge_paths(
             continue
 
         relative_path = source_path.relative_to(directory_path).as_posix()
-        #当前文件相对于‘本次’搜索起点的路径 相对于本次directory_path的临时路径
+        #当前文件相对于‘本次’搜索起点的路径 相对于本次directory_path的临时路径  | 去掉前缀搜索起点
         candidate_path = PurePosixPath(relative_path)
         matches_pattern = candidate_path.match(normalized_pattern)
         if (

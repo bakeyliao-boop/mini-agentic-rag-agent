@@ -1,16 +1,25 @@
-from pathlib import Path
-from typing import Annotated
+from pathlib import Path, PurePosixPath
+from typing import Annotated, Literal
 
 from langchain_core.tools import BaseTool, StructuredTool, ToolException
-from pydantic import Field
+from pydantic import AfterValidator, Field, StringConstraints
 
 from app.evidence import EvidenceRegistry
 from app.indexer import search_chroma_index
 from app.knowledge_store import (
+    glob_knowledge_paths,
     list_knowledge_entries,
     normalize_virtual_path,
     read_knowledge_page,
 )
+
+
+def _validate_glob_target(target: str) -> str:
+    """拒绝具有路径语义的 glob 目标名称。"""
+
+    if target in {".", ".."}:
+        raise ValueError("glob target must not be '.' or '..'")
+    return target
 
 
 def build_knowledge_tools(
@@ -18,7 +27,7 @@ def build_knowledge_tools(
     vector_store: object,
     evidence_registry: EvidenceRegistry,
 ) -> list[BaseTool]:
-    """生成供 Agent 调用的 ls、search 和 read 工具。"""
+    """生成供 Agent 调用的 ls、glob、search 和 read 工具。"""
 
     def ls_tool(path: str = "/") -> dict[str, object]:
         """列出指定虚拟目录的下一层文件和目录。"""
@@ -35,6 +44,52 @@ def build_knowledge_tools(
         return {
             "path": normalized_path,
             "entries": entries,
+        }
+
+    def glob_tool(
+        target: Annotated[
+            str,
+            StringConstraints(
+                strip_whitespace=True,
+                min_length=1,
+                pattern=r"^[^/\\*?\[\]]+$",
+            ),
+            AfterValidator(_validate_glob_target),
+            Field(description="要查找的目录名或文件名关键词。"),
+        ],
+        target_type: Annotated[
+            Literal["directory", "filename"],
+            Field(description="目标是目录名还是文件名。"),
+        ],
+        path: str = "/",
+    ) -> dict[str, object]:
+        """根据目标名称和类型，在指定虚拟目录范围内递归查找文件。"""
+
+        normalized_path = normalize_virtual_path(path)
+        normalized_target = target.strip()
+        if target_type == "directory":
+            pattern = f"**/{normalized_target}/*.md"
+        elif normalized_target.casefold().endswith(".md"):
+            pattern = f"**/*{normalized_target}"
+        else:
+            pattern = f"**/*{normalized_target}*.md"
+        try:
+            matched_paths = glob_knowledge_paths(
+                virtual_path=normalized_path,
+                pattern=pattern,
+                knowledge_root=knowledge_root,
+            )
+        except (ValueError, FileNotFoundError, NotADirectoryError) as error:
+            raise ToolException(str(error)) from error
+
+        return {
+            "matches": [
+                {
+                    "path": matched_path,
+                    "name": PurePosixPath(matched_path).name,
+                }
+                for matched_path in matched_paths
+            ],
         }
 
     def search_tool(
@@ -94,6 +149,15 @@ def build_knowledge_tools(
             func=ls_tool,
             name="ls",
             description="列出一个虚拟目录的直接子项，不递归读取正文。",
+            handle_tool_error=True,
+        ),
+        StructuredTool.from_function(
+            func=glob_tool,
+            name="glob",
+            description=(
+                "按目录名或文件名递归查找 Markdown 文件；"
+                "只用于定位文件，不读取正文。"
+            ),
             handle_tool_error=True,
         ),
         StructuredTool.from_function(

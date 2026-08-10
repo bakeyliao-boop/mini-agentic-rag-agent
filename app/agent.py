@@ -11,7 +11,7 @@ from app.prompts import (
     KNOWLEDGE_AGENT_SYSTEM_PROMPT,
 )
 
-KNOWLEDGE_TOOL_NAMES = frozenset({"ls", "search", "read"})
+KNOWLEDGE_TOOL_NAMES = frozenset({"ls", "glob", "search", "read"})
 
 
 class KnowledgeToolCallLimitMiddleware(ToolCallLimitMiddleware):
