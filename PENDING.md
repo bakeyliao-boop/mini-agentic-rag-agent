@@ -151,3 +151,36 @@ resource_type: video_transcript
 - 必要时再增加 claim-evidence 校验，不与 glob 改造同时实施。
 
 状态：已通过 Prompt-V1.5 文件名冒烟复现，待单独处理。
+
+## P-007：read 已获得有效证据后仍继续调用工具
+
+### 当前问题
+
+FastAPI Agentic 接口冒烟问题已经通过 `search` 定位并使用 `read` 读取了包含“气象站”的
+《智慧农场》原文，但 Agent 没有立即生成 `GroundedAnswer`，而是继续调用 `search`、`glob`
+和 `ls`。第 7 次知识工具调用触发限制后，本轮被降级为 `insufficient`。
+
+本次工具轨迹的关键过程：
+
+```text
+search("气象站")
+  -> read(".../智慧农场.md")
+  -> 继续 search/glob/ls
+  -> 工具调用达到上限
+  -> 未提交 GroundedAnswer
+  -> insufficient
+```
+
+### 影响
+
+- 已读取的有效证据没有形成最终 citation。
+- 本可在两到三步完成的问题使用了七次工具调用。
+- 本轮总 Token 达到 28970，延迟和调用成本明显增加。
+
+### 后续事项
+
+- 增加回归测试：已有 `read` 证据足以回答时，应停止继续检索并生成结构化回答。
+- 调整 Prompt 的停止规则，但不与 FastAPI 接口接线混合修改。
+- 保留服务端工具调用上限作为最终保护，不能只依赖 Prompt 避免循环。
+
+状态：FastAPI Agentic 真实冒烟已复现，待阶段 8 接口收尾后单独处理。

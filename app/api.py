@@ -1,17 +1,27 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
+from app.api_errors import ApiError
 from collections.abc import Callable
-from app.api_models import TraditionalChatRequest, TraditionalChatResponse
+from app.api_models import (
+    AgenticChatRequest,
+    AgenticChatResponse,
+    TraditionalChatRequest,
+    TraditionalChatResponse,
+)
 from app.traditional_rag import answer_with_traditional_rag
+from app.agent_runner import AgenticRuntime, run_agentic_question
 
 
 
 TraditionalChatHandler = Callable[[str,str],dict[str,object]]
+AgenticChatHandler = Callable[[str,str],dict[str,object]]
+
 router = APIRouter()
 _traditional_chat_handler: TraditionalChatHandler | None = None
+_agentic_chat_handler:AgenticChatHandler | None = None
 
 
 def build_traditional_chat_handler(
-        vector_store:object,
+        vector_store:object,    #接收应用启动时候创建的索引和模型
         chat_model:object,
 )->TraditionalChatHandler:
     """
@@ -43,13 +53,52 @@ def run_traditional_chat(
 ) -> dict[str, object]:
     """传统 RAG 运行入口"""
 
-    if _traditional_chat_handler is None:
+    if _traditional_chat_handler is None:   #检查启动时是否已经保存handler
 
-        raise HTTPException(
-        status_code=503,
-        detail="traditional RAG runtime is not configured",
-    )
+        raise ApiError(
+            status_code=503,
+            code="runtime_not_configured",
+            message="traditional RAG runtime is not configured",
+        )
     return _traditional_chat_handler(question, path)
+
+def configure_agentic_chat(
+        handler:AgenticChatHandler,
+)-> None:
+    '''保存Agentic RAG处理器，供HTTP请求使用'''
+    global _agentic_chat_handler
+    _agentic_chat_handler = handler
+
+def run_agentic_chat(
+        question:str,
+        thread_id:str,
+)->dict[str,object]:
+    '''调用已经配置好的Agentic RAG处理器'''
+    if _agentic_chat_handler is None:
+        raise ApiError(
+            status_code=503,
+            code="runtime_not_configured",
+            message="agentic RAG runtime is not configured",
+        )
+    return _agentic_chat_handler(question,thread_id)
+
+def build_agentic_chat_handler(
+        runtime:AgenticRuntime,
+)->AgenticChatHandler:
+    '''使用已有运行时创建可重复调用的Agentic RAG处理器'''
+    def handler(
+            question:str,
+            thread_id:str
+    )->dict[str,object]:
+        return run_agentic_question( #固定保存runtime-每次直接收question、thread_id-调用agentic-rag
+            runtime=runtime,
+            question=question,
+            thread_id=thread_id,
+        )
+    return handler
+
+
+
 
 @router.get("/health")
 def health_check() -> dict[str, str]:
@@ -65,5 +114,12 @@ def traditional_chat(
     request: TraditionalChatRequest,
 ) -> dict[str, object]:
     """把 HTTP 请求转交给已经配置好的传统 RAG 处理器。"""
-
     return run_traditional_chat(request.question, request.path)
+
+@router.post("/chat/agentic",response_model=AgenticChatResponse,)
+def agentic_chat(request:AgenticChatRequest,)->dict[str,object]:
+    '''把HTTP请求转交给Agentic RAG处理器'''
+    return run_agentic_chat(
+        request.question,
+        request.thread_id,
+    )
