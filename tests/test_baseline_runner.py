@@ -9,7 +9,7 @@ def test_load_settings_from_env_rejects_missing_file(
 ) -> None:
     """项目根目录不存在 .env 时应抛出 FileNotFoundError。"""
 
-    baseline_runner = importlib.import_module("app.baseline_runner")
+    baseline_runner = importlib.import_module("evaluation.cli.traditional")
     env_path = tmp_path / ".env"
     assert not env_path.exists()
 
@@ -22,7 +22,7 @@ def test_load_settings_from_env_reads_project_dotenv(
 ) -> None:
     """应从项目根目录的 .env 读取 baseline 所需配置。"""
 
-    baseline_runner = importlib.import_module("app.baseline_runner")
+    baseline_runner = importlib.import_module("evaluation.cli.traditional")
     (tmp_path / ".env").write_text(
         "DASHSCOPE_API_KEY=test-key\n"
         "DASHSCOPE_BASE_URL=https://dashscope.example/v1\n"
@@ -49,7 +49,7 @@ def test_run_traditional_baseline_rejects_empty_api_key(
 ) -> None:
     """DashScope API Key 为空时应在创建模型前抛出 ValueError。"""
 
-    baseline_runner = importlib.import_module("app.baseline_runner")
+    baseline_runner = importlib.import_module("evaluation.cli.traditional")
     settings = {
         "DASHSCOPE_API_KEY": "   ",
         "DASHSCOPE_BASE_URL": "https://dashscope.example/v1",
@@ -68,8 +68,8 @@ def test_run_traditional_baseline_rejects_empty_api_key(
 def test_build_traditional_baseline_result_filename_separates_modes() -> None:
     """思考与非思考基线应使用不同的结果文件名。"""
 
-    baseline_runner = importlib.import_module("app.baseline_runner")
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    baseline_runner = importlib.import_module("evaluation.cli.traditional")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
 
     thinking_off = baseline_runner.build_traditional_baseline_result_filename(
         traditional_rag.TraditionalRagConfig(enable_thinking=False)
@@ -92,7 +92,7 @@ def test_run_traditional_baseline_from_project_wires_all_components(
 ) -> None:
     """执行入口应按顺序连接配置、索引、模型、题集和结果保存。"""
 
-    baseline_runner = importlib.import_module("app.baseline_runner")
+    baseline_runner = importlib.import_module("evaluation.cli.traditional")
     settings = {
         "DASHSCOPE_API_KEY": "test-key",
         "DASHSCOPE_BASE_URL": (
@@ -206,7 +206,7 @@ def test_main_loads_settings_runs_baseline_and_prints_output(
 ) -> None:
     """main 应读取配置、运行 baseline 并打印结果路径。"""
 
-    baseline_runner = importlib.import_module("app.baseline_runner")
+    baseline_runner = importlib.import_module("evaluation.cli.traditional")
     settings = {"DASHSCOPE_API_KEY": "test-key"}
     output_path = tmp_path / "traditional-baseline.json"
     calls: list[tuple[object, ...]] = []

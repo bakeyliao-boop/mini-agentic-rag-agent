@@ -1,3 +1,5 @@
+"""知识库 Agent 的构建、调用限制与运行数据提取。"""
+
 from langchain.agents import create_agent
 from langchain.agents.middleware.tool_call_limit import ToolCallLimitMiddleware
 from langchain_core.language_models.chat_models import BaseChatModel
@@ -5,8 +7,8 @@ from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
 from langchain_core.tools import BaseTool
 from langgraph.checkpoint.memory import InMemorySaver
 
-from app.models import GroundedAnswer
-from app.prompts import (
+from rag_core.models import GroundedAnswer
+from rag_core.agentic.prompts import (
     KNOWLEDGE_AGENT_PROMPT_VERSION,
     KNOWLEDGE_AGENT_SYSTEM_PROMPT,
 )

@@ -8,7 +8,7 @@ def test_run_agentic_evaluation_from_project_wires_and_saves_result(
 ) -> None:
     """Agentic 评测入口应连接题集、单题执行、汇总和独立结果保存。"""
 
-    runner = importlib.import_module("app.agentic_evaluation_runner")
+    runner = importlib.import_module("evaluation.cli.agentic")
     settings = {
         "DASHSCOPE_API_KEY": "test-key",
         "DASHSCOPE_BASE_URL": "https://dashscope.example/v1",
@@ -170,7 +170,7 @@ def test_main_loads_settings_runs_evaluation_and_prints_output(
     """命令行入口应读取配置、运行评测并打印结果路径。"""
 
     runner = importlib.import_module(
-        "app.agentic_evaluation_runner"
+        "evaluation.cli.agentic"
     )
     settings = {
         "DASHSCOPE_API_KEY": "test-key",
@@ -236,7 +236,7 @@ def test_run_agentic_evaluation_reuses_one_shared_runtime(
     monkeypatch,
 ) -> None:
     """批量评测应只构建一次共享环境，再用它执行所有问题。"""
-    runner = importlib.import_module("app.agentic_evaluation_runner")
+    runner = importlib.import_module("evaluation.cli.agentic")
     settings = {"DASHSCOPE_API_KEY": "test-key"}
     fake_dataset = {
         "version": 2,

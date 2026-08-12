@@ -1,4 +1,4 @@
-"""传统 RAG 基线流程。"""
+"""传统 RAG 的配置、模型工厂与问答流程。"""
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -7,7 +7,7 @@ from time import perf_counter
 from langchain_chroma import Chroma
 from langchain_openai import ChatOpenAI
 
-from app.indexer import search_chroma_index
+from rag_core.knowledge.indexer import search_chroma_index
 
 
 @dataclass(frozen=True, slots=True)

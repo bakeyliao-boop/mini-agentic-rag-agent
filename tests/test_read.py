@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from app import knowledge_store
-from app.knowledge_store import read_markdown_lines
+from rag_core.knowledge import store as knowledge_store
+from rag_core.knowledge.store import read_markdown_lines
 
 
 def test_read_markdown_lines_preserves_one_based_line_numbers(

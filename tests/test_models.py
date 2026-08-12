@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from app.models import Chunk, Citation, Evidence, GroundedAnswer
+from rag_core.models import Chunk, Citation, Evidence, GroundedAnswer
 
 
 def test_chunk_accepts_valid_data() -> None:

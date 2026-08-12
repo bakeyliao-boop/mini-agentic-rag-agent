@@ -1,4 +1,4 @@
-"""虚拟知识空间的路径处理工具。"""
+"""虚拟知识空间的路径、目录和 Markdown 读取操作。"""
 
 from pathlib import Path, PurePosixPath
 

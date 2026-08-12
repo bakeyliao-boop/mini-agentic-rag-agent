@@ -1,14 +1,16 @@
+"""FastAPI 健康检查与聊天路由。"""
+
 from fastapi import APIRouter
-from app.api_errors import ApiError
+from app.http.errors import ApiError
 from collections.abc import Callable
-from app.api_models import (
+from app.http.models import (
     AgenticChatRequest,
     AgenticChatResponse,
     TraditionalChatRequest,
     TraditionalChatResponse,
 )
-from app.traditional_rag import answer_with_traditional_rag
-from app.agent_runner import AgenticRuntime, run_agentic_question
+from rag_core.traditional.service import answer_with_traditional_rag
+from rag_core.agentic.runner import AgenticRuntime, run_agentic_question
 
 
 
@@ -20,7 +22,7 @@ _traditional_chat_handler: TraditionalChatHandler | None = None
 _agentic_chat_handler:AgenticChatHandler | None = None
 
 
-def build_traditional_chat_handler(
+def build_traditional_chat_handler( #优先配置 对应的知识库和模型  1.记录
         vector_store:object,    #接收应用启动时候创建的索引和模型
         chat_model:object,
 )->TraditionalChatHandler:
@@ -39,7 +41,7 @@ def build_traditional_chat_handler(
         )
     return handler
 
-def configure_traditional_chat(
+def configure_traditional_chat( #2.登记
         handler: TraditionalChatHandler,
     ) -> None:
     """配置传统 RAG 处理器，供 HTTP 请求转发使用。"""
@@ -47,7 +49,7 @@ def configure_traditional_chat(
     _traditional_chat_handler = handler
 
 
-def run_traditional_chat(
+def run_traditional_chat( #3.执行
     question: str,
     path: str,
 ) -> dict[str, object]:

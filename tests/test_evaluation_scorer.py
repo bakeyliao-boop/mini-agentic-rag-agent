@@ -1,8 +1,8 @@
 import json
 from pathlib import Path
 
-from app import evaluation_scorer
-from app.evaluation_scorer import (
+from evaluation.scorers import traditional as evaluation_scorer
+from evaluation.scorers.traditional import (
     build_evaluation_score_filename,
     score_evaluation,
     score_files,

@@ -3,8 +3,8 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
-from app.api_errors import ApiError, api_error_handler
-from app.api import (
+from app.http.errors import ApiError, api_error_handler
+from app.http.routes import (
     AgenticChatHandler,
     TraditionalChatHandler,
     build_agentic_chat_handler,
@@ -14,12 +14,12 @@ from app.api import (
     router,
 )
 
-from app.agent_runner import (
+from rag_core.agentic.runner import (
     build_agentic_runtime_from_project,
     build_agentic_runtime_from_project
     as build_traditional_runtime_from_project,
 )
-from app.baseline_runner import load_settings_from_env
+from rag_core.settings import load_settings_from_env
 
 TraditionalChatHandlerFactory = Callable[[], TraditionalChatHandler]
 

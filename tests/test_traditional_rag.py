@@ -22,7 +22,7 @@ def test_answer_with_traditional_rag_uses_search_hits_in_prompt(
 ) -> None:
     """传统 RAG 应把问题和 search 候选放入提示词后调用模型。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
     vector_store = object()
     chat_model = RecordingChatModel()
     hits = [
@@ -83,7 +83,7 @@ def test_answer_with_traditional_rag_skips_model_when_no_hits(
 ) -> None:
     """没有 search 候选时，不应调用对话模型编写答案。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
 
     def fake_search(*args, **kwargs) -> dict[str, object]:
         return {"hits": [], "usage": "candidate_only"}
@@ -111,7 +111,7 @@ def test_answer_with_traditional_rag_returns_latency_ms(
 ) -> None:
     """传统 RAG 应记录从检索到生成答案的整体耗时。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
     hits = [
         {
             "path": "/智慧农场.md",
@@ -148,7 +148,7 @@ def test_answer_with_traditional_rag_returns_token_usage(
 ) -> None:
     """传统 RAG 应保存对话模型返回的 token 使用量。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
     hits = [
         {
             "path": "/智慧农场.md",
@@ -195,7 +195,7 @@ def test_answer_with_traditional_rag_returns_token_usage(
 def test_traditional_rag_config_uses_fixed_baseline_defaults() -> None:
     """传统 RAG 基线应固定模型、思考模式、top-k 和语料版本。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
 
     config = traditional_rag.TraditionalRagConfig()
 
@@ -211,7 +211,7 @@ def test_answer_with_traditional_rag_uses_config_top_k(
 ) -> None:
     """传统 RAG 检索数量应来自配置中的 top_k。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
     config = traditional_rag.TraditionalRagConfig(top_k=3)
     received_limits: list[int] = []
 
@@ -241,7 +241,7 @@ def test_build_traditional_chat_model_uses_config_and_dashscope(
 ) -> None:
     """模型工厂应把固定配置和百炼连接参数传给 ChatOpenAI。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
     config = traditional_rag.TraditionalRagConfig(enable_thinking=True)
     received_options: list[dict[str, object]] = []
     fake_model = object()
@@ -280,7 +280,7 @@ def test_resolve_traditional_corpus_root_uses_config_version(
 ) -> None:
     """传统 RAG 应根据语料版本定位固定的知识库目录。"""
 
-    traditional_rag = importlib.import_module("app.traditional_rag")
+    traditional_rag = importlib.import_module("rag_core.traditional.service")
     config = traditional_rag.TraditionalRagConfig(
         corpus_version="education-v1",
     )

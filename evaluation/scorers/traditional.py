@@ -344,15 +344,15 @@ def score_files(
 def main(project_root: Path | None = None) -> None:
     """评分项目中的传统 RAG baseline，并打印评分文件路径。"""
 
-    from app.baseline_runner import (
+    from evaluation.cli.traditional import (
         build_traditional_baseline_result_filename,
     )
-    from app.traditional_rag import TraditionalRagConfig
+    from rag_core.traditional.service import TraditionalRagConfig
 
     resolved_project_root = (
         project_root
         if project_root is not None
-        else Path(__file__).resolve().parent.parent
+        else Path(__file__).resolve().parent.parent.parent
     )
     result_filename = build_traditional_baseline_result_filename(
         TraditionalRagConfig()

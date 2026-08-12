@@ -1,12 +1,14 @@
+"""供知识库 Agent 调用的 LangChain 工具封装。"""
+
 from pathlib import Path, PurePosixPath
 from typing import Annotated, Literal
 
 from langchain_core.tools import BaseTool, StructuredTool, ToolException
 from pydantic import AfterValidator, Field, StringConstraints
 
-from app.evidence import EvidenceRegistry
-from app.indexer import search_chroma_index
-from app.knowledge_store import (
+from rag_core.agentic.evidence import EvidenceRegistry
+from rag_core.knowledge.indexer import search_chroma_index
+from rag_core.knowledge.store import (
     glob_knowledge_paths,
     list_knowledge_entries,
     normalize_virtual_path,

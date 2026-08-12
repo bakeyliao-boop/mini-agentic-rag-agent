@@ -1,10 +1,10 @@
-"""本轮 Agent 运行使用的原文证据登记册。"""
+"""Agent 单轮运行使用的原文证据登记与校验。"""
 
 from collections.abc import Mapping
 from pathlib import Path
 
-from app.knowledge_store import read_markdown_lines, resolve_knowledge_path
-from app.models import Citation, Evidence, GroundedAnswer
+from rag_core.knowledge.store import read_markdown_lines, resolve_knowledge_path
+from rag_core.models import Citation, Evidence, GroundedAnswer
 
 
 class EvidenceRegistry:

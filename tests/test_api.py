@@ -18,7 +18,7 @@ def test_health_returns_ok() -> None:
 def test_traditional_chat_returns_rag_result(monkeypatch) -> None:
     """传统 RAG 接口应接收问题和路径，并返回现有流程的结果。"""
 
-    api_module = import_module("app.api")
+    api_module = import_module("app.http.routes")
     main_module = import_module("app.main")
     received_requests: list[tuple[str, str]] = []
     fake_result = {
@@ -72,7 +72,7 @@ def test_traditional_chat_returns_rag_result(monkeypatch) -> None:
 def test_agentic_chat_returns_agent_result(monkeypatch) -> None:
     """Agentic 接口应转交问题和线程编号，并返回带证据的结果。"""
 
-    api_module = import_module("app.api")
+    api_module = import_module("app.http.routes")
     main_module = import_module("app.main")
     received_requests: list[tuple[str, str]] = []
     fake_result = {
@@ -138,7 +138,7 @@ def test_chat_endpoints_return_unified_runtime_error(
 ) -> None:
     """两个聊天接口未配置运行时时应返回统一错误结构。"""
 
-    api_module = import_module("app.api")
+    api_module = import_module("app.http.routes")
     main_module = import_module("app.main")
 
     monkeypatch.setattr(
@@ -190,7 +190,7 @@ def test_configured_agentic_chat_handler_is_reused(
 ) -> None:
     """配置一次的 Agentic 处理器应能连续处理多个线程的请求。"""
 
-    api_module = import_module("app.api")
+    api_module = import_module("app.http.routes")
     received_requests: list[tuple[str, str]] = []
 
     def fake_handler(
@@ -237,7 +237,7 @@ def test_build_agentic_chat_handler_reuses_runtime(
 ) -> None:
     """Agentic handler 应复用已有运行时并转交问题和线程编号。"""
 
-    api_module = import_module("app.api")
+    api_module = import_module("app.http.routes")
     fake_runtime = object()
     fake_result = {
         "answer_type": "knowledge",
@@ -289,7 +289,7 @@ def test_configured_traditional_chat_handler_is_reused(
 ) -> None:
     """配置一次的传统 RAG 处理器应能连续处理多个请求。"""
 
-    api_module = import_module("app.api")
+    api_module = import_module("app.http.routes")
     received_requests: list[tuple[str, str]] = []
 
     def fake_handler(
@@ -333,7 +333,7 @@ def test_build_traditional_chat_handler_reuses_rag_components(
 ) -> None:
     """处理器工厂应复用既有索引和模型调用传统 RAG。"""
 
-    api_module = import_module("app.api")
+    api_module = import_module("app.http.routes")
     fake_vector_store = object()
     fake_chat_model = object()
     received_calls: list[dict[str, object]] = []

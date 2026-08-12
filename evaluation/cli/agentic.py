@@ -3,18 +3,19 @@
 from collections.abc import Mapping
 from pathlib import Path
 
-from app.agent_runner import (
+from rag_core.agentic.runner import (
     build_agentic_runtime_from_project,
     run_agentic_question,
 )
-from app.baseline_runner import load_settings_from_env
-from app.evaluation import (
+from rag_core.settings import load_settings_from_env
+from evaluation.dataset import (
     load_evaluation_questions,
-    run_agentic_evaluation,
     save_evaluation_result,
 )
-from app.prompts import KNOWLEDGE_AGENT_PROMPT_VERSION
-from app.traditional_rag import TraditionalRagConfig
+from evaluation.runners.agentic import run_agentic_evaluation
+from rag_core.agentic.prompts import KNOWLEDGE_AGENT_PROMPT_VERSION
+from rag_core.traditional.service import TraditionalRagConfig
+
 
 def build_agentic_evaluation_result_filename(
     config: TraditionalRagConfig,
@@ -90,7 +91,7 @@ def main(project_root: Path | None = None) -> None:
     resolved_project_root = (
         project_root
         if project_root is not None
-        else Path(__file__).parent.parent
+        else Path(__file__).resolve().parent.parent.parent
     )
     settings = load_settings_from_env(
         resolved_project_root

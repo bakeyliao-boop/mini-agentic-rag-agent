@@ -8,7 +8,7 @@ def test_score_agentic_evaluation_calculates_grounded_agent_metrics(
 ) -> None:
     """Agentic 评分器应汇总回答类型、引用、工具和成本指标。"""
 
-    scorer = import_module("app.agentic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.agentic")
     knowledge_root = tmp_path / "knowledge"
     source_path = knowledge_root / "课程资源" / "智慧农场.md"
     source_path.parent.mkdir(parents=True)
@@ -176,7 +176,7 @@ def test_score_agentic_files_writes_independent_score_file(
 ) -> None:
     """文件入口应读取评测数据，并把评分写入单独的 JSON 文件。"""
 
-    scorer = import_module("app.agentic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.agentic")
     dataset_path = tmp_path / "questions.json"
     result_path = tmp_path / "agentic-result.json"
     output_path = tmp_path / "agentic-result-score.json"
@@ -238,7 +238,7 @@ def test_main_scores_current_agentic_result_to_independent_file(
 ) -> None:
     """命令行入口应为当前 Agentic 结果生成同版本的独立评分文件。"""
 
-    scorer = import_module("app.agentic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.agentic")
     evaluation_directory = tmp_path / "evaluation"
     results_directory = evaluation_directory / "results"
     knowledge_root = tmp_path / "knowledge" / "education-v1"

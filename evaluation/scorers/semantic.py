@@ -11,7 +11,7 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
-from app.baseline_runner import _required_setting, load_settings_from_env
+from rag_core.settings import _required_setting, load_settings_from_env
 
 
 SEMANTIC_JUDGE_PROMPT_VERSION = "SemanticJudge-V1"
@@ -293,16 +293,16 @@ def main(
 ) -> None:
     """使用 DeepSeek Judge 为指定评测结果生成语义评分。"""
 
-    from app.agentic_evaluation_runner import (
+    from evaluation.cli.agentic import (
         build_agentic_evaluation_result_filename,
     )
-    from app.prompts import KNOWLEDGE_AGENT_PROMPT_VERSION
-    from app.traditional_rag import TraditionalRagConfig
+    from rag_core.agentic.prompts import KNOWLEDGE_AGENT_PROMPT_VERSION
+    from rag_core.traditional.service import TraditionalRagConfig
 
     resolved_project_root = (
         project_root
         if project_root is not None
-        else Path(__file__).resolve().parent.parent
+        else Path(__file__).resolve().parent.parent.parent
     )
     parser = argparse.ArgumentParser(
         description="使用 DeepSeek Judge 生成语义评分",

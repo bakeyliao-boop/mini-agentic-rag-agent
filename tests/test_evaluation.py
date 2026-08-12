@@ -3,9 +3,11 @@ from pathlib import Path
 
 import pytest
 
-from app import evaluation
-from app.evaluation import load_evaluation_questions
-from app.traditional_rag import TraditionalRagConfig
+from evaluation import dataset as evaluation_dataset
+from evaluation.dataset import load_evaluation_questions
+from evaluation.runners import agentic as agentic_runner
+from evaluation.runners import traditional as traditional_runner
+from rag_core.traditional.service import TraditionalRagConfig
 
 
 def test_load_evaluation_questions_reads_fixed_dataset() -> None:
@@ -201,13 +203,13 @@ def test_run_traditional_baseline_runs_each_question_and_collects_results(
         }
 
     monkeypatch.setattr(
-        evaluation,
+        traditional_runner,
         "answer_with_traditional_rag",
         fake_answer_with_traditional_rag,
         raising=False,
     )
 
-    result = evaluation.run_traditional_baseline(
+    result = traditional_runner.run_traditional_baseline(
         dataset=dataset,
         vector_store=vector_store,
         chat_model=chat_model,
@@ -291,7 +293,7 @@ def test_run_agentic_evaluation_runs_each_question_and_collects_results() -> Non
             ],
         }
 
-    result = evaluation.run_agentic_evaluation(
+    result = agentic_runner.run_agentic_evaluation(
         dataset=dataset,
         run_question=fake_run_question,
         config=TraditionalRagConfig(),
@@ -346,7 +348,7 @@ def test_save_evaluation_result_writes_readable_utf8_json(
     }
     output_path = tmp_path / "evaluation" / "results" / "baseline.json"
 
-    evaluation.save_evaluation_result(result, output_path)
+    evaluation_dataset.save_evaluation_result(result, output_path)
 
     assert output_path.is_file()
     saved_result = json.loads(output_path.read_text(encoding="utf-8"))

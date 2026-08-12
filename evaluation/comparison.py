@@ -1,4 +1,4 @@
-"""离线比较传统 RAG 与 Agentic RAG 的评分结果。"""
+"""离线比较传统 RAG 与 Agentic RAG 的评测结果。"""
 
 import json
 import math

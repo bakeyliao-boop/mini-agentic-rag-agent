@@ -1,4 +1,4 @@
-"""集中保存知识库 Agent 的历史 Prompt 版本。"""
+"""集中保存知识库 Agent 的历史 Prompt 与当前版本。"""
 
 
 KNOWLEDGE_AGENT_PROMPTS = {

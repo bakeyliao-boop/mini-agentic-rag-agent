@@ -1,51 +1,25 @@
-"""传统 RAG 固定评测的执行入口。"""
+"""传统 RAG 固定评测的命令行入口。"""
 
 from collections.abc import Mapping
 from pathlib import Path
 
-from dotenv import dotenv_values
-
-from app.evaluation import (
+from evaluation.dataset import (
     load_evaluation_questions,
-    run_traditional_baseline,
     save_evaluation_result,
 )
-from app.indexer import (
+from evaluation.runners.traditional import (
+    run_traditional_baseline,
+)
+from rag_core.knowledge.indexer import (
     build_dashscope_embeddings,
     build_knowledge_index,
 )
-from app.traditional_rag import (
+from rag_core.settings import _required_setting, load_settings_from_env
+from rag_core.traditional.service import (
     TraditionalRagConfig,
     build_traditional_chat_model,
     resolve_traditional_corpus_root,
 )
-
-
-def load_settings_from_env(project_root: Path) -> dict[str, str]:
-    """从项目根目录的 .env 读取非空字符串配置。"""
-
-    env_path = project_root / ".env"
-    if not env_path.is_file():
-        raise FileNotFoundError(f"environment file does not exist: {env_path}")
-
-    loaded_values = dotenv_values(env_path)
-    return {
-        name: value
-        for name, value in loaded_values.items()
-        if isinstance(value, str)
-    }
-
-
-def _required_setting(
-    settings: Mapping[str, str],
-    name: str,
-) -> str:
-    """读取必需配置，并拒绝缺失或空字符串。"""
-
-    value = settings.get(name)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"missing required setting: {name}")
-    return value.strip()
 
 
 def build_traditional_baseline_result_filename(
@@ -122,7 +96,7 @@ def main(project_root: Path | None = None) -> None:
     resolved_project_root = (
         project_root
         if project_root is not None
-        else Path(__file__).resolve().parent.parent
+        else Path(__file__).resolve().parent.parent.parent
     )
     settings = load_settings_from_env(resolved_project_root)
     output_path = run_traditional_baseline_from_project(

@@ -6,7 +6,7 @@ import statistics
 import unicodedata
 from pathlib import Path
 
-from app.knowledge_store import read_markdown_lines, resolve_knowledge_path
+from rag_core.knowledge.store import read_markdown_lines, resolve_knowledge_path
 
 ANSWER_POINT_FILLER_TERMS = (
     "可以",
@@ -472,16 +472,16 @@ def build_agentic_score_filename(result_filename: str) -> str:
 def main(project_root: Path | None = None) -> None:
     """评分项目中的当前 Agentic 结果，并打印评分文件路径。"""
 
-    from app.agentic_evaluation_runner import (
+    from evaluation.cli.agentic import (
         build_agentic_evaluation_result_filename,
     )
-    from app.prompts import KNOWLEDGE_AGENT_PROMPT_VERSION
-    from app.traditional_rag import TraditionalRagConfig
+    from rag_core.agentic.prompts import KNOWLEDGE_AGENT_PROMPT_VERSION
+    from rag_core.traditional.service import TraditionalRagConfig
 
     resolved_project_root = (
         project_root
         if project_root is not None
-        else Path(__file__).resolve().parent.parent
+        else Path(__file__).resolve().parent.parent.parent
     )
     result_filename = build_agentic_evaluation_result_filename(
         TraditionalRagConfig(),

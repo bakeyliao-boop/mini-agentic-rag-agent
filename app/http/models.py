@@ -1,4 +1,4 @@
-"""FastAPI 请求和响应模型，进入对应接口时再逐个添加。"""
+"""FastAPI 请求和响应模型。"""
 from pydantic import BaseModel,Field
 from typing import Literal
 

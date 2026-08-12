@@ -3,8 +3,9 @@ from pathlib import Path
 import pytest
 from langchain_core.embeddings import Embeddings
 
-from app import indexer, knowledge_store
-from app.models import Chunk
+from rag_core.knowledge import indexer
+from rag_core.knowledge import store as knowledge_store
+from rag_core.models import Chunk
 
 
 class KeywordEmbeddings(Embeddings):

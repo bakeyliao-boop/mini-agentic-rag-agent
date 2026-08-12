@@ -8,7 +8,7 @@ import pytest
 def test_score_semantic_answer_points_accepts_paraphrased_match() -> None:
     """语义裁判确认同义改写时，该答案点应计为命中。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
     question = "智慧农场如何利用气象站降低农业生产风险？"
     answer_points = ["连接气象站等设备实时监测天气"]
     answer = "系统连接气象站获取天气数据，并持续监测天气状况。"
@@ -58,7 +58,7 @@ def test_score_semantic_answer_points_accepts_paraphrased_match() -> None:
 def test_score_semantic_answer_points_rejects_contradiction() -> None:
     """语义裁判确认含义相反时，该答案点不应计为命中。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
     question = "气象站能否预测农业灾害？"
     answer_points = ["气象站可以预测农业灾害"]
     answer = "气象站不能预测农业灾害。"
@@ -108,7 +108,7 @@ def test_score_semantic_answer_points_rejects_contradiction() -> None:
 def test_build_semantic_judge_uses_structured_model_offline() -> None:
     """语义裁判应把评分材料交给结构化模型并返回逐点判断。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
 
     class FakeStructuredChatModel:
         """记录结构化 Schema 和模型输入的离线假模型。"""
@@ -172,7 +172,7 @@ def test_build_semantic_judge_uses_structured_model_offline() -> None:
 def test_score_semantic_evaluation_only_scores_knowledge_questions() -> None:
     """批量语义评分应跳过目录题和知识库外拒答题。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
     dataset = {
         "version": 2,
         "corpus_id": "education-v1",
@@ -289,7 +289,7 @@ def test_score_semantic_evaluation_only_scores_knowledge_questions() -> None:
 def test_score_semantic_answer_points_rejects_missing_judgment() -> None:
     """裁判漏评任一答案点时，评分器应拒绝不完整结果。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
 
     def incomplete_judge(
         question: str,
@@ -321,7 +321,7 @@ def test_score_semantic_files_writes_independent_result(
 ) -> None:
     """文件入口应写入独立语义评分，不修改 Agent 原始结果。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
     dataset_path = tmp_path / "questions.json"
     result_path = tmp_path / "agentic-result.json"
     output_path = tmp_path / "agentic-semantic-score.json"
@@ -402,7 +402,7 @@ def test_main_scores_current_v15_result_with_semantic_judge(
 ) -> None:
     """命令行入口应加载一次配置并生成 V1.5 独立语义评分。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
     fake_model = object()
     fake_judge = object()
     settings = {
@@ -503,7 +503,7 @@ def test_main_scores_selected_traditional_result_with_semantic_judge(
 ) -> None:
     """命令行应允许指定传统 RAG 结果并生成独立语义评分。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
     fake_model = object()
     fake_judge = object()
     settings = {
@@ -577,7 +577,7 @@ def test_build_semantic_judge_chat_model_uses_deepseek_official_api(
 ) -> None:
     """Judge 模型应使用 DeepSeek 官方接口并关闭思考模式。"""
 
-    scorer = import_module("app.semantic_evaluation_scorer")
+    scorer = import_module("evaluation.scorers.semantic")
     received_options: list[dict[str, object]] = []
     fake_model = object()
 

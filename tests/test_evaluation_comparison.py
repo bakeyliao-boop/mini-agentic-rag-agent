@@ -67,7 +67,7 @@ def _semantic_score(coverage: float) -> dict[str, object]:
 def test_compare_evaluation_scores_builds_markdown_table() -> None:
     """对比器应对齐共同指标，并生成可直接阅读的 Markdown 表格。"""
 
-    comparison_module = import_module("app.evaluation_comparison")
+    comparison_module = import_module("evaluation.comparison")
 
     comparison = comparison_module.compare_evaluation_scores(
         traditional_score=_traditional_score(),
@@ -94,7 +94,7 @@ def test_compare_evaluation_scores_builds_markdown_table() -> None:
 def test_render_comparison_markdown_aligns_raw_table_columns() -> None:
     """Markdown 源文件中的每一列也应具有相同的显示宽度。"""
 
-    comparison_module = import_module("app.evaluation_comparison")
+    comparison_module = import_module("evaluation.comparison")
     comparison = comparison_module.compare_evaluation_scores(
         traditional_score=_traditional_score(),
         agentic_score=_agentic_score(),
@@ -127,7 +127,7 @@ def test_render_comparison_markdown_aligns_raw_table_columns() -> None:
 def test_compare_evaluation_scores_uses_semantic_answer_coverage() -> None:
     """正式报告的知识答案指标应读取双方独立语义评分。"""
 
-    comparison_module = import_module("app.evaluation_comparison")
+    comparison_module = import_module("evaluation.comparison")
 
     comparison = comparison_module.compare_evaluation_scores(
         traditional_score=_traditional_score(),
@@ -161,7 +161,7 @@ def test_main_writes_versioned_comparison_report(
 ) -> None:
     """命令行入口应读取当前两份评分并写入版本化对比报告。"""
 
-    comparison_module = import_module("app.evaluation_comparison")
+    comparison_module = import_module("evaluation.comparison")
     results_directory = tmp_path / "evaluation" / "results"
     results_directory.mkdir(parents=True)
     traditional_filename = (

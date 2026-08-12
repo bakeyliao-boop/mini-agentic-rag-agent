@@ -11,7 +11,7 @@ from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langchain_core.tools import StructuredTool
 from langgraph.checkpoint.memory import InMemorySaver
 
-from app.models import GroundedAnswer
+from rag_core.models import GroundedAnswer
 
 
 class ToolCallingFakeModel(FakeMessagesListChatModel):
@@ -46,7 +46,7 @@ def test_build_knowledge_agent_registers_model_tools_and_system_prompt(
 ) -> None:
     """知识库 Agent 应使用指定模型、三个工具和固定系统规则创建。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     build_knowledge_agent = getattr(
         agent_module,
         "build_knowledge_agent",
@@ -83,7 +83,7 @@ def test_build_knowledge_agent_registers_model_tools_and_system_prompt(
 def test_system_prompt_answers_pure_directory_question_after_ls() -> None:
     """纯目录题在 ls 返回直接子项后应立即回答。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
 
     assert (
@@ -101,7 +101,7 @@ def test_system_prompt_answers_pure_directory_question_after_ls() -> None:
 def test_system_prompt_searches_when_directory_is_only_scope() -> None:
     """目录名只限定知识题范围时，不应从根目录逐层猜路径。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
 
     assert (
@@ -119,7 +119,7 @@ def test_system_prompt_searches_when_directory_is_only_scope() -> None:
 def test_prompt_v14_uses_glob_to_discover_unknown_paths() -> None:
     """Prompt-V1.4 应要求使用 glob 发现路径，并限制其证据用途。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
 
     assert "你可以使用 ls、glob、search 和 read 四个工具" in system_prompt
@@ -141,7 +141,7 @@ def test_prompt_v14_uses_glob_to_discover_unknown_paths() -> None:
 def test_prompt_v15_uses_structured_glob_arguments() -> None:
     """Prompt-V1.5 应要求 Agent 使用结构化 glob 参数。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
 
     assert (
@@ -159,7 +159,7 @@ def test_prompt_v15_uses_structured_glob_arguments() -> None:
 def test_knowledge_agent_stops_searching_after_sufficient_read() -> None:
     """read 已提供充分证据后，Agent 应立即提交结构化回答。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
 
     assert (
@@ -176,7 +176,7 @@ def test_knowledge_agent_stops_searching_after_sufficient_read() -> None:
 def test_knowledge_agent_uses_explicit_prompt_version() -> None:
     """当前 Agent Prompt 应具有可追踪的独立版本号。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
 
     assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.5"
 
@@ -208,7 +208,7 @@ def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
 ) -> None:
     """每次运行最多允许执行 6 次工具调用。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     received_options: dict[str, object] = {}
 
     def fake_create_agent(**options):
@@ -237,7 +237,7 @@ def test_build_knowledge_agent_does_not_count_grounded_answer_as_tool(
 ) -> None:
     """结构化 GroundedAnswer 不应占用知识库工具调用次数。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     received_options: dict[str, object] = {}
 
     def fake_create_agent(**options):
@@ -266,7 +266,7 @@ def test_build_knowledge_agent_does_not_count_grounded_answer_as_tool(
 def test_knowledge_tool_call_limiter_counts_glob() -> None:
     """glob 应与 ls、search、read 一样占用工具调用次数。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     tool_call_limiter = agent_module.KnowledgeToolCallLimitMiddleware(
         run_limit=6,
         exit_behavior="end",
@@ -280,7 +280,7 @@ def test_build_knowledge_agent_uses_in_memory_checkpointer(
 ) -> None:
     """知识库 Agent 应使用内存保存器维护临时会话状态。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     received_options: dict[str, object] = {}
 
     def fake_create_agent(**options):
@@ -303,7 +303,7 @@ def test_build_knowledge_agent_uses_grounded_answer_response_format(
 ) -> None:
     """知识库 Agent 应使用 GroundedAnswer 作为结构化输出格式。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     received_options: dict[str, object] = {}
 
     def fake_create_agent(**options):
@@ -418,7 +418,7 @@ def test_knowledge_agent_executes_search_then_read() -> None:
         ]
     )
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     knowledge_agent = agent_module.build_knowledge_agent(
         chat_model=fake_model,
         tools=tools,
@@ -452,7 +452,7 @@ def test_knowledge_agent_remembers_messages_in_same_thread() -> None:
             ),
         ]
     )
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     knowledge_agent = agent_module.build_knowledge_agent(
         chat_model=fake_model,
         tools=[],
@@ -516,7 +516,7 @@ def test_knowledge_agent_isolates_messages_between_threads() -> None:
             ),
         ]
     )
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     knowledge_agent = agent_module.build_knowledge_agent(
         chat_model=fake_model,
         tools=[],
@@ -562,7 +562,7 @@ def test_knowledge_agent_isolates_messages_between_threads() -> None:
 def test_extract_tool_traces_matches_calls_with_results() -> None:
     """工具轨迹应配对调用和结果，但不重复保存完整工具结果。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     extract_tool_traces = getattr(
         agent_module,
         "extract_tool_traces",
@@ -644,7 +644,7 @@ def test_extract_tool_traces_matches_calls_with_results() -> None:
 def test_extract_tool_traces_records_glob() -> None:
     """工具轨迹必须记录 glob 的参数和执行状态。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     messages = [
         AIMessage(
             content="",
@@ -686,7 +686,7 @@ def test_extract_tool_traces_records_glob() -> None:
 def test_extract_tool_traces_marks_missing_tool_result() -> None:
     """找不到对应 ToolMessage 时应标记为 missing_result。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     messages = [
         AIMessage(
             content="",
@@ -725,7 +725,7 @@ def test_extract_tool_traces_marks_missing_tool_result() -> None:
 def test_extract_tool_traces_records_tool_error() -> None:
     """工具返回错误消息时，轨迹状态应记录为 error。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     messages = [
         AIMessage(
             content="",
@@ -769,7 +769,7 @@ def test_extract_tool_traces_records_tool_error() -> None:
 def test_extract_tool_traces_ignores_grounded_answer() -> None:
     """工具轨迹应忽略 LangChain 内部的 GroundedAnswer 调用。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     messages = [
         AIMessage(
             content="",
@@ -822,7 +822,7 @@ def test_extract_tool_traces_ignores_grounded_answer() -> None:
 def test_extract_token_usage_sums_all_ai_message_usage() -> None:
     """Agent token 统计应累加每一轮模型调用，并忽略非模型消息。"""
 
-    agent_module = import_module("app.agent")
+    agent_module = import_module("rag_core.agentic.agent")
     messages = [
         HumanMessage(content="气象站能做什么？"),
         AIMessage(

@@ -5,13 +5,13 @@ from langchain_core.documents import Document
 from langchain_core.messages import ToolMessage
 from pydantic import ValidationError
 
-from app.evidence import EvidenceRegistry
+from rag_core.agentic.evidence import EvidenceRegistry
 
 
 def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
     """生成的知识库工具名称应固定为 ls、glob、search、read。"""
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     build_knowledge_tools = getattr(
         knowledge_tools,
         "build_knowledge_tools",
@@ -36,7 +36,7 @@ def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
 def test_glob_tool_schema_requires_structured_target(tmp_path) -> None:
     """glob Schema 应要求 Agent 传入目标名称和目标类型。"""
 
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -68,7 +68,7 @@ def test_glob_tool_returns_matching_paths(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -107,7 +107,7 @@ def test_glob_tool_matches_filename_target(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -142,7 +142,7 @@ def test_glob_tool_matches_filename_target_with_md_suffix(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -171,7 +171,7 @@ def test_glob_tool_rejects_blank_target(tmp_path) -> None:
 
     knowledge_root = tmp_path / "knowledge"
     knowledge_root.mkdir()
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -203,7 +203,7 @@ def test_glob_tool_rejects_path_separator_in_target(
 
     knowledge_root = tmp_path / "knowledge"
     knowledge_root.mkdir()
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -236,7 +236,7 @@ def test_glob_tool_rejects_wildcards_in_target(
 
     knowledge_root = tmp_path / "knowledge"
     knowledge_root.mkdir()
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -262,7 +262,7 @@ def test_glob_tool_rejects_dot_path_segments(
 
     knowledge_root = tmp_path / "knowledge"
     knowledge_root.mkdir()
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -284,7 +284,7 @@ def test_glob_tool_handles_missing_directory(tmp_path) -> None:
 
     knowledge_root = tmp_path / "knowledge"
     knowledge_root.mkdir()
-    generated_tools = import_module("app.tools").build_knowledge_tools(
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
         evidence_registry=EvidenceRegistry(run_id="test-run"),
@@ -327,7 +327,7 @@ def test_ls_tool_lists_direct_children(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
@@ -349,7 +349,7 @@ def test_ls_tool_lists_direct_children(tmp_path) -> None:
 def test_ls_tool_rejects_parent_path_traversal(tmp_path) -> None:
     """ls 工具应拒绝使用 .. 访问知识库外部。"""
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
@@ -371,7 +371,7 @@ def test_ls_tool_returns_recoverable_error_for_missing_directory(
 
     knowledge_root = tmp_path / "knowledge"
     knowledge_root.mkdir()
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
@@ -423,7 +423,7 @@ def test_search_tool_returns_candidate_hits(tmp_path) -> None:
                 )
             ]
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=FakeVectorStore(),
@@ -456,7 +456,7 @@ def test_search_tool_returns_candidate_hits(tmp_path) -> None:
 def test_search_tool_rejects_limit_greater_than_five(tmp_path) -> None:
     """search 工具不应允许一次返回超过 5 个候选。"""
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
@@ -480,7 +480,7 @@ def test_search_tool_rejects_limit_greater_than_five(tmp_path) -> None:
 def test_search_tool_schema_exposes_limit_range(tmp_path) -> None:
     """search Schema 应明确告诉模型 limit 只能位于 1 到 5。"""
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),
@@ -506,7 +506,7 @@ def test_read_tool_returns_requested_markdown_page(tmp_path) -> None:
         encoding="utf-8",
     )
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
@@ -547,7 +547,7 @@ def test_read_tool_registers_nonempty_lines_as_evidence(tmp_path) -> None:
     )
     registry = EvidenceRegistry(run_id="run-001")
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=knowledge_root,
         vector_store=object(),
@@ -583,7 +583,7 @@ def test_read_tool_registers_nonempty_lines_as_evidence(tmp_path) -> None:
 def test_read_tool_rejects_limit_greater_than_eighty(tmp_path) -> None:
     """read 工具不应允许一次读取超过 80 行。"""
 
-    knowledge_tools = import_module("app.tools")
+    knowledge_tools = import_module("rag_core.agentic.tools")
     generated_tools = knowledge_tools.build_knowledge_tools(
         knowledge_root=tmp_path / "knowledge",
         vector_store=object(),

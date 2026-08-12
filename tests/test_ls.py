@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from app import knowledge_store
+from rag_core.knowledge import store as knowledge_store
 
 
 def test_list_knowledge_entries_returns_direct_children(

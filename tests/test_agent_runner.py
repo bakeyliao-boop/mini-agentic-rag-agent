@@ -4,8 +4,8 @@ from pathlib import Path
 
 from langchain_core.messages import AIMessage
 
-from app.evidence import EvidenceRegistry
-from app.models import GroundedAnswer
+from rag_core.agentic.evidence import EvidenceRegistry
+from rag_core.models import GroundedAnswer
 
 
 def test_finalize_grounded_answer_downgrades_knowledge_without_evidence(
@@ -13,7 +13,7 @@ def test_finalize_grounded_answer_downgrades_knowledge_without_evidence(
 ) -> None:
     """knowledge 回答没有有效 Evidence 时应降级为 insufficient。"""
 
-    agent_runner = import_module("app.agent_runner")
+    agent_runner = import_module("rag_core.agentic.runner")
     registry = EvidenceRegistry(run_id="run-001")
     structured_response = GroundedAnswer(
         answer_type="knowledge",
@@ -39,7 +39,7 @@ def test_finalize_grounded_answer_returns_valid_answer_and_citation(
 ) -> None:
     """有效 Evidence 应保留原回答，并生成对应 Citation。"""
 
-    agent_runner = import_module("app.agent_runner")
+    agent_runner = import_module("rag_core.agentic.runner")
     knowledge_root = tmp_path / "knowledge"
     knowledge_root.mkdir()
     (knowledge_root / "智慧农场.md").write_text(
@@ -90,7 +90,7 @@ def test_finalize_agent_result_downgrades_missing_structured_response(
 ) -> None:
     """Agent 提前结束且没有结构化回答时应降级为 insufficient。"""
 
-    agent_runner = import_module("app.agent_runner")
+    agent_runner = import_module("rag_core.agentic.runner")
     registry = EvidenceRegistry(run_id="run-001")
     agent_result = {
         "messages": [
@@ -117,7 +117,7 @@ def test_run_agentic_question_from_project_wires_all_components(
 ) -> None:
     """真实运行入口应按顺序连接索引、模型、工具和 Agent。"""
 
-    agent_runner = import_module("app.agent_runner")
+    agent_runner = import_module("rag_core.agentic.runner")
     settings = {
         "DASHSCOPE_API_KEY": "test-key",
         "DASHSCOPE_BASE_URL": (

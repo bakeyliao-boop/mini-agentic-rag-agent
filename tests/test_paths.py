@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from app.knowledge_store import (
+from rag_core.knowledge.store import (
     normalize_virtual_path,
     resolve_knowledge_path,
 )

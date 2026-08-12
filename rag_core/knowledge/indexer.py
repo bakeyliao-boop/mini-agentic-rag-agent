@@ -1,4 +1,4 @@
-"""Markdown 切块与本地索引。"""
+"""Markdown 切块、Chroma 建库与向量检索。"""
 
 from pathlib import Path
 
@@ -7,8 +7,8 @@ from langchain_core.embeddings import Embeddings
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
 
-from app.knowledge_store import normalize_virtual_path, read_markdown_lines
-from app.models import Chunk
+from rag_core.knowledge.store import normalize_virtual_path, read_markdown_lines
+from rag_core.models import Chunk
 
 MAX_CHUNK_CHARACTERS = 800
 CHUNK_OVERLAP_PARAGRAPHS = 1

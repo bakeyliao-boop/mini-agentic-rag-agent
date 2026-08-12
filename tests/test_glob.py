@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from app import knowledge_store
+from rag_core.knowledge import store as knowledge_store
 
 
 def test_glob_knowledge_paths_matches_nested_markdown_files(

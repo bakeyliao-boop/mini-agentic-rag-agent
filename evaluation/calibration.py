@@ -1,10 +1,10 @@
-"""使用固定正反样例校准语义裁判的判断能力。"""
+"""使用固定正反样例校准语义评测裁判的判断能力。"""
 
 import json
 from pathlib import Path
 
-from app.baseline_runner import _required_setting, load_settings_from_env
-from app.semantic_evaluation_scorer import (
+from rag_core.settings import _required_setting, load_settings_from_env
+from evaluation.scorers.semantic import (
     SEMANTIC_JUDGE_PROMPT_VERSION,
     SemanticJudge,
     build_semantic_judge,

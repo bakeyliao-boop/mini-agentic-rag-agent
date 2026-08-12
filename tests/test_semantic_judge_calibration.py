@@ -6,7 +6,7 @@ from pathlib import Path
 def test_run_semantic_judge_calibration_scores_fixed_cases() -> None:
     """校准器应比较三类固定样例的预期判断与实际判断。"""
 
-    calibration = import_module("app.semantic_judge_calibration")
+    calibration = import_module("evaluation.calibration")
     cases = [
         {
             "id": "paraphrase-001",
@@ -82,7 +82,7 @@ def test_main_runs_deepseek_calibration_and_saves_result(
 ) -> None:
     """命令行入口应运行固定校准样例并保存可复现结果。"""
 
-    calibration = import_module("app.semantic_judge_calibration")
+    calibration = import_module("evaluation.calibration")
     settings = {
         "SEMANTIC_JUDGE_MODEL": "deepseek-v4-flash",
         "SEMANTIC_JUDGE_API_KEY": "test-key",
