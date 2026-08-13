@@ -111,6 +111,133 @@ def test_finalize_agent_result_downgrades_missing_structured_response(
     }
 
 
+def test_build_agentic_runtime_builds_and_stores_path_snapshot(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    """Agentic 运行时应在构建时创建一次路径快照并保存。"""
+
+    agent_runner = import_module("rag_core.agentic.runner")
+    knowledge_root = tmp_path / "knowledge" / "education-v1"
+    knowledge_root.mkdir(parents=True)
+    fake_embeddings = object()
+    fake_vector_store = object()
+    fake_chat_model = object()
+    fake_snapshot = [
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+    ]
+    snapshot_calls: list[Path] = []
+
+    def fake_build_snapshot(root: Path) -> list[dict[str, str]]:
+        snapshot_calls.append(root)
+        return fake_snapshot
+
+    monkeypatch.setattr(
+        agent_runner,
+        "resolve_traditional_corpus_root",
+        lambda project_root, config: knowledge_root,
+    )
+    monkeypatch.setattr(
+        agent_runner,
+        "build_dashscope_embeddings",
+        lambda **options: fake_embeddings,
+    )
+    monkeypatch.setattr(
+        agent_runner,
+        "build_knowledge_index",
+        lambda root, persist_directory, embedding: fake_vector_store,
+    )
+    monkeypatch.setattr(
+        agent_runner,
+        "build_traditional_chat_model",
+        lambda config, api_key, base_url: fake_chat_model,
+    )
+    monkeypatch.setattr(
+        agent_runner,
+        "build_knowledge_path_snapshot",
+        fake_build_snapshot,
+        raising=False,
+    )
+
+    runtime = agent_runner.build_agentic_runtime_from_project(
+        project_root=tmp_path,
+        settings={
+            "DASHSCOPE_API_KEY": "test-key",
+            "DASHSCOPE_BASE_URL": "https://example.test/v1",
+            "EMBEDDING_MODEL": "test-embedding",
+            "EMBEDDING_DIMENSIONS": "1024",
+            "CHROMA_PERSIST_DIR": "./data/chroma",
+        },
+    )
+
+    assert snapshot_calls == [knowledge_root]
+    assert runtime.path_snapshot is fake_snapshot
+
+
+def test_run_agentic_questions_reuse_runtime_path_snapshot(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    """同一运行时执行多题时应把同一个路径快照传给工具层。"""
+
+    agent_runner = import_module("rag_core.agentic.runner")
+    fake_snapshot = [{"path": "/", "type": "directory"}]
+    runtime = agent_runner.AgenticRuntime(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        chat_model=object(),
+        path_snapshot=fake_snapshot,
+    )
+    received_snapshots: list[list[dict[str, str]]] = []
+
+    def fake_build_tools(
+        knowledge_root,
+        vector_store,
+        evidence_registry,
+        path_snapshot,
+    ):
+        received_snapshots.append(path_snapshot)
+        return []
+
+    class FakeAgent:
+        def invoke(self, input_data, config):
+            return {"messages": []}
+
+    monkeypatch.setattr(
+        agent_runner,
+        "build_knowledge_path_snapshot",
+        lambda root: (_ for _ in ()).throw(
+            AssertionError("answering must not rebuild the path snapshot")
+        ),
+        raising=False,
+    )
+    monkeypatch.setattr(agent_runner, "build_knowledge_tools", fake_build_tools)
+    monkeypatch.setattr(
+        agent_runner,
+        "build_knowledge_agent",
+        lambda chat_model, tools: FakeAgent(),
+    )
+    monkeypatch.setattr(
+        agent_runner,
+        "finalize_agent_result",
+        lambda agent_result, evidence_registry, knowledge_root: {
+            "answer_type": "insufficient",
+            "answer": "当前证据不足，无法从知识库确定答案。",
+            "citations": [],
+        },
+    )
+    monkeypatch.setattr(agent_runner, "extract_tool_traces", lambda messages: [])
+    monkeypatch.setattr(agent_runner, "extract_token_usage", lambda messages: {})
+
+    agent_runner.run_agentic_question(runtime, "第一题", "thread-001")
+    agent_runner.run_agentic_question(runtime, "第二题", "thread-002")
+
+    assert len(received_snapshots) == 2
+    assert received_snapshots[0] is fake_snapshot
+    assert received_snapshots[1] is fake_snapshot
+
+
 def test_run_agentic_question_from_project_wires_all_components(
     tmp_path: Path,
     monkeypatch,
@@ -180,9 +307,20 @@ def test_run_agentic_question_from_project_wires_all_components(
         events.append(("chat", config, api_key, base_url))
         return fake_chat_model
 
-    def fake_build_tools(knowledge_root, vector_store, evidence_registry):
+    def fake_build_tools(
+        knowledge_root,
+        vector_store,
+        evidence_registry,
+        path_snapshot,
+    ):
         events.append(
-            ("tools", knowledge_root, vector_store, evidence_registry)
+            (
+                "tools",
+                knowledge_root,
+                vector_store,
+                evidence_registry,
+                path_snapshot,
+            )
         )
         return fake_tools
 
@@ -298,6 +436,7 @@ def test_run_agentic_question_from_project_wires_all_components(
     evidence_registry = events[3][3]
     assert isinstance(evidence_registry, EvidenceRegistry)
     assert evidence_registry.run_id.startswith("smoke-thread:")
+    assert events[3][4] == [{"path": "/", "type": "directory"}]
     assert events[5] == (
         "invoke",
         {"messages": [{"role": "user", "content": "气象站能做什么？"}]},

@@ -57,6 +57,158 @@ def test_glob_tool_schema_requires_structured_target(tmp_path) -> None:
     ]
 
 
+def test_glob_tool_uses_path_snapshot_without_disk_scan(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    """传入路径快照后，glob 工具应只进行内存匹配。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    snapshot = [
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+        {
+            "path": "/课程资源/小学/四年级/信息科技/初探数字化.md",
+            "type": "file",
+        },
+    ]
+
+    def reject_disk_glob(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("glob tool must not scan the filesystem")
+
+    monkeypatch.setattr(
+        knowledge_tools,
+        "glob_knowledge_paths",
+        reject_disk_glob,
+    )
+
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+        path_snapshot=snapshot,
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/课程资源",
+            "target": "初探数字化",
+            "target_type": "filename",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/小学/四年级/信息科技/初探数字化.md",
+                "name": "初探数字化.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_matches_directory_target_from_path_snapshot(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    """directory 类型应从快照返回目标目录的直接 Markdown 文件。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    snapshot = [
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+        {
+            "path": "/课程资源/小学/自动控制系统",
+            "type": "directory",
+        },
+        {
+            "path": "/课程资源/小学/自动控制系统/课程介绍.md",
+            "type": "file",
+        },
+        {
+            "path": "/课程资源/小学/自动控制系统/补充/附录.md",
+            "type": "file",
+        },
+        {
+            "path": "/其他资源/自动控制系统/外部文件.md",
+            "type": "file",
+        },
+    ]
+
+    def reject_disk_glob(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("glob tool must not scan the filesystem")
+
+    monkeypatch.setattr(
+        knowledge_tools,
+        "glob_knowledge_paths",
+        reject_disk_glob,
+    )
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+        path_snapshot=snapshot,
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/课程资源",
+            "target": "自动控制系统",
+            "target_type": "directory",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/小学/自动控制系统/课程介绍.md",
+                "name": "课程介绍.md",
+            }
+        ]
+    }
+
+
+def test_ls_tool_uses_path_snapshot_without_disk_scan(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    """传入路径快照后，ls 工具应只列出内存中的直接子项。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    snapshot = [
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+        {"path": "/课程资源/小学", "type": "directory"},
+        {"path": "/课程资源/小学/四年级", "type": "directory"},
+        {"path": "/课程资源/说明.md", "type": "file"},
+    ]
+
+    def reject_disk_ls(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("ls tool must not scan the filesystem")
+
+    monkeypatch.setattr(
+        knowledge_tools,
+        "list_knowledge_entries",
+        reject_disk_ls,
+    )
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+        path_snapshot=snapshot,
+    )
+
+    result = generated_tools[0].invoke({"path": "/课程资源"})
+
+    assert result == {
+        "path": "/课程资源",
+        "entries": [
+            {"path": "/课程资源/小学", "type": "directory"},
+            {"path": "/课程资源/说明.md", "type": "file"},
+        ],
+    }
+
+
 def test_glob_tool_returns_matching_paths(tmp_path) -> None:
     """glob 工具应返回指定虚拟目录范围内匹配的文件。"""
 

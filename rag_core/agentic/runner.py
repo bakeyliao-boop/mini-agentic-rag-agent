@@ -21,6 +21,7 @@ from rag_core.knowledge.indexer import (
     build_dashscope_embeddings,
     build_knowledge_index,
 )
+from rag_core.knowledge.store import build_knowledge_path_snapshot
 from rag_core.models import GroundedAnswer
 from rag_core.agentic.tools import build_knowledge_tools
 from rag_core.traditional.service import (
@@ -37,6 +38,7 @@ class AgenticRuntime:
     knowledge_root: Path
     vector_store: object
     chat_model: object
+    path_snapshot: list[dict[str, str]]
 
 
 def finalize_grounded_answer(
@@ -108,6 +110,7 @@ def build_agentic_runtime_from_project(
     persist_setting = _required_setting(settings, "CHROMA_PERSIST_DIR")
 
     knowledge_root = resolve_traditional_corpus_root(project_root, config)
+    path_snapshot = build_knowledge_path_snapshot(knowledge_root)
     persist_directory = (
         project_root / Path(persist_setting)
     ).resolve(strict=False)
@@ -132,6 +135,7 @@ def build_agentic_runtime_from_project(
         knowledge_root=knowledge_root,
         vector_store=vector_store,
         chat_model=chat_model,
+        path_snapshot=path_snapshot,
     )
 
 
@@ -149,6 +153,7 @@ def run_agentic_question(
         runtime.knowledge_root,
         runtime.vector_store,
         evidence_registry,
+        path_snapshot=runtime.path_snapshot,
     )
     knowledge_agent = build_knowledge_agent(runtime.chat_model, tools)
 

@@ -10,7 +10,9 @@ from rag_core.agentic.evidence import EvidenceRegistry
 from rag_core.knowledge.indexer import search_chroma_index
 from rag_core.knowledge.store import (
     glob_knowledge_paths,
+    glob_knowledge_snapshot_paths,
     list_knowledge_entries,
+    list_knowledge_snapshot_entries,
     normalize_virtual_path,
     read_knowledge_page,
 )
@@ -28,6 +30,7 @@ def build_knowledge_tools(
     knowledge_root: Path,
     vector_store: object,
     evidence_registry: EvidenceRegistry,
+    path_snapshot: list[dict[str, str]] | None = None,
 ) -> list[BaseTool]:
     """生成供 Agent 调用的 ls、glob、search 和 read 工具。"""
 
@@ -36,10 +39,16 @@ def build_knowledge_tools(
 
         normalized_path = normalize_virtual_path(path)
         try:
-            entries = list_knowledge_entries(
-                normalized_path,
-                knowledge_root,
-            )
+            if path_snapshot is None:
+                entries = list_knowledge_entries(
+                    normalized_path,
+                    knowledge_root,
+                )
+            else:
+                entries = list_knowledge_snapshot_entries(
+                    normalized_path,
+                    path_snapshot,
+                )
         except (FileNotFoundError, NotADirectoryError) as error:
             raise ToolException(str(error)) from error
 
@@ -76,11 +85,18 @@ def build_knowledge_tools(
         else:
             pattern = f"**/*{normalized_target}*.md"
         try:
-            matched_paths = glob_knowledge_paths(
-                virtual_path=normalized_path,
-                pattern=pattern,
-                knowledge_root=knowledge_root,
-            )
+            if path_snapshot is None:
+                matched_paths = glob_knowledge_paths(
+                    virtual_path=normalized_path,
+                    pattern=pattern,
+                    knowledge_root=knowledge_root,
+                )
+            else:
+                matched_paths = glob_knowledge_snapshot_paths(
+                    virtual_path=normalized_path,
+                    pattern=pattern,
+                    snapshot=path_snapshot,
+                )
         except (ValueError, FileNotFoundError, NotADirectoryError) as error:
             raise ToolException(str(error)) from error
 
