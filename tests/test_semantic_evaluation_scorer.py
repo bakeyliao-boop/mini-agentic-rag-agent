@@ -395,12 +395,12 @@ def test_score_semantic_files_writes_independent_result(
     }
 
 
-def test_main_scores_current_v15_result_with_semantic_judge(
+def test_main_scores_current_v16_result_with_semantic_judge(
     tmp_path: Path,
     monkeypatch,
     capsys,
 ) -> None:
-    """命令行入口应加载一次配置并生成 V1.5 独立语义评分。"""
+    """命令行入口应加载一次配置并生成 V1.6 独立语义评分。"""
 
     scorer = import_module("evaluation.scorers.semantic")
     fake_model = object()
@@ -470,11 +470,11 @@ def test_main_scores_current_v15_result_with_semantic_judge(
 
     results_directory = tmp_path / "evaluation" / "results"
     result_path = results_directory / (
-        "agentic-baseline-qwen3.6-flash-thinking-off-prompt-v1.5.json"
+        "agentic-baseline-qwen3.6-flash-thinking-off-prompt-v1.6.json"
     )
     output_path = results_directory / (
         "agentic-baseline-qwen3.6-flash-thinking-off-"
-        "prompt-v1.5-semantic-score.json"
+        "prompt-v1.6-semantic-score.json"
     )
     assert events == [
         ("load_settings", tmp_path),

@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "baseline_prompt_version": "Prompt-V1.5",
+  "expectations": [
+    {
+      "id": "directory-001",
+      "allowed_tools": ["ls"],
+      "required_initial_call": {
+        "name": "ls"
+      },
+      "max_tool_calls": 6,
+      "completion_call": {
+        "name": "ls",
+        "args": {"path": "/课程资源"},
+        "status": "success"
+      },
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": false
+    },
+    {
+      "id": "exact-001",
+      "allowed_tools": ["search", "glob", "read"],
+      "required_initial_call": {
+        "any_of": [
+          {"name": "search", "args": {"path": "/"}, "status": "success"},
+          {"name": "glob", "args": {"target": "智慧农场", "target_type": "filename", "path": "/"}, "status": "success"}
+        ]
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 2,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "exact-002",
+      "allowed_tools": ["search", "glob", "read"],
+      "required_initial_call": {
+        "any_of": [
+          {"name": "search", "args": {"path": "/"}, "status": "success"},
+          {"name": "glob", "args": {"target": "智慧农场", "target_type": "filename", "path": "/"}, "status": "success"}
+        ]
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 2,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "exact-003",
+      "allowed_tools": ["search", "glob", "read"],
+      "required_initial_call": {
+        "any_of": [
+          {"name": "search", "args": {"path": "/"}, "status": "success"},
+          {"name": "glob", "args": {"target": "智慧农场", "target_type": "filename", "path": "/"}, "status": "success"}
+        ]
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 2,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "exact-004",
+      "allowed_tools": ["search", "glob", "read"],
+      "required_initial_call": {
+        "any_of": [
+          {"name": "search", "args": {"path": "/"}, "status": "success"},
+          {"name": "glob", "args": {"target": "初探数字化", "target_type": "filename", "path": "/"}, "status": "success"}
+        ]
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 2,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "exact-005",
+      "allowed_tools": ["search", "glob", "read"],
+      "required_initial_call": {
+        "any_of": [
+          {"name": "search", "args": {"path": "/"}, "status": "success"},
+          {"name": "glob", "args": {"target": "身边的系统", "target_type": "filename", "path": "/"}, "status": "success"}
+        ]
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 2,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "exact-006",
+      "allowed_tools": ["search", "glob", "read"],
+      "required_initial_call": {
+        "any_of": [
+          {"name": "search", "args": {"path": "/"}, "status": "success"},
+          {"name": "glob", "args": {"target": "互联网与物联网", "target_type": "filename", "path": "/"}, "status": "success"}
+        ]
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 2,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "ambiguity-001",
+      "allowed_tools": ["glob", "read"],
+      "required_initial_call": {
+        "name": "glob",
+        "args": {"target": "自动控制系统", "target_type": "directory", "path": "/"},
+        "status": "success"
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md"}, "status": "success"},
+        {"name": "read", "args": {"path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 3,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "multi-document-001",
+      "allowed_tools": ["search", "glob", "read"],
+      "required_initial_call": {
+        "any_of": [
+          {"name": "search", "args": {"path": "/"}, "status": "success"},
+          {"name": "glob", "args": {"target": "自动控制系统", "target_type": "directory", "path": "/"}, "status": "success"}
+        ]
+      },
+      "required_calls": [
+        {"name": "read", "args": {"path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md"}, "status": "success"},
+        {"name": "read", "args": {"path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"}, "status": "success"}
+      ],
+      "max_tool_calls": 3,
+      "forbid_calls_after_completion": true,
+      "require_all_calls_success": true
+    },
+    {
+      "id": "out-of-scope-001",
+      "allowed_tools": ["search"],
+      "required_initial_call": {
+        "name": "search",
+        "args": {"path": "/"},
+        "status": "success"
+      },
+      "required_calls": [],
+      "max_tool_calls": 1,
+      "require_all_calls_success": true
+    }
+  ]
+}

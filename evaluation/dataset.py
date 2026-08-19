@@ -6,6 +6,7 @@ from pathlib import Path
 EVALUATION_VERSION = 2
 EVALUATION_CORPUS_ID = "education-v1"
 EVALUATION_QUESTION_COUNT = 10
+TOOL_EXPECTATIONS_VERSION = 1
 
 
 def load_evaluation_questions(source_path: Path) -> dict[str, object]:
@@ -48,6 +49,32 @@ def load_evaluation_questions(source_path: Path) -> dict[str, object]:
         if question_id in question_ids:
             raise ValueError(f"duplicate evaluation question id: {question_id}")
         question_ids.add(question_id)
+
+    return data
+
+
+def load_tool_expectations(source_path: Path) -> dict[str, object]:
+    """读取工具调用标准，并校验顶层数据结构。"""
+
+    data = json.loads(source_path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict):
+        raise ValueError("tool expectations data must be a JSON object")
+    if data.get("version") != TOOL_EXPECTATIONS_VERSION:
+        raise ValueError("tool expectations version must be 1")
+
+    baseline_prompt_version = data.get("baseline_prompt_version")
+    if (
+        not isinstance(baseline_prompt_version, str)
+        or not baseline_prompt_version.strip()
+    ):
+        raise ValueError(
+            "tool expectations baseline_prompt_version "
+            "must be a non-empty string"
+        )
+
+    expectations = data.get("expectations")
+    if not isinstance(expectations, list):
+        raise ValueError("tool expectations must be a list")
 
     return data
 

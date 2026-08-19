@@ -23,6 +23,56 @@ def test_load_evaluation_questions_reads_fixed_dataset() -> None:
     assert len(result["questions"]) == 10
 
 
+def test_load_tool_expectations_reads_directory_standard() -> None:
+    """工具标准加载器应读出 directory-001 的完整机器规则。"""
+
+    project_root = Path(__file__).parent.parent
+    source_path = project_root / "evaluation" / "tool_expectations.json"
+
+    result = evaluation_dataset.load_tool_expectations(source_path)
+
+    assert result["version"] == 1
+    assert result["baseline_prompt_version"] == "Prompt-V1.5"
+    directory_standard = next(
+        item
+        for item in result["expectations"]
+        if item["id"] == "directory-001"
+    )
+    assert directory_standard == {
+        "id": "directory-001",
+        "allowed_tools": ["ls"],
+        "required_initial_call": {
+            "name": "ls",
+        },
+        "max_tool_calls": 6,
+        "completion_call": {
+            "name": "ls",
+            "args": {"path": "/课程资源"},
+            "status": "success",
+        },
+        "forbid_calls_after_completion": True,
+        "require_all_calls_success": False,
+    }
+
+
+def test_load_tool_expectations_covers_all_fixed_questions() -> None:
+    """工具标准应逐题覆盖固定问题集，且问题 ID 不重复。"""
+
+    project_root = Path(__file__).parent.parent
+    questions = load_evaluation_questions(
+        project_root / "evaluation" / "questions.json"
+    )
+    standards = evaluation_dataset.load_tool_expectations(
+        project_root / "evaluation" / "tool_expectations.json"
+    )
+
+    question_ids = [item["id"] for item in questions["questions"]]
+    standard_ids = [item["id"] for item in standards["expectations"]]
+
+    assert len(standard_ids) == len(set(standard_ids))
+    assert set(standard_ids) == set(question_ids)
+
+
 def test_load_evaluation_questions_rejects_wrong_version(
     tmp_path: Path,
 ) -> None:
