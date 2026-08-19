@@ -13,6 +13,11 @@ from rag_core.models import Chunk
 MAX_CHUNK_CHARACTERS = 800
 CHUNK_OVERLAP_PARAGRAPHS = 1
 
+# 检索相关性阈值：基于 education-v1 语料 11 次真实查询校准的占位值，
+# 后续扩充数据后需要重新校准，更换 embedding 模型时尤其必须复核。
+RELEVANT_SCORE_THRESHOLD = 0.6
+UNCERTAIN_SCORE_THRESHOLD = 0.35
+
 
 def build_dashscope_embeddings(
     model: str,
@@ -163,6 +168,24 @@ def build_knowledge_index(
     return build_chroma_index(chunks, persist_directory, embedding)
 
 
+def classify_retrieval_status(hits: list[dict[str, object]]) -> str:
+    """
+    根据最高候选分数把检索结果分为 relevant / uncertain / none。
+
+    relevant 表示存在可信候选，uncertain 表示模糊可重试，
+    none 表示没有可信证据，调用方可以据此确定性停止。
+    """
+
+    if not hits:
+        return "none"
+    top_score = float(hits[0]["score"])
+    if top_score >= RELEVANT_SCORE_THRESHOLD:
+        return "relevant"
+    if top_score >= UNCERTAIN_SCORE_THRESHOLD:
+        return "uncertain"
+    return "none"
+
+
 def search_chroma_index(
     vector_store: Chroma,
     query: str,
@@ -215,6 +238,7 @@ def search_chroma_index(
             return {
                 "hits": [],
                 "usage": "candidate_only",
+                "retrieval_status": classify_retrieval_status([]),
             }
 
         # Chroma 使用 metadata 过滤器，只在允许的文件路径中检索。
@@ -232,18 +256,20 @@ def search_chroma_index(
     )
 
     # 将 LangChain Document 转成项目约定的 search 输出格式。
+    hits = [
+        {
+            "path": document.metadata["path"],
+            "start_line": document.metadata["start_line"],
+            "end_line": document.metadata["end_line"],
+            "score": float(score),
+            "preview": document.page_content,
+        }
+        for document, score in results
+    ]
     return {
-        "hits": [
-            {
-                "path": document.metadata["path"],
-                "start_line": document.metadata["start_line"],
-                "end_line": document.metadata["end_line"],
-                "score": float(score),
-                "preview": document.page_content,
-            }
-            for document, score in results
-        ],
+        "hits": hits,
         "usage": "candidate_only",
+        "retrieval_status": classify_retrieval_status(hits),
     }
 
 

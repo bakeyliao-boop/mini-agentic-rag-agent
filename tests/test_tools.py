@@ -602,6 +602,7 @@ def test_search_tool_returns_candidate_hits(tmp_path) -> None:
             }
         ],
         "usage": "candidate_only",
+        "retrieval_status": "relevant",
     }
 
 
@@ -744,8 +745,8 @@ def test_read_tool_rejects_limit_greater_than_eighty(tmp_path) -> None:
     read_tool = generated_tools[3]
 
     with pytest.raises(
-        ValueError,
-        match="limit must be less than or equal to 80",
+        ValidationError,
+        match="Input should be less than or equal to 80",
     ):
         read_tool.invoke(
             {
@@ -754,3 +755,21 @@ def test_read_tool_rejects_limit_greater_than_eighty(tmp_path) -> None:
                 "limit": 81,
             }
         )
+
+
+def test_read_tool_schema_exposes_limit_range(tmp_path) -> None:
+    """read Schema 应明确告诉模型 limit 只能位于 1 到 80。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    read_tool = generated_tools[3]
+
+    schema = read_tool.args_schema.model_json_schema()
+    limit_schema = schema["properties"]["limit"]
+
+    assert limit_schema["minimum"] == 1
+    assert limit_schema["maximum"] == 80

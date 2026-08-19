@@ -1,3 +1,4 @@
+import json
 from importlib import import_module
 from pathlib import Path
 
@@ -12,8 +13,6 @@ from langchain_core.tools import StructuredTool
 from langgraph.checkpoint.memory import InMemorySaver
 
 from rag_core.models import GroundedAnswer
-
-
 class ToolCallingFakeModel(FakeMessagesListChatModel):
     """按测试预设顺序返回工具调用的离线对话模型。"""
 
@@ -98,6 +97,18 @@ def test_system_prompt_answers_pure_directory_question_after_ls() -> None:
     assert "自然语言中的“目录”不能直接拼进虚拟路径" in system_prompt
 
 
+def test_system_prompt_uses_only_ls_for_pure_directory_questions() -> None:
+    """纯目录题只能使用 ls，不应混入文件定位或语义检索工具。"""
+
+    agent_module = import_module("rag_core.agentic.agent")
+    system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
+
+    assert (
+        "纯目录题只能使用 ls，禁止调用 glob、search 或 read"
+        in system_prompt
+    )
+
+
 def test_system_prompt_searches_when_directory_is_only_scope() -> None:
     """目录名只限定知识题范围时，不应从根目录逐层猜路径。"""
 
@@ -173,12 +184,26 @@ def test_knowledge_agent_stops_searching_after_sufficient_read() -> None:
     assert "禁止使用相似关键词重复 search" in system_prompt
 
 
+def test_prompt_v17_stops_out_of_scope_question_after_first_search() -> None:
+    """V1.7 应声明超范围内容题一次 search 后立即拒答。"""
+
+    prompts_module = import_module("rag_core.agentic.prompts")
+    system_prompt = prompts_module.KNOWLEDGE_AGENT_PROMPTS["Prompt-V1.7"]
+
+    assert "对于询问知识库是否包含某项内容的问题，只允许调用一次 search" in system_prompt
+    assert (
+        "首次 search 未找到足以支持回答的候选时，立即提交 answer_type=insufficient"
+        in system_prompt
+    )
+    assert "此后禁止继续调用 search、glob、ls 或 read" in system_prompt
+
+
 def test_knowledge_agent_uses_explicit_prompt_version() -> None:
     """当前 Agent Prompt 应具有可追踪的独立版本号。"""
 
     agent_module = import_module("rag_core.agentic.agent")
 
-    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.5"
+    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.6"
 
 
 def test_prompt_version_log_records_problem_experiment_and_result() -> None:
@@ -201,6 +226,13 @@ def test_prompt_version_log_records_problem_experiment_and_result() -> None:
     assert "## Prompt-V1.5" in version_log
     assert "结构化 glob 参数" in version_log
     assert "尚未运行 Prompt-V1.5 真实基线" in version_log
+    assert "## Prompt-V1.6" in version_log
+    assert "纯目录题只能使用 ls" in version_log
+    assert "已运行 Prompt-V1.6 完整真实基线" in version_log
+    assert "## Prompt-V1.7" in version_log
+    assert "只允许调用一次 search" in version_log
+    assert "Prompt-V1.7 真实冒烟失败" in version_log
+    assert "当前生效版本已恢复为 Prompt-V1.6" in version_log
 
 
 def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
@@ -224,12 +256,18 @@ def test_build_knowledge_agent_limits_each_run_to_six_tool_calls(
 
     middleware = received_options.get("middleware")
     assert isinstance(middleware, list), "尚未配置工具调用次数限制"
-    assert len(middleware) == 1
+    assert len(middleware) == 2
 
     tool_call_limiter = middleware[0]
     assert isinstance(tool_call_limiter, ToolCallLimitMiddleware)
     assert tool_call_limiter.run_limit == 6
     assert tool_call_limiter.exit_behavior == "end"
+
+    retrieval_stop = middleware[1]
+    assert isinstance(
+        retrieval_stop,
+        agent_module.KnowledgeRetrievalStopMiddleware,
+    )
 
 
 def test_build_knowledge_agent_does_not_count_grounded_answer_as_tool(
@@ -858,3 +896,96 @@ def test_extract_token_usage_sums_all_ai_message_usage() -> None:
         "total_tokens": 215,
         "output_token_details": {"reasoning": 0},
     }
+
+
+def _search_tool_message(retrieval_status: str) -> ToolMessage:
+    """构造一条 search 工具返回的 ToolMessage，内容为 JSON 格式。"""
+
+    return ToolMessage(
+        content=json.dumps(
+            {
+                "hits": [{"path": "/课程资源/示例.md", "score": 0.5}],
+                "usage": "candidate_only",
+                "retrieval_status": retrieval_status,
+            },
+            ensure_ascii=False,
+        ),
+        name="search",
+        tool_call_id="search-call",
+    )
+
+
+def test_retrieval_stop_middleware_ends_agent_when_search_returns_none() -> None:
+    """search 返回 none 时，应在模型再次生成前确定性结束 Agent。"""
+
+    agent_module = import_module("rag_core.agentic.agent")
+    middleware = agent_module.KnowledgeRetrievalStopMiddleware()
+    state = {
+        "messages": [
+            _search_tool_message("none"),
+        ]
+    }
+
+    result = middleware.before_model(state, None)
+
+    assert result == {"jump_to": "end"}
+
+
+def test_retrieval_stop_middleware_lets_relevant_search_continue() -> None:
+    """search 返回 relevant 时，应放行模型继续生成。"""
+
+    agent_module = import_module("rag_core.agentic.agent")
+    middleware = agent_module.KnowledgeRetrievalStopMiddleware()
+    state = {
+        "messages": [
+            _search_tool_message("relevant"),
+        ]
+    }
+
+    assert middleware.before_model(state, None) is None
+
+
+def test_retrieval_stop_middleware_lets_uncertain_search_continue() -> None:
+    """search 返回 uncertain 时，应放行模型继续生成。"""
+
+    agent_module = import_module("rag_core.agentic.agent")
+    middleware = agent_module.KnowledgeRetrievalStopMiddleware()
+    state = {
+        "messages": [
+            _search_tool_message("uncertain"),
+        ]
+    }
+
+    assert middleware.before_model(state, None) is None
+
+
+def test_retrieval_stop_middleware_ignores_non_search_tool_result() -> None:
+    """最后一条是 read 等非 search 工具结果时，应放行。"""
+
+    agent_module = import_module("rag_core.agentic.agent")
+    middleware = agent_module.KnowledgeRetrievalStopMiddleware()
+    state = {
+        "messages": [
+            ToolMessage(
+                content="{\"path\": \"/课程资源/示例.md\", \"lines\": []}",
+                name="read",
+                tool_call_id="read-call",
+            ),
+        ]
+    }
+
+    assert middleware.before_model(state, None) is None
+
+
+def test_retrieval_stop_middleware_ignores_ai_message() -> None:
+    """最后一条是模型消息（没有新工具结果）时，应放行。"""
+
+    agent_module = import_module("rag_core.agentic.agent")
+    middleware = agent_module.KnowledgeRetrievalStopMiddleware()
+    state = {
+        "messages": [
+            AIMessage(content="我需要先搜索知识库。"),
+        ]
+    }
+
+    assert middleware.before_model(state, None) is None

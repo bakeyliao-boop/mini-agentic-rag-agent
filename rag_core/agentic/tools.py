@@ -127,7 +127,7 @@ def build_knowledge_tools(
     def read_tool(
         path: str,
         start_line: int = 1,
-        limit: int = 80,
+        limit: Annotated[int, Field(ge=1, le=80)] = 80,
     ) -> dict[str, object]:
         """按行读取指定 Markdown 文件的原文。"""
 

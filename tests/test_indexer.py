@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pytest
+from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
 
 from rag_core.knowledge import indexer
@@ -492,3 +493,84 @@ def test_rebuilt_knowledge_index_returns_stable_search_result(
     )
 
     assert first_result == second_result
+
+
+class FixedScoreVectorStore:
+    """返回固定相关性分数的假向量库，用于控制候选分数。"""
+
+    def __init__(self, scores: list[float]) -> None:
+        self._scores = scores
+
+    def similarity_search_with_relevance_scores(
+        self,
+        query: str,
+        k: int,
+        filter: dict[str, object] | None = None,
+    ) -> list[tuple[Document, float]]:
+        return [
+            (
+                Document(
+                    page_content=f"候选 {index}",
+                    metadata={
+                        "path": f"/课程资源/候选{index}.md",
+                        "start_line": 1,
+                        "end_line": 2,
+                    },
+                ),
+                score,
+            )
+            for index, score in enumerate(self._scores[:k], start=1)
+        ]
+
+
+def test_search_chroma_index_marks_high_score_hits_relevant() -> None:
+    """最高候选分数高时，应标记为 relevant。"""
+
+    vector_store = FixedScoreVectorStore([0.72, 0.43])
+    result = indexer.search_chroma_index(
+        vector_store,
+        "任意查询",
+        limit=2,
+    )
+
+    assert result["retrieval_status"] == "relevant"
+
+
+def test_search_chroma_index_marks_mid_score_hits_uncertain() -> None:
+    """最高候选分数在中间区间时，应标记为 uncertain。"""
+
+    vector_store = FixedScoreVectorStore([0.45, 0.30])
+    result = indexer.search_chroma_index(
+        vector_store,
+        "任意查询",
+        limit=2,
+    )
+
+    assert result["retrieval_status"] == "uncertain"
+
+
+def test_search_chroma_index_marks_low_score_hits_none() -> None:
+    """最高候选分数低时，应标记为 none。"""
+
+    vector_store = FixedScoreVectorStore([0.26, 0.21])
+    result = indexer.search_chroma_index(
+        vector_store,
+        "任意查询",
+        limit=2,
+    )
+
+    assert result["retrieval_status"] == "none"
+
+
+def test_search_chroma_index_marks_empty_hits_none() -> None:
+    """没有任何候选时，应标记为 none。"""
+
+    vector_store = FixedScoreVectorStore([])
+    result = indexer.search_chroma_index(
+        vector_store,
+        "任意查询",
+        limit=5,
+    )
+
+    assert result["hits"] == []
+    assert result["retrieval_status"] == "none"

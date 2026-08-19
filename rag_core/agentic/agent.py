@@ -1,6 +1,13 @@
 """知识库 Agent 的构建、调用限制与运行数据提取。"""
 
+import json
+
 from langchain.agents import create_agent
+from langchain.agents.middleware import (
+    AgentMiddleware,
+    AgentState,
+    hook_config,
+)
 from langchain.agents.middleware.tool_call_limit import ToolCallLimitMiddleware
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
@@ -25,6 +32,47 @@ class KnowledgeToolCallLimitMiddleware(ToolCallLimitMiddleware):
         return tool_call.get("name") in KNOWLEDGE_TOOL_NAMES
 
 
+class KnowledgeRetrievalStopMiddleware(AgentMiddleware):
+    """search 返回 none 时，在模型再次生成前确定性结束 Agent。
+
+    search 只返回候选，none 表示没有可信证据；
+    继续让模型改写查询只会浪费 Token 和时延，
+    因此由程序直接终止本轮运行，最终由运行时降级为 insufficient。
+    """
+
+    @hook_config(can_jump_to=["end"])
+    def before_model(
+        self,
+        state: AgentState,
+        runtime: object,
+    ) -> dict[str, object] | None:
+        """检查最近一次工具结果，search 无证据时跳到结束。"""
+
+        messages = state.get("messages", [])
+        if not messages:
+            return None
+
+        last_message = messages[-1]
+        if not isinstance(last_message, ToolMessage):
+            return None
+        if last_message.name != "search":
+            return None
+
+        content = last_message.content
+        if not isinstance(content, str):
+            return None
+        try:
+            payload = json.loads(content)
+        except (TypeError, ValueError):
+            return None
+        if not isinstance(payload, dict):
+            return None
+
+        if payload.get("retrieval_status") == "none":
+            return {"jump_to": "end"}
+        return None
+
+
 def build_knowledge_agent(
     chat_model: BaseChatModel,
     tools: list[BaseTool],
@@ -39,7 +87,8 @@ def build_knowledge_agent(
             KnowledgeToolCallLimitMiddleware(
                 run_limit=6,
                 exit_behavior="end",
-            )
+            ),
+            KnowledgeRetrievalStopMiddleware(),
         ],
         checkpointer=InMemorySaver(),
         response_format=GroundedAnswer,
