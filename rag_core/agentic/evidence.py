@@ -1,10 +1,45 @@
 """Agent 单轮运行使用的原文证据登记与校验。"""
 
+import re
 from collections.abc import Mapping
 from pathlib import Path
 
 from rag_core.knowledge.store import read_markdown_lines, resolve_knowledge_path
 from rag_core.models import Citation, Evidence, GroundedAnswer
+
+# 纯 Markdown 装饰线（YAML front matter 分隔线或水平线），无信息量，不能作为证据。
+SEPARATOR_LINE_PATTERN = re.compile(r"^[-*_]{3,}$")
+
+
+def _front_matter_line_numbers(
+    lines: list[dict[str, object]],
+) -> set[int]:
+    """
+    识别 YAML front matter 内部行号。
+
+    只有第 1 行是分隔线、且后面存在第二个分隔线时，两个分隔线之间的
+    行才属于 front matter；单个分隔线只是普通装饰线。
+    """
+
+    if not lines:
+        return set()
+    first_text = lines[0].get("text")
+    if not isinstance(first_text, str):
+        return set()
+    if not SEPARATOR_LINE_PATTERN.match(first_text.strip()):
+        return set()
+
+    for index in range(1, len(lines)):
+        text = lines[index].get("text")
+        if isinstance(text, str) and SEPARATOR_LINE_PATTERN.match(
+            text.strip()
+        ):
+            return {
+                entry.get("line")
+                for entry in lines[1:index]
+                if isinstance(entry.get("line"), int)
+            }
+    return set()
 
 
 class EvidenceRegistry:
@@ -31,6 +66,7 @@ class EvidenceRegistry:
             raise ValueError("read result lines must be a list")
 
         registered: list[Evidence] = [] #保存本次新生成的Evidence对象
+        front_matter_lines = _front_matter_line_numbers(lines)
         for line in lines:
             if not isinstance(line, dict):
                 raise ValueError("each read result line must be a dictionary")
@@ -41,7 +77,15 @@ class EvidenceRegistry:
                 raise ValueError("read result line number must be positive")
             if not isinstance(text, str):
                 raise ValueError("read result line text must be a string")
-            if not text.strip():
+            stripped_text = text.strip()
+            if not stripped_text:
+                continue
+            if line_number in front_matter_lines:
+                # front matter 内的元数据行没有知识信息，不注册证据，
+                # 防止模型引用 corpus_id、resource_type 等装饰内容。
+                continue
+            if SEPARATOR_LINE_PATTERN.match(stripped_text):
+                # 纯分隔线行（front matter 边框或正文装饰线）不注册。
                 continue
 
             evidence_id = (

@@ -219,3 +219,58 @@ def test_validate_answer_evidence_rejects_knowledge_without_ids() -> None:
         match="knowledge answer requires evidence",
     ):
         evidence_module.validate_answer_evidence(answer, registry)
+
+
+@pytest.mark.parametrize("separator", ["---", "***", "___"])
+def test_register_read_page_skips_separator_lines(separator: str) -> None:
+    """纯分隔线行不应注册为 Evidence，也不应占用编号。"""
+
+    evidence_module = import_module("rag_core.agentic.evidence")
+    registry = evidence_module.EvidenceRegistry(run_id="run-001")
+    read_result = {
+        "path": "/课程资源/智慧农场.md",
+        "lines": [
+            {"line": 1, "text": separator},
+            {"line": 2, "text": "气象站可以采集环境数据。"},
+        ],
+        "next_line": None,
+    }
+
+    result = registry.register_read_page(read_result)
+
+    expected = Evidence(
+        evidence_id="run-001:evidence-1",
+        path="/课程资源/智慧农场.md",
+        start_line=2,
+        end_line=2,
+        quote="气象站可以采集环境数据。",
+    )
+    assert result == [expected]
+
+
+def test_register_read_page_skips_yaml_front_matter_metadata() -> None:
+    """YAML front matter 内的元数据行不应注册为 Evidence。"""
+
+    evidence_module = import_module("rag_core.agentic.evidence")
+    registry = evidence_module.EvidenceRegistry(run_id="run-001")
+    read_result = {
+        "path": "/课程资源/智慧农场.md",
+        "lines": [
+            {"line": 1, "text": "---"},
+            {"line": 2, "text": "corpus_id: primary-grade6-smart-farm"},
+            {"line": 3, "text": "resource_type: video_transcript"},
+            {"line": 4, "text": "---"},
+            {"line": 5, "text": "# 智慧农场"},
+            {"line": 6, "text": "自动灌溉系统可以分类灌溉。"},
+        ],
+        "next_line": None,
+    }
+
+    result = registry.register_read_page(read_result)
+
+    assert [evidence.start_line for evidence in result] == [5, 6]
+    assert [evidence.quote for evidence in result] == [
+        "# 智慧农场",
+        "自动灌溉系统可以分类灌溉。",
+    ]
+    assert result[0].evidence_id == "run-001:evidence-1"

@@ -20,18 +20,18 @@
     "accuracy": 1.0
   },
   "answer_points": {
-    "matched": 15,
+    "matched": 16,
     "total": 25,
-    "coverage": 0.6
+    "coverage": 0.64
   },
   "citations": {
     "knowledge_questions": 8,
     "answers_with_citations": 8,
     "answer_coverage": 1.0,
-    "citations_total": 15,
-    "expected_path_citations": 15,
+    "citations_total": 17,
+    "expected_path_citations": 17,
     "expected_path_accuracy": 1.0,
-    "source_valid_citations": 15,
+    "source_valid_citations": 17,
     "source_validity": 1.0
   },
   "directory": {
@@ -56,19 +56,19 @@
   "performance": {
     "latency_ms": {
       "count": 10,
-      "minimum": 1592.3289520142134,
-      "average": 3511.438085694681,
-      "median": 3298.179839985096,
-      "p95_nearest_rank": 7248.396812996361,
-      "maximum": 7248.396812996361
+      "minimum": 2154.697316000238,
+      "average": 7509.002191494801,
+      "median": 8091.309998490033,
+      "p95_nearest_rank": 11844.133295002393,
+      "maximum": 11844.133295002393
     },
     "tokens": {
       "reported_questions": 10,
-      "input": 87287,
-      "output": 2687,
-      "total": 89974,
+      "input": 80597,
+      "output": 2583,
+      "total": 83180,
       "reasoning": 0,
-      "average_total": 8997.4
+      "average_total": 8318.0
     }
   },
   "per_question": [
@@ -83,7 +83,7 @@
       "refusal_answer_correct": null,
       "tool_call_count": 3,
       "successful_read": false,
-      "latency_ms": 2684.530864993576
+      "latency_ms": 4579.641744989203
     },
     {
       "id": "exact-001",
@@ -98,13 +98,14 @@
       "refusal_answer_correct": null,
       "tool_call_count": 2,
       "successful_read": true,
-      "latency_ms": 3546.513536974089
+      "latency_ms": 5154.02325100149
     },
     {
       "id": "exact-002",
       "result_present": true,
       "answer_type_correct": true,
       "answer_points_matched": [
+        "连接气象站等设备实时监测天气",
         "预测可能发生的农业灾害"
       ],
       "answer_points_total": 3,
@@ -113,7 +114,7 @@
       "refusal_answer_correct": null,
       "tool_call_count": 2,
       "successful_read": true,
-      "latency_ms": 3096.198907995131
+      "latency_ms": 7731.358304998139
     },
     {
       "id": "exact-003",
@@ -129,7 +130,7 @@
       "refusal_answer_correct": null,
       "tool_call_count": 2,
       "successful_read": true,
-      "latency_ms": 2983.690088003641
+      "latency_ms": 8641.370336001273
     },
     {
       "id": "exact-004",
@@ -146,7 +147,7 @@
       "refusal_answer_correct": null,
       "tool_call_count": 2,
       "successful_read": true,
-      "latency_ms": 3513.687694008695
+      "latency_ms": 9591.437051974935
     },
     {
       "id": "exact-005",
@@ -164,7 +165,7 @@
       "refusal_answer_correct": null,
       "tool_call_count": 2,
       "successful_read": true,
-      "latency_ms": 3852.6743199909106
+      "latency_ms": 9256.711126014125
     },
     {
       "id": "exact-006",
@@ -180,7 +181,7 @@
       "refusal_answer_correct": null,
       "tool_call_count": 2,
       "successful_read": true,
-      "latency_ms": 3499.6491849888116
+      "latency_ms": 7685.387796984287
     },
     {
       "id": "ambiguity-001",
@@ -196,7 +197,7 @@
       "refusal_answer_correct": null,
       "tool_call_count": 3,
       "successful_read": true,
-      "latency_ms": 3096.71049498138
+      "latency_ms": 8451.261691981927
     },
     {
       "id": "multi-document-001",
@@ -204,12 +205,12 @@
       "answer_type_correct": true,
       "answer_points_matched": [],
       "answer_points_total": 3,
-      "citation_count": 2,
+      "citation_count": 4,
       "directory_answer_correct": null,
       "refusal_answer_correct": null,
       "tool_call_count": 3,
       "successful_read": true,
-      "latency_ms": 7248.396812996361
+      "latency_ms": 11844.133295002393
     },
     {
       "id": "out-of-scope-001",
@@ -222,7 +223,7 @@
       "refusal_answer_correct": true,
       "tool_call_count": 1,
       "successful_read": false,
-      "latency_ms": 1592.3289520142134
+      "latency_ms": 2154.697316000238
     }
   ]
 }
