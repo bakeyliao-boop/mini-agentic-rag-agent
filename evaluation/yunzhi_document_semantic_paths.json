@@ -1,0 +1,128 @@
+{
+  "schema": "yunzhi-document-semantic-path-map-v1",
+  "knowledge_root": "knowledge/yunzhi-eval-v1",
+  "rules": {
+    "directory_order": [
+      "domain",
+      "scenario_or_organization",
+      "topic"
+    ],
+    "max_directory_depth": 4,
+    "one_source_one_markdown": true,
+    "source_format_in_metadata_only": true
+  },
+  "items": [
+    {
+      "sample_id": "doc_excel_2025学年教师课表_725ed8a0f8",
+      "source_title": "2025学年教师课表",
+      "file_format": "xlsx",
+      "content_locator_type": "sheet",
+      "semantic_path": "/教育与教学/小学教务/教师排课/2025学年教师课表.md"
+    },
+    {
+      "sample_id": "doc_excel_jinan_teacher_workload_stats_2025",
+      "source_title": "2025 年度山东省技工院校教师系列高级职称推荐人员工作量统计表",
+      "file_format": "xlsx",
+      "content_locator_type": "sheet",
+      "semantic_path": "/教育与教学/山东省技工院校/高级职称评审/2025年度教师系列高级专业技术职称推荐人员工作量统计表.md"
+    },
+    {
+      "sample_id": "doc_excel_scut_calendar_2025_2026_1",
+      "source_title": "华南理工大学 2025-2026-1 学年校历",
+      "file_format": "xlsx",
+      "content_locator_type": "sheet",
+      "semantic_path": "/教育与教学/华南理工大学/校历/2025—2026学年度第一学期校历.md"
+    },
+    {
+      "sample_id": "doc_excel_shanghaitech_info_course_schedule_fall",
+      "source_title": "上海科技大学信息学院研究生课程表 2015-2016 秋季",
+      "file_format": "xlsx",
+      "content_locator_type": "sheet",
+      "semantic_path": "/教育与教学/上海科技大学/研究生课程/2015—2016学年度第一学期课程表.md"
+    },
+    {
+      "sample_id": "doc_excel_xinjiang_civilized_tourism_demo_stats_2025",
+      "source_title": "2025 年文明旅游示范单位评定统计表",
+      "file_format": "xlsx",
+      "content_locator_type": "sheet",
+      "semantic_path": "/文化和旅游/新疆文明旅游评定/示范单位申报/2025年文明旅游示范单位评定统计表.md"
+    },
+    {
+      "sample_id": "doc_html_edu_pytorch_intro",
+      "source_title": "Thorough PyTorch：PyTorch 简介 HTML",
+      "file_format": "html",
+      "content_locator_type": "section",
+      "semantic_path": "/技术与开发/深度学习开发/PyTorch/深入浅出PyTorch 1.1 PyTorch简介.md"
+    },
+    {
+      "sample_id": "doc_html_fuxin_xihe_2024_government_work_report",
+      "source_title": "2024年细河区政府工作报告",
+      "file_format": "html",
+      "content_locator_type": "section",
+      "semantic_path": "/政务与公共服务/阜新市细河区人民政府/政府工作报告/2024年细河区政府工作报告.md"
+    },
+    {
+      "sample_id": "doc_html_xinxing_2025_government_work_report",
+      "source_title": "2025年新兴县政府工作报告",
+      "file_format": "html",
+      "content_locator_type": "section",
+      "semantic_path": "/政务与公共服务/云浮市新兴县水台镇人民政府/政府工作报告/2025年水台镇政府工作报告.md"
+    },
+    {
+      "sample_id": "doc_md_ahooks_strict_mode",
+      "source_title": "ahooks React Strict Mode 中文文档",
+      "file_format": "md",
+      "content_locator_type": "section",
+      "semantic_path": "/技术与开发/React前端开发/严格模式/ahooks React Hooks与Strict Mode.md"
+    },
+    {
+      "sample_id": "doc_pdf_jinjiang_2024_government_work_report",
+      "source_title": "2024年晋江市政府工作报告",
+      "file_format": "pdf",
+      "content_locator_type": "page",
+      "semantic_path": "/政务与公共服务/晋江市人民政府/政府工作报告/2024年晋江市政府工作报告.md"
+    },
+    {
+      "sample_id": "doc_pdf_shenzhen_ip_public_service_guide",
+      "source_title": "深圳市知识产权公共服务事项办事指南",
+      "file_format": "pdf",
+      "content_locator_type": "page",
+      "semantic_path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md"
+    },
+    {
+      "sample_id": "doc_ppt_nonedu_finrisk_baseline",
+      "source_title": "贷款违约预测：赛题理解与基线方案 PPTX",
+      "file_format": "pptx",
+      "content_locator_type": "slide",
+      "semantic_path": "/金融科技/数据科学竞赛/贷款违约预测/赛题理解与基线方案.md"
+    },
+    {
+      "sample_id": "doc_ppt_shanghai_tax_digital_invoice_qa",
+      "source_title": "上海黄浦税务数字化电子发票技术与应用可视化答疑",
+      "file_format": "ppt",
+      "content_locator_type": "slide",
+      "semantic_path": "/政务与公共服务/国家税务总局上海市黄浦区税务局/数字化电子发票/2023年技术与应用可视化答疑.md"
+    },
+    {
+      "sample_id": "doc_ppt_shenyang_construction_safety_training",
+      "source_title": "建筑施工安全管理培训课件",
+      "file_format": "pptx",
+      "content_locator_type": "slide",
+      "semantic_path": "/建筑与安全/沈阳市建筑吊篮行业/安全管理规范/建筑吊篮安全施工管理规范编制汇报.md"
+    },
+    {
+      "sample_id": "doc_ppt_swufe_welink_exam_guide",
+      "source_title": "WeLink 平台线上考试使用说明",
+      "file_format": "pptx",
+      "content_locator_type": "slide",
+      "semantic_path": "/教育与教学/西南财经大学研究生院/线上考试/WeLink平台简易使用说明（考生版）.md"
+    },
+    {
+      "sample_id": "doc_word_陈沈跃_第一课时长方形_正方形面积的计算_错例引导_46d8a72678",
+      "source_title": "陈沈跃+第一课时长方形、正方形面积的计算+错例引导",
+      "file_format": "docx",
+      "content_locator_type": "page",
+      "semantic_path": "/教育与教学/人教版小学数学/面积与周长/三年级下册长方形、正方形面积计算错例引导.md"
+    }
+  ]
+}
