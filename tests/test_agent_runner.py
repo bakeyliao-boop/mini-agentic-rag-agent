@@ -128,10 +128,15 @@ def test_build_agentic_runtime_builds_and_stores_path_snapshot(
         {"path": "/课程资源", "type": "directory"},
     ]
     snapshot_calls: list[Path] = []
+    embedding_options: list[dict[str, object]] = []
 
     def fake_build_snapshot(root: Path) -> list[dict[str, str]]:
         snapshot_calls.append(root)
         return fake_snapshot
+
+    def fake_build_embeddings(**options):
+        embedding_options.append(options)
+        return fake_embeddings
 
     monkeypatch.setattr(
         agent_runner,
@@ -141,7 +146,7 @@ def test_build_agentic_runtime_builds_and_stores_path_snapshot(
     monkeypatch.setattr(
         agent_runner,
         "build_dashscope_embeddings",
-        lambda **options: fake_embeddings,
+        fake_build_embeddings,
     )
     monkeypatch.setattr(
         agent_runner,
@@ -167,11 +172,21 @@ def test_build_agentic_runtime_builds_and_stores_path_snapshot(
             "DASHSCOPE_BASE_URL": "https://example.test/v1",
             "EMBEDDING_MODEL": "test-embedding",
             "EMBEDDING_DIMENSIONS": "1024",
+            "EMBEDDING_BATCH_SIZE": "10",
             "CHROMA_PERSIST_DIR": "./data/chroma",
         },
     )
 
     assert snapshot_calls == [knowledge_root]
+    assert embedding_options == [
+        {
+            "model": "test-embedding",
+            "dimensions": 1024,
+            "batch_size": 10,
+            "api_key": "test-key",
+            "base_url": "https://example.test/v1",
+        }
+    ]
     assert runtime.path_snapshot is fake_snapshot
 
 
@@ -252,6 +267,7 @@ def test_run_agentic_question_from_project_wires_all_components(
         ),
         "EMBEDDING_MODEL": "text-embedding-v4",
         "EMBEDDING_DIMENSIONS": "1024",
+        "EMBEDDING_BATCH_SIZE": "10",
         "CHROMA_PERSIST_DIR": "./data/chroma",
     }
     knowledge_root = tmp_path / "knowledge" / "education-v1"

@@ -47,6 +47,9 @@ def run_traditional_baseline_from_project(
     embedding_dimensions = int(
         _required_setting(settings, "EMBEDDING_DIMENSIONS")
     )
+    embedding_batch_size = int(
+        _required_setting(settings, "EMBEDDING_BATCH_SIZE")
+    )
     persist_setting = _required_setting(settings, "CHROMA_PERSIST_DIR")
 
     knowledge_root = resolve_traditional_corpus_root(project_root, config)
@@ -57,6 +60,7 @@ def run_traditional_baseline_from_project(
     embeddings = build_dashscope_embeddings(
         model=embedding_model,
         dimensions=embedding_dimensions,
+        batch_size=embedding_batch_size,
         api_key=api_key,
         base_url=base_url,
     )

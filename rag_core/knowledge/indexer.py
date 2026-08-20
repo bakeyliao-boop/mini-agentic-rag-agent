@@ -22,14 +22,19 @@ UNCERTAIN_SCORE_THRESHOLD = 0.35
 def build_dashscope_embeddings(
     model: str,
     dimensions: int,
+    batch_size: int,
     api_key: str,
     base_url: str,
 ) -> OpenAIEmbeddings:
     """使用百炼 OpenAI-compatible 接口创建文本向量模型。"""
 
+    if batch_size < 1:
+        raise ValueError("embedding batch size must be greater than zero")
+
     return OpenAIEmbeddings(
         model=model,
         dimensions=dimensions,
+        chunk_size=batch_size,
         api_key=api_key,
         base_url=base_url,
         check_embedding_ctx_length=False,

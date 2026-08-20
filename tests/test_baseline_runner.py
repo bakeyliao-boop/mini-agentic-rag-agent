@@ -28,6 +28,7 @@ def test_load_settings_from_env_reads_project_dotenv(
         "DASHSCOPE_BASE_URL=https://dashscope.example/v1\n"
         "EMBEDDING_MODEL=text-embedding-v4\n"
         "EMBEDDING_DIMENSIONS=1024\n"
+        "EMBEDDING_BATCH_SIZE=10\n"
         "CHROMA_PERSIST_DIR=./data/chroma\n",
         encoding="utf-8",
         newline="\n",
@@ -40,6 +41,7 @@ def test_load_settings_from_env_reads_project_dotenv(
         "DASHSCOPE_BASE_URL": "https://dashscope.example/v1",
         "EMBEDDING_MODEL": "text-embedding-v4",
         "EMBEDDING_DIMENSIONS": "1024",
+        "EMBEDDING_BATCH_SIZE": "10",
         "CHROMA_PERSIST_DIR": "./data/chroma",
     }
 
@@ -55,6 +57,7 @@ def test_run_traditional_baseline_rejects_empty_api_key(
         "DASHSCOPE_BASE_URL": "https://dashscope.example/v1",
         "EMBEDDING_MODEL": "text-embedding-v4",
         "EMBEDDING_DIMENSIONS": "1024",
+        "EMBEDDING_BATCH_SIZE": "10",
         "CHROMA_PERSIST_DIR": "./data/chroma",
     }
 
@@ -100,6 +103,7 @@ def test_run_traditional_baseline_from_project_wires_all_components(
         ),
         "EMBEDDING_MODEL": "text-embedding-v4",
         "EMBEDDING_DIMENSIONS": "1024",
+        "EMBEDDING_BATCH_SIZE": "10",
         "CHROMA_PERSIST_DIR": "./data/chroma",
     }
     knowledge_root = tmp_path / "knowledge" / "education-v1"
@@ -188,6 +192,7 @@ def test_run_traditional_baseline_from_project_wires_all_components(
     assert events[0][1] == {
         "model": "text-embedding-v4",
         "dimensions": 1024,
+        "batch_size": 10,
         "api_key": "test-key",
         "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
     }
