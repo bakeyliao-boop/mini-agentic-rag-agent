@@ -89,4 +89,5 @@ def answer_with_traditional_rag(
         "hits": hits,
         "latency_ms": latency_ms,
         "token_usage": token_usage,
+        "retrieval_status": search_result.get("retrieval_status"),
     }

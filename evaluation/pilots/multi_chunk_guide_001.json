@@ -1,0 +1,230 @@
+{
+  "version": 1,
+  "id": "multi-chunk-guide-001",
+  "status": "frozen_pending_execution",
+  "category": "multi_chunk_breadth_stress",
+  "difficulty": "hard",
+  "purpose": "验证多轮 Agent 是否能在承担额外检索成本时，比固定单次 Top-5 传统 RAG 更完整地覆盖同一长文档中的远距离证据。",
+  "claim_boundary": "本题只能验证跨章节任务分解、补证和汇总能力，不能证明 Agent 在相同检索次数、证据 Token、时延或成本下全面优于传统 RAG。",
+  "question": "深圳某企业知识产权部门准备在周例会上交接三项彼此独立的工作：两件不同的专利申请分别拟办理专利优先审查和专利快速预审，企业另有一宗复杂知识产权纠纷拟申请维权援助。为便于负责人安排经办人，请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》制作一张内部办事台账，按事项逐项列明指南明确规定的受理条件、申请材料、按顺序排列的办理步骤以及办理结果；如指南区分通过与不通过结果，应分别列明。指南未明确的内容请标注“未明确”，不要使用外部知识。",
+  "expected_answer_type": "knowledge",
+  "corpus": {
+    "corpus_id": "yunzhi-eval-v1-guide-pilot",
+    "root": "knowledge/yunzhi-eval-v1",
+    "isolation": "single_document",
+    "source_path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md"
+  },
+  "answer_points": [
+    {
+      "id": "priority-review-condition",
+      "service": "专利优先审查受理",
+      "field": "受理条件",
+      "expectation": "申请人为深圳注册的企事业单位、机关团体或个人；采用电子申请；发明专利申请已进入实质审查程序；并符合《专利优先审查管理办法（2017）》第三条任一项要求。",
+      "evidence": {
+        "start_line": 212,
+        "end_line": 220
+      }
+    },
+    {
+      "id": "priority-review-materials",
+      "service": "专利优先审查受理",
+      "field": "申请材料",
+      "expectation": "提交现有技术或者现有设计信息材料及相关证明文件。",
+      "evidence": {
+        "start_line": 231,
+        "end_line": 233
+      }
+    },
+    {
+      "id": "priority-review-process",
+      "service": "专利优先审查受理",
+      "field": "办理步骤",
+      "expectation": "注册并登录专利业务办理系统，通过专利事务服务填写优先审查请求、上传证明材料；审核合格后案件进入优先审查。",
+      "evidence": {
+        "start_line": 235,
+        "end_line": 237
+      }
+    },
+    {
+      "id": "priority-review-result",
+      "service": "专利优先审查受理",
+      "field": "办理结果",
+      "expectation": "符合要求时发出《专利申请予以优先审查通知书》；不符合要求时退回申请人并告知不予优先审查的原因。",
+      "evidence": {
+        "start_line": 243,
+        "end_line": 250
+      }
+    },
+    {
+      "id": "rapid-pre-review-condition",
+      "service": "专利快速预审申请受理",
+      "field": "受理条件",
+      "expectation": "申请人已完成预审服务主体备案；申请属于获准的新能源或互联网技术领域；并且是尚未向国家知识产权局提交、没有申请号和申请日的新申请。",
+      "evidence": {
+        "start_line": 286,
+        "end_line": 292
+      }
+    },
+    {
+      "id": "rapid-pre-review-materials",
+      "service": "专利快速预审申请受理",
+      "field": "申请材料",
+      "expectation": "按专利类型准备申请文件并制作 XML 案卷压缩包，同时提交快速预审服务申请表、承诺书及其他相关文献材料。",
+      "evidence": {
+        "start_line": 298,
+        "end_line": 315
+      }
+    },
+    {
+      "id": "rapid-pre-review-process",
+      "service": "专利快速预审申请受理",
+      "field": "办理步骤",
+      "expectation": "先在预审平台提交材料，由保护中心形成预审结论；通过后向国家知识产权局正式提交申请、取得申请号并及时缴费，再将申请号提交保护中心；保护中心审核合格后标注申请号并提交国家知识产权局。",
+      "evidence": {
+        "start_line": 317,
+        "end_line": 328
+      }
+    },
+    {
+      "id": "rapid-pre-review-result",
+      "service": "专利快速预审申请受理",
+      "field": "办理结果",
+      "expectation": "符合要求时发出快速预审请求通过通知书，并在正式申请和缴费后完成申请号标注与提交；不符合要求时发出不通过通知书并告知原因。",
+      "evidence": {
+        "start_line": 334,
+        "end_line": 343
+      }
+    },
+    {
+      "id": "rights-assistance-condition",
+      "service": "维权援助申请受理",
+      "field": "受理条件",
+      "expectation": "申请人为住所地或经常居住地在深圳的公民、法人或其他组织，且申请事项属于保护中心维权援助服务范围；疑难知识产权案件属于可组织研讨论证并提供咨询意见的事项。",
+      "evidence": {
+        "start_line": 3609,
+        "end_line": 3626
+      }
+    },
+    {
+      "id": "rights-assistance-materials",
+      "service": "维权援助申请受理",
+      "field": "申请材料",
+      "expectation": "填写维权援助申请表并提交证明材料；企业提交营业执照复印件，权利人提交知识产权权利凭证复印件，同时提交事项和事由说明；材料应真实、完整、充分。",
+      "evidence": {
+        "start_line": 3641,
+        "end_line": 3658
+      }
+    },
+    {
+      "id": "rights-assistance-process",
+      "service": "维权援助申请受理",
+      "field": "办理步骤",
+      "expectation": "提交材料后由保护中心审查完整性，材料不完备时通知补充，未按合理时限补齐视为撤回；保护中心在三个工作日内决定是否受理，符合条件时组织专家或协调机构处理，不符合条件时通知不予受理。",
+      "evidence": {
+        "start_line": 3660,
+        "end_line": 3671
+      }
+    },
+    {
+      "id": "rights-assistance-result",
+      "service": "维权援助申请受理",
+      "field": "办理结果",
+      "expectation": "申请受理后，保护中心按照流程向申请人提供维权援助咨询意见。",
+      "evidence": {
+        "start_line": 3681,
+        "end_line": 3683
+      }
+    }
+  ],
+  "comparison_arms": [
+    {
+      "id": "A",
+      "name": "traditional-single-top5",
+      "description": "当前传统 RAG 产品基线：对完整问题只执行一次语义检索。",
+      "retrieval": {
+        "queries": [
+          "use_full_question"
+        ],
+        "top_k_per_query": 5,
+        "maximum_retrieval_calls": 1
+      },
+      "generation_calls": 1
+    },
+    {
+      "id": "B",
+      "name": "agentic-iterative-search-read",
+      "description": "当前 Agentic 路径：允许模型按事项继续 search，并对候选原文执行 read 补证。",
+      "allowed_tools": [
+        "glob",
+        "search",
+        "read"
+      ],
+      "maximum_tool_calls": 6,
+      "required_evidence_regions": [
+        {
+          "start_line": 212,
+          "end_line": 250
+        },
+        {
+          "start_line": 286,
+          "end_line": 343
+        },
+        {
+          "start_line": 3609,
+          "end_line": 3683
+        }
+      ],
+      "tool_order_is_fixed": false
+    },
+    {
+      "id": "C",
+      "name": "traditional-three-subqueries-top5",
+      "description": "诊断组：传统 RAG 将三个事项拆成三个固定子查询，分别检索后合并去重，再调用一次回答模型。",
+      "retrieval": {
+        "queries": [
+          "专利优先审查受理的受理条件、申请材料、办理步骤和办理结果",
+          "专利快速预审申请受理的受理条件、申请材料、办理步骤和办理结果",
+          "维权援助申请受理的受理条件、申请材料、办理步骤和办理结果"
+        ],
+        "top_k_per_query": 5,
+        "maximum_retrieval_calls": 3,
+        "merge": "deduplicate_by_chunk_id"
+      },
+      "generation_calls": 1
+    }
+  ],
+  "execution_controls": {
+    "runs_per_arm": 3,
+    "same_source_snapshot": true,
+    "same_chat_model": true,
+    "same_embedding_model": true,
+    "same_temperature": true,
+    "same_thinking_mode": true,
+    "isolated_chroma_collection": true,
+    "do_not_reuse_education_v1_index": true,
+    "embedding_batch_size_maximum": 10,
+    "retrieval_threshold_note": "当前 relevant/uncertain/none 阈值基于 education-v1 校准；正式计分前必须验证该题首次检索不会被未校准的 none 信号提前终止，否则本次运行无效。"
+  },
+  "metrics": {
+    "primary": [
+      "answer_point_coverage",
+      "grounded_answer_point_coverage"
+    ],
+    "secondary": [
+      "retrieved_gold_region_coverage",
+      "citation_source_validity",
+      "tool_or_retrieval_call_count",
+      "retrieved_chunk_count",
+      "input_tokens",
+      "total_tokens",
+      "latency_ms"
+    ]
+  },
+  "discrimination_rule": {
+    "agentic_median_answer_point_coverage_minimum": 0.85,
+    "traditional_single_top5_median_answer_point_coverage_maximum": 0.70,
+    "minimum_agentic_minus_traditional_gap": 0.20,
+    "agentic_must_ground_all_three_services": true,
+    "diagnostic_interpretation": "若 C 组接近 B 组，优势主要来自查询拆分和额外检索预算；若 B 组仍明显优于 C 组，才进一步分析自适应规划与 read 补证的贡献。"
+  }
+}

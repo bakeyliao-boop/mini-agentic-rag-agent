@@ -1,0 +1,106 @@
+{
+  "pilot_id": "multi-chunk-guide-001",
+  "arm_id": "A",
+  "question": "深圳某企业知识产权部门准备在周例会上交接三项彼此独立的工作：两件不同的专利申请分别拟办理专利优先审查和专利快速预审，企业另有一宗复杂知识产权纠纷拟申请维权援助。为便于负责人安排经办人，请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》制作一张内部办事台账，按事项逐项列明指南明确规定的受理条件、申请材料、按顺序排列的办理步骤以及办理结果；如指南区分通过与不通过结果，应分别列明。指南未明确的内容请标注“未明确”，不要使用外部知识。",
+  "answer_points": [
+    {
+      "id": "priority-review-condition",
+      "service": "专利优先审查受理",
+      "field": "受理条件",
+      "verdict": "matched",
+      "reason": "标准答案点描述了优先审查的受理条件，实际回答中在专利优先审查受理的受理条件中包含了相同内容，包括申请人类型、电子申请、实质审查程序、符合《专利优先审查管理办法》第三条要求。",
+      "covered": true
+    },
+    {
+      "id": "priority-review-materials",
+      "service": "专利优先审查受理",
+      "field": "申请材料",
+      "verdict": "matched",
+      "reason": "标准答案点要求提交现有技术或现有设计信息材料及相关证明文件，实际回答在申请材料中列出了这两项。",
+      "covered": true
+    },
+    {
+      "id": "priority-review-process",
+      "service": "专利优先审查受理",
+      "field": "办理步骤",
+      "verdict": "matched",
+      "reason": "标准答案点描述了注册登录系统、填写请求、上传材料、审核合格后进入优先审查，实际回答的办理步骤完全一致。",
+      "covered": true
+    },
+    {
+      "id": "priority-review-result",
+      "service": "专利优先审查受理",
+      "field": "办理结果",
+      "verdict": "not_matched",
+      "reason": "标准答案点明确区分了通过和不通过的结果，实际回答在办理结果中标注为“未明确”，未提供通过或不通过的具体通知书信息，因此未完整表达。",
+      "covered": false
+    },
+    {
+      "id": "rapid-pre-review-condition",
+      "service": "专利快速预审申请受理",
+      "field": "受理条件",
+      "verdict": "not_matched",
+      "reason": "标准答案点描述了快速预审的受理条件，实际回答中快速预审部分全部标注为“未明确”，未提供任何条件，因此缺失。",
+      "covered": false
+    },
+    {
+      "id": "rapid-pre-review-materials",
+      "service": "专利快速预审申请受理",
+      "field": "申请材料",
+      "verdict": "not_matched",
+      "reason": "标准答案点要求准备申请文件、XML案卷、申请表、承诺书等，实际回答中快速预审部分全部标注为“未明确”，未提供材料清单。",
+      "covered": false
+    },
+    {
+      "id": "rapid-pre-review-process",
+      "service": "专利快速预审申请受理",
+      "field": "办理步骤",
+      "verdict": "not_matched",
+      "reason": "标准答案点描述了预审平台提交、正式提交、缴费、标注申请号等步骤，实际回答中快速预审部分全部标注为“未明确”，未提供步骤。",
+      "covered": false
+    },
+    {
+      "id": "rapid-pre-review-result",
+      "service": "专利快速预审申请受理",
+      "field": "办理结果",
+      "verdict": "not_matched",
+      "reason": "标准答案点区分了通过和不通过的结果，实际回答中快速预审部分全部标注为“未明确”，未提供结果信息。",
+      "covered": false
+    },
+    {
+      "id": "rights-assistance-condition",
+      "service": "维权援助申请受理",
+      "field": "受理条件",
+      "verdict": "not_matched",
+      "reason": "标准答案点描述了维权援助的受理条件，实际回答中维权援助部分对应的是纠纷应对指导，但条件描述不同，实际回答未提及住所地或经常居住地在深圳、属于保护中心维权援助服务范围、疑难案件等，因此不匹配。",
+      "covered": false
+    },
+    {
+      "id": "rights-assistance-materials",
+      "service": "维权援助申请受理",
+      "field": "申请材料",
+      "verdict": "not_matched",
+      "reason": "标准答案点要求填写申请表、提交证明材料、营业执照复印件、权利凭证、事项说明等，实际回答中维权援助部分对应的是纠纷应对指导，材料为申请书、知情同意书等，未包含标准答案点中的材料，因此不匹配。",
+      "covered": false
+    },
+    {
+      "id": "rights-assistance-process",
+      "service": "维权援助申请受理",
+      "field": "办理步骤",
+      "verdict": "not_matched",
+      "reason": "标准答案点描述了审查完整性、补充材料、三个工作日决定、组织专家等，实际回答中维权援助部分对应的是纠纷应对指导，步骤为5个工作日决定、指定专家等，与标准答案点不同，因此不匹配。",
+      "covered": false
+    },
+    {
+      "id": "rights-assistance-result",
+      "service": "维权援助申请受理",
+      "field": "办理结果",
+      "verdict": "not_matched",
+      "reason": "标准答案点要求受理后提供维权援助咨询意见，实际回答中维权援助部分对应的是纠纷应对指导，结果为出具《纠纷应对指导意见书》，但标准答案点强调“咨询意见”，实际回答未明确提及“咨询意见”，且流程不同，因此不匹配。",
+      "covered": false
+    }
+  ],
+  "covered_answer_point_count": 3,
+  "total_answer_point_count": 12,
+  "answer_point_coverage": 0.25
+}
