@@ -59,6 +59,29 @@ def load_all_search_queries(result_path: Path) -> list[dict[str, object]]:
     return entries
 
 
+def _estimate_tokens(text: str) -> int:
+    """启发式 token 估算：ASCII 约 4 字符/token，中文约 1.5 字符/token。"""
+
+    ascii_chars = sum(1 for char in text if ord(char) < 128)
+    cjk_chars = len(text) - ascii_chars
+    return ascii_chars // 4 + int(cjk_chars / 1.5)
+
+
+def _print_payload_stats(hits: list[dict[str, object]]) -> None:
+    """打印 search 返回 payload 的字段成本统计，用于 9.4 瘦身决策。"""
+
+    preview_chars = sum(len(hit["preview"]) for hit in hits)
+    preview_tokens = sum(_estimate_tokens(hit["preview"]) for hit in hits)
+    location_chars = sum(
+        len(hit["path"]) + len(f"L{hit['start_line']}-L{hit['end_line']}")
+        for hit in hits
+    )
+    print(
+        f"  [payload] preview: {preview_chars} 字符 ≈ {preview_tokens} token; "
+        f"path+行号: ~{location_chars} 字符; hits={len(hits)}"
+    )
+
+
 def probe_retrieval_scores(
     project_root: Path,
     settings: dict[str, str],
@@ -94,6 +117,7 @@ def probe_retrieval_scores(
                     f"  #{index} score={hit['score']:.4f} "
                     f"{hit['path']} L{hit['start_line']}-L{hit['end_line']}"
                 )
+            _print_payload_stats(hits)
         print()
 
 
