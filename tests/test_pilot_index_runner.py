@@ -95,6 +95,80 @@ def test_build_pilot_index_from_project_wires_isolated_index(
     ]
 
 
+def test_build_pilot_index_uses_default_directory_when_setting_is_missing(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    """旧 .env 缺少 Pilot 目录配置时，应使用稳定的默认目录。"""
+
+    runner = importlib.import_module("evaluation.cli.pilot_index")
+    settings = {
+        "DASHSCOPE_API_KEY": "test-key",
+        "DASHSCOPE_BASE_URL": (
+            "https://dashscope.aliyuncs.com/compatible-mode/v1"
+        ),
+        "EMBEDDING_MODEL": "text-embedding-v4",
+        "EMBEDDING_DIMENSIONS": "1024",
+        "EMBEDDING_BATCH_SIZE": "10",
+    }
+    fake_embedding = object()
+    calls: list[tuple[object, ...]] = []
+
+    def fake_build_embeddings(**kwargs: object) -> object:
+        calls.append(("embedding", kwargs))
+        return fake_embedding
+
+    def fake_build_vector_store(
+        project_root: Path,
+        spec_path: Path,
+        persist_directory: Path,
+        embedding: object,
+    ) -> object:
+        calls.append(
+            (
+                "index",
+                project_root,
+                spec_path,
+                persist_directory,
+                embedding,
+            )
+        )
+        return object()
+
+    monkeypatch.setattr(
+        runner,
+        "build_dashscope_embeddings",
+        fake_build_embeddings,
+    )
+    monkeypatch.setattr(
+        runner,
+        "build_pilot_vector_store",
+        fake_build_vector_store,
+    )
+
+    result = runner.build_pilot_index_from_project(
+        project_root=tmp_path,
+        settings=settings,
+    )
+
+    expected_directory = (
+        tmp_path / "data" / "pilots" / "multi-chunk-guide-001"
+    ).resolve(strict=False)
+    assert result == expected_directory
+    assert calls[1] == (
+        "index",
+        tmp_path,
+        (
+            tmp_path
+            / "evaluation"
+            / "pilots"
+            / "multi_chunk_guide_001.json"
+        ),
+        expected_directory,
+        fake_embedding,
+    )
+
+
 def test_main_loads_settings_builds_pilot_index_and_prints_path(
     tmp_path: Path,
     monkeypatch,

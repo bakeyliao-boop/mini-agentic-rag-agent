@@ -129,7 +129,6 @@ def test_run_pilot_arm_a_from_project_opens_index_and_saves_result(
         "EMBEDDING_MODEL": "text-embedding-v4",
         "EMBEDDING_DIMENSIONS": "1024",
         "EMBEDDING_BATCH_SIZE": "10",
-        "PILOT_CHROMA_PERSIST_DIR": "data/pilots/multi-chunk-guide-001",
     }
     fake_embedding = object()
     fake_vector_store = object()

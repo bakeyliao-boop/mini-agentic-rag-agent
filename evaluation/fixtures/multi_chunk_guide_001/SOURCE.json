@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "purpose": "evaluation_only",
+  "snapshot_id": "multi-chunk-guide-001-v1",
+  "source_title": "深圳市知识产权公共服务事项办事指南（第二版）",
+  "source_sample_id": "doc_pdf_shenzhen_ip_public_service_guide",
+  "source_format": "pdf",
+  "conversion_method": "word_com",
+  "original_pdf_sha256": "7056822ff4a09ec65d25300bfd45bb4d45c8c89938b2ef4d5883590f802bb9bb",
+  "markdown_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+  "expected_line_count": 4203,
+  "expected_chunk_count": 86,
+  "notice": "冻结评测快照，不用于当前办事指导；不得修改 Markdown 正文，否则证据行号和 Chunk 边界会变化。"
+}

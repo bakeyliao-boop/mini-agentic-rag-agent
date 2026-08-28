@@ -10,7 +10,7 @@
   "expected_answer_type": "knowledge",
   "corpus": {
     "corpus_id": "yunzhi-eval-v1-guide-pilot",
-    "root": "knowledge/yunzhi-eval-v1",
+    "root": "evaluation/fixtures/multi_chunk_guide_001/corpus",
     "isolation": "single_document",
     "source_path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md"
   },

@@ -10,6 +10,24 @@ from rag_core.settings import _required_setting, load_settings_from_env
 PILOT_SPEC_RELATIVE_PATH = Path(
     "evaluation/pilots/multi_chunk_guide_001.json"
 )
+DEFAULT_PILOT_PERSIST_RELATIVE_PATH = Path(
+    "data/pilots/multi-chunk-guide-001"
+)
+
+
+def resolve_pilot_persist_directory(
+    project_root: Path,
+    settings: Mapping[str, str],
+) -> Path:
+    """解析 Pilot 本地索引目录；旧 .env 缺失配置时使用默认目录。"""
+
+    configured_path = settings.get("PILOT_CHROMA_PERSIST_DIR")
+    relative_path = (
+        Path(configured_path.strip())
+        if isinstance(configured_path, str) and configured_path.strip()
+        else DEFAULT_PILOT_PERSIST_RELATIVE_PATH
+    )
+    return (project_root / relative_path).resolve(strict=False)
 
 
 def build_pilot_index_from_project(
@@ -27,14 +45,10 @@ def build_pilot_index_from_project(
     embedding_batch_size = int(
         _required_setting(settings, "EMBEDDING_BATCH_SIZE")
     )
-    persist_setting = _required_setting(
+    persist_directory = resolve_pilot_persist_directory(
+        project_root,
         settings,
-        "PILOT_CHROMA_PERSIST_DIR",
     )
-
-    persist_directory = (
-        project_root / Path(persist_setting)
-    ).resolve(strict=False)
     embedding = build_dashscope_embeddings(
         model=embedding_model,
         dimensions=embedding_dimensions,

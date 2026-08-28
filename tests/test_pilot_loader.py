@@ -1,5 +1,6 @@
 """独立 Pilot 语料加载器测试。"""
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -8,6 +9,33 @@ import pytest
 from evaluation import pilot_loader
 from evaluation.pilot_loader import load_pilot_chunks
 from rag_core.models import Chunk
+
+
+PILOT_FIXTURE_RELATIVE_PATH = Path(
+    "evaluation/fixtures/multi_chunk_guide_001/corpus/"
+    "政务与公共服务/深圳市/知识产权公共服务/"
+    "深圳市知识产权公共服务事项办事指南（第二版）.md"
+)
+PILOT_FIXTURE_SHA256 = (
+    "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6"
+)
+PILOT_FIXTURE_LINE_COUNT = 4203
+
+
+def test_frozen_pilot_fixture_has_expected_content_snapshot() -> None:
+    """提交的 Pilot 语料快照必须存在且保持固定内容。"""
+
+    project_root = Path(__file__).resolve().parent.parent
+    source_path = project_root / PILOT_FIXTURE_RELATIVE_PATH
+
+    assert source_path.is_file(), (
+        "冻结 Pilot 语料必须随仓库提供，"
+        "不能依赖本机 knowledge/yunzhi-eval-v1 或 Windows 转换脚本。"
+    )
+
+    content = source_path.read_bytes()
+    assert hashlib.sha256(content).hexdigest() == PILOT_FIXTURE_SHA256
+    assert len(content.decode("utf-8").splitlines()) == PILOT_FIXTURE_LINE_COUNT
 
 
 def test_load_pilot_chunks_reads_only_declared_source(
@@ -60,7 +88,7 @@ def test_load_pilot_chunks_reads_only_declared_source(
 
 
 def test_load_real_multi_chunk_guide_pilot_returns_eighty_six_chunks() -> None:
-    """真实深圳办事指南应被隔离加载为固定的 86 个 Chunk。"""
+    """冻结深圳办事指南应被隔离加载为固定的 86 个 Chunk。"""
 
     project_root = Path(__file__).resolve().parent.parent
     spec_path = (
@@ -69,18 +97,6 @@ def test_load_real_multi_chunk_guide_pilot_returns_eighty_six_chunks() -> None:
         / "pilots"
         / "multi_chunk_guide_001.json"
     )
-    source_path = (
-        project_root
-        / "knowledge"
-        / "yunzhi-eval-v1"
-        / "政务与公共服务"
-        / "深圳市"
-        / "知识产权公共服务"
-        / "深圳市知识产权公共服务事项办事指南（第二版）.md"
-    )
-    if not source_path.is_file():
-        pytest.skip("本地尚未下载 multi-chunk-guide-001 Pilot 语料")
-
     chunks = load_pilot_chunks(project_root, spec_path)
 
     expected_virtual_path = (

@@ -1,3 +1,11 @@
+<#
+这是 Windows + Microsoft Office COM 的可选数据准备脚本。
+
+用途：将原始评测文档转换为 Source Markdown，并写入本机 knowledge/yunzhi-eval-v1。
+它不是 multi-chunk-guide-001 Pilot 的运行依赖；跨平台运行 Pilot 时应直接使用
+evaluation/fixtures 中已冻结的 Markdown 快照，不要在其他系统重新转换并覆盖该快照。
+#>
+
 param(
     [string]$ProjectRoot = (Split-Path -Parent $PSScriptRoot),
     [string]$SemanticPathMappingPath = "",

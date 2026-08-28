@@ -57,3 +57,34 @@ Agent: read("/课程资源/七年级/数学/三角形面积.md")
 这里的“稳定”主要指同一投影版本和连续工具调用中的稳定访问契约，并不承诺资源改名或路径规则升级后路径永远不变。
 
 ## 当前实现
+
+### 跨平台 Pilot 运行
+
+`multi-chunk-guide-001` 使用仓库内冻结的 Markdown 评测快照，而不是本机的原始 PDF 或 Office 文档：
+
+```text
+evaluation/fixtures/multi_chunk_guide_001/
+├── SOURCE.json
+└── corpus/
+    └── 政务与公共服务/深圳市/知识产权公共服务/...
+```
+
+`SOURCE.json` 记录该快照的来源、哈希、行数和预期 Chunk 数。评测运行时不能修改其中的 Markdown 正文，否则证据行号和 Chunk 边界会变化。
+
+每台机器都应自行创建本地 Chroma 索引；`data/` 不进入 Git：
+
+```bash
+# 先在 .env 填入 DASHSCOPE_API_KEY 等必需模型配置。
+python -m evaluation.cli.pilot_index
+
+# 运行 Pilot A 组。
+python -m evaluation.cli.pilot
+```
+
+`PILOT_CHROMA_PERSIST_DIR` 是可选覆盖项。旧 `.env` 没有该字段时，程序默认使用：
+
+```text
+data/pilots/multi-chunk-guide-001
+```
+
+`scripts/convert_yunzhi_documents.ps1` 是 Windows + Microsoft Office 的可选数据准备工具，用于将原始文档转换为 Markdown。它不是 Pilot 运行前置条件；macOS、Linux 和 Windows 都直接使用冻结 fixture 构建索引，不需要执行该脚本。

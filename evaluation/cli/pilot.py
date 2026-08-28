@@ -6,7 +6,10 @@ from pathlib import Path
 
 from langchain_chroma import Chroma
 
-from evaluation.cli.pilot_index import PILOT_SPEC_RELATIVE_PATH
+from evaluation.cli.pilot_index import (
+    PILOT_SPEC_RELATIVE_PATH,
+    resolve_pilot_persist_directory,
+)
 from evaluation.dataset import save_evaluation_result
 from evaluation.runners.pilot import (
     run_pilot_arm_a,
@@ -45,13 +48,10 @@ def run_pilot_arm_a_from_project(
     embedding_batch_size = int(
         _required_setting(settings, "EMBEDDING_BATCH_SIZE")
     )
-    persist_setting = _required_setting(
+    persist_directory = resolve_pilot_persist_directory(
+        project_root,
         settings,
-        "PILOT_CHROMA_PERSIST_DIR",
     )
-    persist_directory = (
-        project_root / Path(persist_setting)
-    ).resolve(strict=False)
 
     embedding = build_dashscope_embeddings(
         model=embedding_model,
@@ -100,13 +100,10 @@ def run_pilot_arm_a_answer_from_project(
     embedding_batch_size = int(
         _required_setting(settings, "EMBEDDING_BATCH_SIZE")
     )
-    persist_setting = _required_setting(
+    persist_directory = resolve_pilot_persist_directory(
+        project_root,
         settings,
-        "PILOT_CHROMA_PERSIST_DIR",
     )
-    persist_directory = (
-        project_root / Path(persist_setting)
-    ).resolve(strict=False)
 
     embedding = build_dashscope_embeddings(
         model=embedding_model,
