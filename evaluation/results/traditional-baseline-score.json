@@ -1,0 +1,206 @@
+{
+  "version": 2,
+  "corpus_id": "education-v1",
+  "scoring_method": {
+    "answer_points": "normalized_exact_substring",
+    "refusal": "fixed_phrase_match",
+    "semantic_judge_used": false
+  },
+  "completeness": {
+    "question_count": 10,
+    "result_count": 10,
+    "complete": true,
+    "missing_ids": [],
+    "unexpected_ids": [],
+    "duplicate_result_ids": []
+  },
+  "retrieval": {
+    "eligible_questions": 8,
+    "top1_path_hits": 8,
+    "top1_path_hit_rate": 1.0,
+    "topk_full_coverage_hits": 8,
+    "topk_full_coverage_rate": 1.0
+  },
+  "directory": {
+    "eligible_questions": 1,
+    "correct_answers": 0,
+    "accuracy": 0.0
+  },
+  "refusal": {
+    "eligible_questions": 1,
+    "correct_refusals": 1,
+    "accuracy": 1.0
+  },
+  "answer_points": {
+    "matched": 12,
+    "total": 25,
+    "coverage": 0.48
+  },
+  "performance": {
+    "latency_ms": {
+      "count": 10,
+      "minimum": 3994.5726050000303,
+      "average": 7673.512485500078,
+      "median": 6596.300016999976,
+      "p95_nearest_rank": 14721.614127000066,
+      "maximum": 14721.614127000066
+    },
+    "tokens": {
+      "reported_questions": 10,
+      "input": 9009,
+      "output": 9127,
+      "total": 18136,
+      "reasoning": 8475,
+      "average_total": 1813.6
+    }
+  },
+  "per_question": [
+    {
+      "id": "directory-001",
+      "result_present": true,
+      "top1_path_hit": null,
+      "topk_full_coverage": null,
+      "directory_answer_correct": false,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [],
+      "answer_points_total": 2,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 7108.381705999818,
+      "total_tokens": 1694
+    },
+    {
+      "id": "exact-001",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [],
+      "answer_points_total": 1,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 6503.089155999987,
+      "total_tokens": 1723
+    },
+    {
+      "id": "exact-002",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "预测可能发生的农业灾害"
+      ],
+      "answer_points_total": 3,
+      "answer_point_coverage": 0.3333333333333333,
+      "latency_ms": 7235.992746000193,
+      "total_tokens": 1829
+    },
+    {
+      "id": "exact-003",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "自动控制肥料的种类和用量",
+        "为农作物提供合适的养分供应"
+      ],
+      "answer_points_total": 2,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 5461.34567900026,
+      "total_tokens": 1612
+    },
+    {
+      "id": "exact-004",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "了解动画与视频形成的基本原理",
+        "理解什么是数字化",
+        "识别哪些数据能够进行数字化"
+      ],
+      "answer_points_total": 3,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 3994.5726050000303,
+      "total_tokens": 1376
+    },
+    {
+      "id": "exact-005",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "交通控制系统",
+        "列车控制系统",
+        "数据交换系统",
+        "门禁系统"
+      ],
+      "answer_points_total": 4,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 6005.435624000256,
+      "total_tokens": 1582
+    },
+    {
+      "id": "exact-006",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "畅想物联网未来的发展",
+        "感受万物互联的场景和价值"
+      ],
+      "answer_points_total": 2,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 6689.510877999965,
+      "total_tokens": 1626
+    },
+    {
+      "id": "ambiguity-001",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [],
+      "answer_points_total": 2,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 14721.614127000066,
+      "total_tokens": 2828
+    },
+    {
+      "id": "multi-document-001",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 12788.359053000022,
+      "total_tokens": 2258
+    },
+    {
+      "id": "out-of-scope-001",
+      "result_present": true,
+      "top1_path_hit": null,
+      "topk_full_coverage": null,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 6226.823281000179,
+      "total_tokens": 1608
+    }
+  ]
+}

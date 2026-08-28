@@ -1,0 +1,209 @@
+{
+  "version": 2,
+  "corpus_id": "education-v1",
+  "scoring_method": {
+    "answer_points": "normalized_content_substring",
+    "refusal": "fixed_phrase_match",
+    "semantic_judge_used": false
+  },
+  "completeness": {
+    "question_count": 10,
+    "result_count": 10,
+    "complete": true,
+    "missing_ids": [],
+    "unexpected_ids": [],
+    "duplicate_result_ids": []
+  },
+  "retrieval": {
+    "eligible_questions": 8,
+    "top1_path_hits": 8,
+    "top1_path_hit_rate": 1.0,
+    "topk_full_coverage_hits": 8,
+    "topk_full_coverage_rate": 1.0
+  },
+  "directory": {
+    "eligible_questions": 1,
+    "correct_answers": 0,
+    "accuracy": 0.0
+  },
+  "refusal": {
+    "eligible_questions": 1,
+    "correct_refusals": 1,
+    "accuracy": 1.0
+  },
+  "answer_points": {
+    "matched": 14,
+    "total": 25,
+    "coverage": 0.56
+  },
+  "performance": {
+    "latency_ms": {
+      "count": 10,
+      "minimum": 1229.5137389992306,
+      "average": 2686.0190835997855,
+      "median": 1789.0042460003315,
+      "p95_nearest_rank": 5460.675067999546,
+      "maximum": 5460.675067999546
+    },
+    "tokens": {
+      "reported_questions": 10,
+      "input": 9029,
+      "output": 779,
+      "total": 9808,
+      "reasoning": 0,
+      "average_total": 980.8
+    }
+  },
+  "per_question": [
+    {
+      "id": "directory-001",
+      "result_present": true,
+      "top1_path_hit": null,
+      "topk_full_coverage": null,
+      "directory_answer_correct": false,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [],
+      "answer_points_total": 2,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 5460.675067999546,
+      "total_tokens": 986
+    },
+    {
+      "id": "exact-001",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "根据不同农作物进行分类灌溉"
+      ],
+      "answer_points_total": 1,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 1736.556797999583,
+      "total_tokens": 921
+    },
+    {
+      "id": "exact-002",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "连接气象站等设备实时监测天气",
+        "预测可能发生的农业灾害"
+      ],
+      "answer_points_total": 3,
+      "answer_point_coverage": 0.6666666666666666,
+      "latency_ms": 1841.4516940010799,
+      "total_tokens": 947
+    },
+    {
+      "id": "exact-003",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "自动控制肥料的种类和用量",
+        "为农作物提供合适的养分供应"
+      ],
+      "answer_points_total": 2,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 1229.5137389992306,
+      "total_tokens": 926
+    },
+    {
+      "id": "exact-004",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "了解动画与视频形成的基本原理",
+        "理解什么是数字化",
+        "识别哪些数据能够进行数字化"
+      ],
+      "answer_points_total": 3,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 1492.415376000281,
+      "total_tokens": 944
+    },
+    {
+      "id": "exact-005",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "交通控制系统",
+        "列车控制系统",
+        "数据交换系统",
+        "门禁系统"
+      ],
+      "answer_points_total": 4,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 1261.5496029993665,
+      "total_tokens": 938
+    },
+    {
+      "id": "exact-006",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [
+        "畅想物联网未来的发展",
+        "感受万物互联的场景和价值"
+      ],
+      "answer_points_total": 2,
+      "answer_point_coverage": 1.0,
+      "latency_ms": 1341.5964759988128,
+      "total_tokens": 929
+    },
+    {
+      "id": "ambiguity-001",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [],
+      "answer_points_total": 2,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 4815.430947001005,
+      "total_tokens": 1047
+    },
+    {
+      "id": "multi-document-001",
+      "result_present": true,
+      "top1_path_hit": true,
+      "topk_full_coverage": true,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 4505.95206700018,
+      "total_tokens": 1113
+    },
+    {
+      "id": "out-of-scope-001",
+      "result_present": true,
+      "top1_path_hit": null,
+      "topk_full_coverage": null,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "answer_point_coverage": 0.0,
+      "latency_ms": 3175.0490679987706,
+      "total_tokens": 1057
+    }
+  ]
+}

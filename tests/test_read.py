@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from app import knowledge_store
-from app.knowledge_store import read_markdown_lines
+from rag_core.knowledge import store as knowledge_store
+from rag_core.knowledge.store import read_markdown_lines
 
 
 def test_read_markdown_lines_preserves_one_based_line_numbers(
@@ -180,3 +180,145 @@ def test_read_knowledge_page_returns_none_after_last_page(
         ],
         "next_line": None,
     }
+
+
+def test_read_knowledge_page_rejects_start_line_less_than_one(
+    tmp_path: Path,
+) -> None:
+    """start_line 小于 1 时应抛出 ValueError。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "第一行\n第二行\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(ValueError):
+        knowledge_store.read_knowledge_page(
+            "/智慧农场.md",
+            knowledge_root,
+            start_line=0,
+            limit=1,
+        )
+
+
+def test_read_knowledge_page_rejects_limit_less_than_one(
+    tmp_path: Path,
+) -> None:
+    """limit 小于 1 时应抛出 ValueError。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "第一行\n第二行\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(ValueError):
+        knowledge_store.read_knowledge_page(
+            "/智慧农场.md",
+            knowledge_root,
+            start_line=1,
+            limit=0,
+        )
+
+
+def test_read_knowledge_page_rejects_limit_greater_than_eighty(
+    tmp_path: Path,
+) -> None:
+    """limit 大于 80 时应抛出 ValueError。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "第一行\n第二行\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(ValueError):
+        knowledge_store.read_knowledge_page(
+            "/智慧农场.md",
+            knowledge_root,
+            start_line=1,
+            limit=81,
+        )
+
+
+def test_read_knowledge_page_rejects_start_line_beyond_file(
+    tmp_path: Path,
+) -> None:
+    """start_line 超出文件行数时应抛出 ValueError。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    (knowledge_root / "智慧农场.md").write_text(
+        "第一行\n第二行\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(ValueError):
+        knowledge_store.read_knowledge_page(
+            "/智慧农场.md",
+            knowledge_root,
+            start_line=3,
+            limit=1,
+        )
+
+
+def test_read_knowledge_page_stops_before_character_limit(
+    tmp_path: Path,
+) -> None:
+    """加入下一行会超过 8000 字符时，应在完整行边界停止。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    first_line = "甲" * 6000
+    second_line = "乙" * 3000
+    (knowledge_root / "长文档.md").write_text(
+        f"{first_line}\n{second_line}\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    result = knowledge_store.read_knowledge_page(
+        "/长文档.md",
+        knowledge_root,
+        start_line=1,
+        limit=80,
+    )
+
+    assert result["lines"] == [
+        {
+            "line": 1,
+            "text": first_line,
+        }
+    ]
+    assert result["next_line"] == 2
+
+
+def test_read_knowledge_page_rejects_single_line_over_character_limit(
+    tmp_path: Path,
+) -> None:
+    """单独一行超过 8000 字符时应抛出 ValueError。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    oversized_line = "智慧农场" * 2001
+    (knowledge_root / "超长段落.md").write_text(
+        f"{oversized_line}\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+
+    with pytest.raises(ValueError):
+        knowledge_store.read_knowledge_page(
+            "/超长段落.md",
+            knowledge_root,
+            start_line=1,
+            limit=1,
+        )

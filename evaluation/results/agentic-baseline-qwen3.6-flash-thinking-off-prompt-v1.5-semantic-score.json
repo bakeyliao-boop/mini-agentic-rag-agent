@@ -1,0 +1,218 @@
+{
+  "version": 2,
+  "corpus_id": "education-v1",
+  "scoring_method": {
+    "answer_points": "llm_semantic_judge",
+    "semantic_judge_used": true
+  },
+  "answer_points": {
+    "eligible_questions": 8,
+    "matched": 20,
+    "not_matched": 0,
+    "uncertain": 0,
+    "total": 20,
+    "coverage": 1.0
+  },
+  "per_question": [
+    {
+      "id": "exact-001",
+      "matched": 1,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 1,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "根据不同农作物进行分类灌溉",
+          "verdict": "matched",
+          "reason": "实际回答明确表达了根据不同农作物进行分类灌溉的含义，与标准答案点一致。"
+        }
+      ]
+    },
+    {
+      "id": "exact-002",
+      "matched": 3,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 3,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "连接气象站等设备实时监测天气",
+          "verdict": "matched",
+          "reason": "实际回答中明确提到'连接气象站等设备'和'实时监测天气状况'，与答案点含义一致。"
+        },
+        {
+          "point_index": 1,
+          "answer_point": "预测可能发生的农业灾害",
+          "verdict": "matched",
+          "reason": "实际回答中明确提到'预测可能发生的农业灾害'，与答案点完全一致。"
+        },
+        {
+          "point_index": 2,
+          "answer_point": "提前采取防治措施以减少风险",
+          "verdict": "matched",
+          "reason": "实际回答中明确提到'提前采取防治措施'和'在灾害发生前进行干预，从而有效减少农业生产风险'，与答案点含义一致。"
+        }
+      ]
+    },
+    {
+      "id": "exact-003",
+      "matched": 2,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 2,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "自动控制肥料的种类和用量",
+          "verdict": "matched",
+          "reason": "实际回答完整表达了自动控制肥料的种类和用量"
+        },
+        {
+          "point_index": 1,
+          "answer_point": "为农作物提供合适的养分供应",
+          "verdict": "matched",
+          "reason": "实际回答完整表达了为农作物提供合适的养分供应"
+        }
+      ]
+    },
+    {
+      "id": "exact-004",
+      "matched": 3,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 3,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "了解动画与视频形成的基本原理",
+          "verdict": "matched",
+          "reason": "实际回答完整表达了标准答案点的含义"
+        },
+        {
+          "point_index": 1,
+          "answer_point": "理解什么是数字化",
+          "verdict": "matched",
+          "reason": "实际回答完整表达了标准答案点的含义"
+        },
+        {
+          "point_index": 2,
+          "answer_point": "识别哪些数据能够进行数字化",
+          "verdict": "matched",
+          "reason": "实际回答完整表达了标准答案点的含义"
+        }
+      ]
+    },
+    {
+      "id": "exact-005",
+      "matched": 4,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 4,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "交通控制系统",
+          "verdict": "matched",
+          "reason": "实际回答明确列出交通控制系统，与标准答案点完全一致。"
+        },
+        {
+          "point_index": 1,
+          "answer_point": "列车控制系统",
+          "verdict": "matched",
+          "reason": "实际回答明确列出列车控制系统，与标准答案点完全一致。"
+        },
+        {
+          "point_index": 2,
+          "answer_point": "数据交换系统",
+          "verdict": "matched",
+          "reason": "实际回答明确列出数据交换系统，与标准答案点完全一致。"
+        },
+        {
+          "point_index": 3,
+          "answer_point": "门禁系统",
+          "verdict": "matched",
+          "reason": "实际回答明确列出门禁系统，与标准答案点完全一致。"
+        }
+      ]
+    },
+    {
+      "id": "exact-006",
+      "matched": 2,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 2,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "畅想物联网未来的发展",
+          "verdict": "matched",
+          "reason": "实际回答完整表达了标准答案点的含义"
+        },
+        {
+          "point_index": 1,
+          "answer_point": "感受万物互联的场景和价值",
+          "verdict": "matched",
+          "reason": "实际回答完整表达了标准答案点的含义"
+        }
+      ]
+    },
+    {
+      "id": "ambiguity-001",
+      "matched": 2,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 2,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "《课程介绍》的资源类型是 course_overview",
+          "verdict": "matched",
+          "reason": "实际回答明确说明《课程介绍》的资源类型是 course_overview，与标准答案点一致。"
+        },
+        {
+          "point_index": 1,
+          "answer_point": "《智慧农场》的资源类型是 video_transcript",
+          "verdict": "matched",
+          "reason": "实际回答明确说明《智慧农场》的资源类型是 video_transcript，与标准答案点一致。"
+        }
+      ]
+    },
+    {
+      "id": "multi-document-001",
+      "matched": 3,
+      "not_matched": 0,
+      "uncertain": 0,
+      "total": 3,
+      "coverage": 1.0,
+      "judgments": [
+        {
+          "point_index": 0,
+          "answer_point": "课程内容要求认识常见自动控制系统并理解计算机的作用",
+          "verdict": "matched",
+          "reason": "实际回答明确提到课程内容包括认识常见自动控制系统和理解计算机作用，与答案点含义一致。"
+        },
+        {
+          "point_index": 1,
+          "answer_point": "智慧农场用分类灌溉、气象监测和肥料控制提供具体案例",
+          "verdict": "matched",
+          "reason": "实际回答列举了分类灌溉、气象监测和肥料控制作为智慧农场的具体案例，与答案点完全对应。"
+        },
+        {
+          "point_index": 2,
+          "answer_point": "智慧农场案例用于说明计算机在自动控制系统中的实际作用",
+          "verdict": "matched",
+          "reason": "实际回答指出智慧农场案例用于展示自动控制系统实际应用，并帮助学生理解计算机在自动化控制中的作用，与答案点含义一致。"
+        }
+      ]
+    }
+  ]
+}

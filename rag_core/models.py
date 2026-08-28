@@ -1,4 +1,4 @@
-"""Agentic RAG 使用的数据模型。"""
+"""RAG 核心使用的领域数据模型。"""
 
 from typing import Annotated, Literal, Self
 

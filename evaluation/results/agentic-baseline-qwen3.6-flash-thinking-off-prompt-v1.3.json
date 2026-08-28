@@ -1,0 +1,622 @@
+{
+  "version": 2,
+  "corpus_id": "education-v1",
+  "config": {
+    "model": "qwen3.6-flash",
+    "temperature": 0,
+    "enable_thinking": false,
+    "corpus_version": "education-v1",
+    "prompt_version": "Prompt-V1.3"
+  },
+  "results": [
+    {
+      "id": "directory-001",
+      "category": "directory",
+      "question": "课程资源目录下有哪些直接子目录？只列出下一层。",
+      "expected_answer_type": "directory",
+      "answer_type": "directory",
+      "answer": "课程资源目录下有两个直接子目录：初中、小学。",
+      "citations": [],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_65e53dc78b3b4b3ca1e57802",
+          "name": "ls",
+          "args": {
+            "path": "/课程资源目录"
+          },
+          "status": "error"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_6b37742d8f7e4fc0a3b1ecdc",
+          "name": "ls",
+          "args": {
+            "path": "/"
+          },
+          "status": "success"
+        },
+        {
+          "step": 3,
+          "tool_call_id": "call_f1c70902328443b19ac7a0d8",
+          "name": "ls",
+          "args": {
+            "path": "/课程资源"
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 4540,
+        "output_tokens": 129,
+        "total_tokens": 4669,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-directory-001",
+      "latency_ms": 2835.078883006645,
+      "tool_call_count": 3
+    },
+    {
+      "id": "exact-001",
+      "category": "exact_fact",
+      "question": "智慧农场的自动灌溉系统如何针对不同农作物进行灌溉？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。这意味着系统能够识别或设定不同作物的需求，并针对每种作物执行相应的灌溉策略，以满足其特定的水分需求。",
+      "citations": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 23,
+          "end_line": 23,
+          "quote": "智慧农场的自动灌溉系统可以根据不同的农作物进行分类灌溉。"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_df8ab65ee0d74b35ad2cd7de",
+          "name": "search",
+          "args": {
+            "query": "智慧农场 自动灌溉系统 不同农作物 灌溉策略",
+            "path": "/",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_57c435614f584bb893419877",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+            "limit": 80
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 7549,
+        "output_tokens": 235,
+        "total_tokens": 7784,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-exact-001",
+      "latency_ms": 4108.607290996588,
+      "tool_call_count": 2
+    },
+    {
+      "id": "exact-002",
+      "category": "exact_fact",
+      "question": "智慧农场如何利用气象站降低农业生产风险？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "智慧农场通过连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，从而减少农业生产风险。",
+      "citations": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 27,
+          "end_line": 27,
+          "quote": "自动灌溉系统可以连接气象站等设备，实时监测天气状况，预测可能发生的农业灾害，并提前采取防治措施，减少农业生产风险。"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_0f400af870fe41dcb97ff0f9",
+          "name": "search",
+          "args": {
+            "query": "智慧农场 气象站 降低农业生产风险",
+            "path": "/",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_a818dae66fcd4556974ce8d7",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 7569,
+        "output_tokens": 214,
+        "total_tokens": 7783,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-exact-002",
+      "latency_ms": 3238.8625820021844,
+      "tool_call_count": 2
+    },
+    {
+      "id": "exact-003",
+      "category": "exact_fact",
+      "question": "智慧农场中的计算机如何控制肥料供应？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "在智慧农场中，计算机通过自动控制肥料的种类和用量，为农作物提供合适的养分供应。",
+      "citations": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 31,
+          "end_line": 31,
+          "quote": "计算机可以自动控制肥料的种类和用量，为农作物提供合适的养分供应。"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_93ea50845c2847f290c825be",
+          "name": "search",
+          "args": {
+            "query": "智慧农场 计算机 控制 肥料供应",
+            "path": "/",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_53b553f7e0124d3bbd391da3",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+            "limit": 50
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 7584,
+        "output_tokens": 218,
+        "total_tokens": 7802,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-exact-003",
+      "latency_ms": 2987.6883390024886,
+      "tool_call_count": 2
+    },
+    {
+      "id": "exact-004",
+      "category": "exact_fact",
+      "question": "《初探数字化》列出了哪些学习任务？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "《初探数字化》列出的学习任务包括：\n1. 了解动画与视频形成的基本原理。\n2. 理解什么是数字化。\n3. 识别哪些数据能够进行数字化。",
+      "citations": [
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 27,
+          "end_line": 27,
+          "quote": "1. 了解动画与视频形成的基本原理。"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 28,
+          "end_line": 28,
+          "quote": "2. 理解什么是数字化。"
+        },
+        {
+          "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md",
+          "start_line": 29,
+          "end_line": 29,
+          "quote": "3. 识别哪些数据能够进行数字化。"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_43530e60ba6845c5ab004315",
+          "name": "search",
+          "args": {
+            "query": "初探数字化 学习任务",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_702e7175695247b8a5b060aa",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/四年级/信息科技/数字世界/初探数字化.md"
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 7455,
+        "output_tokens": 296,
+        "total_tokens": 7751,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-exact-004",
+      "latency_ms": 4120.0834730043425,
+      "tool_call_count": 2
+    },
+    {
+      "id": "exact-005",
+      "category": "exact_fact",
+      "question": "《身边的系统》列举了哪些系统示例？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "《身边的系统》列举了以下系统示例：\n1. 交通控制系统\n2. 列车控制系统\n3. 数据交换系统\n4. 门禁系统",
+      "citations": [
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 26,
+          "end_line": 26,
+          "quote": "- 交通控制系统"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 27,
+          "end_line": 27,
+          "quote": "- 列车控制系统"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 28,
+          "end_line": 28,
+          "quote": "- 数据交换系统"
+        },
+        {
+          "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md",
+          "start_line": 29,
+          "end_line": 29,
+          "quote": "- 门禁系统"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_ae79797809dd416a8d1dc62c",
+          "name": "search",
+          "args": {
+            "query": "身边的系统 系统示例",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_73869b1aa3c44ac8abf4b142",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/五年级/信息科技/生活中的系统/身边的系统.md"
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 7416,
+        "output_tokens": 331,
+        "total_tokens": 7747,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-exact-005",
+      "latency_ms": 3861.6325249968213,
+      "tool_call_count": 2
+    },
+    {
+      "id": "exact-006",
+      "category": "exact_fact",
+      "question": "《互联网与物联网》希望学生对物联网未来形成什么认识？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "根据《互联网与物联网》课程的学习目标，希望学生对物联网未来形成的认识是：畅想物联网未来的发展，感受万物互联的场景和价值。",
+      "citations": [
+        {
+          "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md",
+          "start_line": 24,
+          "end_line": 24,
+          "quote": "3. 畅想物联网未来的发展，感受万物互联的场景和价值。"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_59df3bcf15704c7f94ecc034",
+          "name": "search",
+          "args": {
+            "query": "互联网与物联网 物联网未来",
+            "path": "/",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_17b7d617e6354a589aadf2c9",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/初中/七年级/信息科技/认识物联网/互联网与物联网.md"
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 7197,
+        "output_tokens": 203,
+        "total_tokens": 7400,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-exact-006",
+      "latency_ms": 3418.3843649952905,
+      "tool_call_count": 2
+    },
+    {
+      "id": "ambiguity-001",
+      "category": "ambiguity",
+      "question": "“自动控制系统”目录中的《课程介绍》和《智慧农场》分别是什么类型的资源？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "在“自动控制系统”目录中：\n1. 《课程介绍》的资源类型是 **course_overview**（课程介绍）。\n2. 《智慧农场》的资源类型是 **video_transcript**（视频字幕/转录文本）。",
+      "citations": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 6,
+          "end_line": 6,
+          "quote": "resource_type: video_transcript"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 6,
+          "end_line": 6,
+          "quote": "resource_type: course_overview"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_c546680a646f46c4ab55c095",
+          "name": "ls",
+          "args": {
+            "path": "/自动控制系统"
+          },
+          "status": "error"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_134b79d04e2449ee81518fe0",
+          "name": "search",
+          "args": {
+            "query": "自动控制系统 课程介绍 智慧农场",
+            "path": "/",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 3,
+          "tool_call_id": "call_1f98a1fe28c64468b1e9530f",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md"
+          },
+          "status": "success"
+        },
+        {
+          "step": 4,
+          "tool_call_id": "call_a066a56b019a4e6f85744be4",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 10269,
+        "output_tokens": 343,
+        "total_tokens": 10612,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-ambiguity-001",
+      "latency_ms": 4400.543249001203,
+      "tool_call_count": 4
+    },
+    {
+      "id": "multi-document-001",
+      "category": "multi_document",
+      "question": "六年级《自动控制系统》课程内容与《智慧农场》案例之间是什么关系？",
+      "expected_answer_type": "knowledge",
+      "answer_type": "knowledge",
+      "answer": "六年级《自动控制系统》课程内容与《智慧农场》案例之间是**理论与应用（或概念与实例）**的关系。\n\n具体关系如下：\n\n1.  **课程学习目标**：根据《自动控制系统》的课程介绍，该课的学习内容主要包括“认识常见的自动控制系统”以及“理解计算机在自动控制系统中的作用”。\n2.  **案例的具体体现**：《智慧农场》是该课程中用于阐释上述理论的一个具体应用场景。在智慧农场的案例中，展示了多种自动控制系统的应用，例如：\n    *   **分类灌溉系统**：根据不同的农作物进行分类灌溉。\n    *   **气象监测与灾害预警系统**：连接气象站等设备，实时监测天气状况，预测农业灾害并提前采取防治措施。\n    *   **肥料控制系统**：计算机自动控制肥料的种类和用量，为农作物提供合适的养分供应。\n\n综上所述，《智慧农场》作为《自动控制系统》一课的教学案例，通过展示智慧农场中的自动灌溉、气象监测和肥料控制等实际场景，帮助学生直观地认识常见的自动控制系统，并深入理解计算机在其中所起到的关键作用。",
+      "citations": [
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md",
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "---"
+        },
+        {
+          "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md",
+          "start_line": 1,
+          "end_line": 1,
+          "quote": "---"
+        }
+      ],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_113a696af087478999f13250",
+          "name": "search",
+          "args": {
+            "query": "六年级《自动控制系统》课程内容与《智慧农场》案例关系",
+            "path": "/",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_22956552d6da4c09a1052dab",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/智慧农场.md"
+          },
+          "status": "success"
+        },
+        {
+          "step": 3,
+          "tool_call_id": "call_e8095fa344d94548a03ddb30",
+          "name": "read",
+          "args": {
+            "path": "/课程资源/小学/六年级/信息科技/控制系统中的反馈/自动控制系统/课程介绍.md"
+          },
+          "status": "success"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 8972,
+        "output_tokens": 501,
+        "total_tokens": 9473,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-multi-document-001",
+      "latency_ms": 6337.592746000155,
+      "tool_call_count": 3
+    },
+    {
+      "id": "out-of-scope-001",
+      "category": "out_of_scope",
+      "question": "这个知识库是否说明了量子计算机的工作原理？",
+      "expected_answer_type": "insufficient",
+      "answer_type": "insufficient",
+      "answer": "当前证据不足，无法从知识库确定答案。",
+      "citations": [],
+      "tool_traces": [
+        {
+          "step": 1,
+          "tool_call_id": "call_51850be430e64d76949d5336",
+          "name": "search",
+          "args": {
+            "query": "量子计算机 工作原理",
+            "path": "/",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 2,
+          "tool_call_id": "call_ddd845e71c1a48f69a6cad53",
+          "name": "search",
+          "args": {
+            "path": "/",
+            "query": "量子计算机",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 3,
+          "tool_call_id": "call_e7b046c5fc4b4011a6b9ceba",
+          "name": "search",
+          "args": {
+            "path": "/",
+            "query": "量子",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 4,
+          "tool_call_id": "call_ca6e21f7d75045569887b93a",
+          "name": "search",
+          "args": {
+            "path": "/",
+            "query": "量子计算",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 5,
+          "tool_call_id": "call_187cbd6536c648768b09eec6",
+          "name": "search",
+          "args": {
+            "path": "/",
+            "query": "量子比特 qubit",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 6,
+          "tool_call_id": "call_7d324554324b4ed3b1ed5b69",
+          "name": "search",
+          "args": {
+            "path": "/",
+            "query": "量子力学 叠加 纠缠",
+            "limit": 5
+          },
+          "status": "success"
+        },
+        {
+          "step": 7,
+          "tool_call_id": "call_a09fbdede35b4187a72bb96c",
+          "name": "search",
+          "args": {
+            "path": "/",
+            "query": "量子计算机 原理",
+            "limit": 5
+          },
+          "status": "error"
+        }
+      ],
+      "token_usage": {
+        "input_tokens": 34550,
+        "output_tokens": 317,
+        "total_tokens": 34867,
+        "output_token_details": {
+          "reasoning": 0
+        }
+      },
+      "thread_id": "evaluation-out-of-scope-001",
+      "latency_ms": 11336.379632004537,
+      "tool_call_count": 7
+    }
+  ]
+}

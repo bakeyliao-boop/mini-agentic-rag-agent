@@ -1,0 +1,223 @@
+{
+  "version": 2,
+  "corpus_id": "education-v1",
+  "scoring_method": {
+    "answer_points": "normalized_content_substring",
+    "citations": "expected_path_and_exact_source_quote",
+    "semantic_judge_used": false
+  },
+  "completeness": {
+    "question_count": 10,
+    "result_count": 10,
+    "complete": true,
+    "missing_ids": [],
+    "unexpected_ids": [],
+    "duplicate_result_ids": []
+  },
+  "answer_types": {
+    "eligible_questions": 10,
+    "correct_answers": 8,
+    "accuracy": 0.8
+  },
+  "answer_points": {
+    "matched": 12,
+    "total": 25,
+    "coverage": 0.48
+  },
+  "citations": {
+    "knowledge_questions": 8,
+    "answers_with_citations": 7,
+    "answer_coverage": 0.875,
+    "citations_total": 17,
+    "expected_path_citations": 17,
+    "expected_path_accuracy": 1.0,
+    "source_valid_citations": 17,
+    "source_validity": 1.0
+  },
+  "directory": {
+    "eligible_questions": 1,
+    "correct_answers": 0,
+    "accuracy": 0.0
+  },
+  "refusal": {
+    "eligible_questions": 1,
+    "correct_refusals": 1,
+    "accuracy": 1.0
+  },
+  "tools": {
+    "total_calls": 32,
+    "successful_calls": 28,
+    "error_calls": 4,
+    "average_calls_per_question": 3.2,
+    "knowledge_questions": 8,
+    "knowledge_questions_with_successful_read": 7,
+    "knowledge_read_compliance": 0.875
+  },
+  "performance": {
+    "latency_ms": {
+      "count": 10,
+      "minimum": 2302.751623000063,
+      "average": 3939.33906740001,
+      "median": 3410.138668000002,
+      "p95_nearest_rank": 8007.360313000049,
+      "maximum": 8007.360313000049
+    },
+    "tokens": {
+      "reported_questions": 10,
+      "input": 83200,
+      "output": 2555,
+      "total": 85755,
+      "reasoning": 0,
+      "average_total": 8575.5
+    }
+  },
+  "per_question": [
+    {
+      "id": "directory-001",
+      "result_present": true,
+      "answer_type_correct": false,
+      "answer_points_matched": [],
+      "answer_points_total": 2,
+      "citation_count": 0,
+      "directory_answer_correct": false,
+      "refusal_answer_correct": null,
+      "tool_call_count": 3,
+      "successful_read": false,
+      "latency_ms": 2302.751623000063
+    },
+    {
+      "id": "exact-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "根据不同农作物进行分类灌溉"
+      ],
+      "answer_points_total": 1,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 3234.201275000032
+    },
+    {
+      "id": "exact-002",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 3476.3450149999926
+    },
+    {
+      "id": "exact-003",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "自动控制肥料的种类和用量",
+        "为农作物提供合适的养分供应"
+      ],
+      "answer_points_total": 2,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 3343.932321000011
+    },
+    {
+      "id": "exact-004",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "了解动画与视频形成的基本原理",
+        "理解什么是数字化",
+        "识别哪些数据能够进行数字化"
+      ],
+      "answer_points_total": 3,
+      "citation_count": 3,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 4680.48282999996
+    },
+    {
+      "id": "exact-005",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "交通控制系统",
+        "列车控制系统",
+        "数据交换系统",
+        "门禁系统"
+      ],
+      "answer_points_total": 4,
+      "citation_count": 4,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 3804.4671139999764
+    },
+    {
+      "id": "exact-006",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "畅想物联网未来的发展",
+        "感受万物互联的场景和价值"
+      ],
+      "answer_points_total": 2,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 2949.9064039999894
+    },
+    {
+      "id": "ambiguity-001",
+      "result_present": true,
+      "answer_type_correct": false,
+      "answer_points_matched": [],
+      "answer_points_total": 2,
+      "citation_count": 0,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 7,
+      "successful_read": false,
+      "latency_ms": 3188.993042999982
+    },
+    {
+      "id": "multi-document-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "citation_count": 6,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 3,
+      "successful_read": true,
+      "latency_ms": 8007.360313000049
+    },
+    {
+      "id": "out-of-scope-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "citation_count": 0,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": true,
+      "tool_call_count": 7,
+      "successful_read": false,
+      "latency_ms": 4404.950736000046
+    }
+  ]
+}

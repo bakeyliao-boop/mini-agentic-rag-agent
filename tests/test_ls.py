@@ -2,7 +2,39 @@ from pathlib import Path
 
 import pytest
 
-from app import knowledge_store
+from rag_core.knowledge import store as knowledge_store
+
+
+def test_list_knowledge_snapshot_entries_returns_direct_children_without_disk(
+    monkeypatch,
+) -> None:
+    """内存快照版 ls 应稳定返回直接子项，并且不访问磁盘。"""
+
+    snapshot = [
+        {"path": "/课程资源/小学/四年级", "type": "directory"},
+        {"path": "/课程资源/说明.md", "type": "file"},
+        {"path": "/课程资源/小学", "type": "directory"},
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+        {"path": "/课程资源/初中", "type": "directory"},
+    ]
+
+    def reject_disk_access(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("snapshot ls must not access the filesystem")
+
+    monkeypatch.setattr(Path, "iterdir", reject_disk_access)
+    monkeypatch.setattr(Path, "rglob", reject_disk_access)
+
+    result = knowledge_store.list_knowledge_snapshot_entries(
+        "/课程资源",
+        snapshot,
+    )
+
+    assert result == [
+        {"path": "/课程资源/初中", "type": "directory"},
+        {"path": "/课程资源/小学", "type": "directory"},
+        {"path": "/课程资源/说明.md", "type": "file"},
+    ]
 
 
 def test_list_knowledge_entries_returns_direct_children(

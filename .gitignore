@@ -24,6 +24,9 @@ build/
 dist/
 *.egg-info/
 
+# Local vector index
+/data/
+
 # OS metadata
 .DS_Store
 Thumbs.db
@@ -31,5 +34,6 @@ Thumbs.db
 # Local learning progress
 /PLAN.md
 
-/knowledge/
-/data/
+/knowledge/*
+!/knowledge/education-v1/
+!/knowledge/education-v1/**

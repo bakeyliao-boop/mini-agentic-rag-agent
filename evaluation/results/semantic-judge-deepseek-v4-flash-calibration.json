@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "judge": {
+    "model": "deepseek-v4-flash",
+    "temperature": 0,
+    "thinking": "disabled",
+    "prompt_version": "SemanticJudge-V1"
+  },
+  "summary": {
+    "case_count": 3,
+    "correct": 3,
+    "accuracy": 1.0,
+    "passed": true
+  },
+  "per_case": [
+    {
+      "id": "paraphrase-001",
+      "expected_verdict": "matched",
+      "actual_verdict": "matched",
+      "correct": true,
+      "reason": "实际回答表达了持续观察天气状况，与标准答案点实时监测天气含义相同。"
+    },
+    {
+      "id": "partial-001",
+      "expected_verdict": "not_matched",
+      "actual_verdict": "not_matched",
+      "correct": true,
+      "reason": "实际回答仅提到预测农业灾害，未包含提前采取防治措施，只表达了部分含义。"
+    },
+    {
+      "id": "contradiction-001",
+      "expected_verdict": "not_matched",
+      "actual_verdict": "not_matched",
+      "correct": true,
+      "reason": "标准答案点表示气象站可以预测农业灾害，而实际回答明确表示不能预测，含义相反。"
+    }
+  ]
+}

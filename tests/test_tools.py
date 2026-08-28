@@ -1,0 +1,756 @@
+from importlib import import_module
+
+import pytest
+from langchain_core.documents import Document
+from langchain_core.messages import ToolMessage
+from pydantic import ValidationError
+
+from rag_core.agentic.evidence import EvidenceRegistry
+
+
+def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
+    """生成的知识库工具名称应固定为 ls、glob、search、read。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    build_knowledge_tools = getattr(
+        knowledge_tools,
+        "build_knowledge_tools",
+        None,
+    )
+    assert build_knowledge_tools is not None, "build_knowledge_tools 尚未实现"
+
+    generated_tools = build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+
+    assert [tool.name for tool in generated_tools] == [
+        "ls",
+        "glob",
+        "search",
+        "read",
+    ]
+
+
+def test_glob_tool_schema_requires_structured_target(tmp_path) -> None:
+    """glob Schema 应要求 Agent 传入目标名称和目标类型。"""
+
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    schema = glob_tool.args_schema.model_json_schema()
+
+    assert set(schema["properties"]) == {
+        "path",
+        "target",
+        "target_type",
+    }
+    assert set(schema["required"]) == {"target", "target_type"}
+    assert schema["properties"]["target_type"]["enum"] == [
+        "directory",
+        "filename",
+    ]
+
+
+def test_glob_tool_uses_path_snapshot_without_disk_scan(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    """传入路径快照后，glob 工具应只进行内存匹配。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    snapshot = [
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+        {
+            "path": "/课程资源/小学/四年级/信息科技/初探数字化.md",
+            "type": "file",
+        },
+    ]
+
+    def reject_disk_glob(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("glob tool must not scan the filesystem")
+
+    monkeypatch.setattr(
+        knowledge_tools,
+        "glob_knowledge_paths",
+        reject_disk_glob,
+    )
+
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+        path_snapshot=snapshot,
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/课程资源",
+            "target": "初探数字化",
+            "target_type": "filename",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/小学/四年级/信息科技/初探数字化.md",
+                "name": "初探数字化.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_matches_directory_target_from_path_snapshot(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    """directory 类型应从快照返回目标目录的直接 Markdown 文件。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    snapshot = [
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+        {
+            "path": "/课程资源/小学/自动控制系统",
+            "type": "directory",
+        },
+        {
+            "path": "/课程资源/小学/自动控制系统/课程介绍.md",
+            "type": "file",
+        },
+        {
+            "path": "/课程资源/小学/自动控制系统/补充/附录.md",
+            "type": "file",
+        },
+        {
+            "path": "/其他资源/自动控制系统/外部文件.md",
+            "type": "file",
+        },
+    ]
+
+    def reject_disk_glob(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("glob tool must not scan the filesystem")
+
+    monkeypatch.setattr(
+        knowledge_tools,
+        "glob_knowledge_paths",
+        reject_disk_glob,
+    )
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+        path_snapshot=snapshot,
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/课程资源",
+            "target": "自动控制系统",
+            "target_type": "directory",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/小学/自动控制系统/课程介绍.md",
+                "name": "课程介绍.md",
+            }
+        ]
+    }
+
+
+def test_ls_tool_uses_path_snapshot_without_disk_scan(
+    tmp_path,
+    monkeypatch,
+) -> None:
+    """传入路径快照后，ls 工具应只列出内存中的直接子项。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    snapshot = [
+        {"path": "/", "type": "directory"},
+        {"path": "/课程资源", "type": "directory"},
+        {"path": "/课程资源/小学", "type": "directory"},
+        {"path": "/课程资源/小学/四年级", "type": "directory"},
+        {"path": "/课程资源/说明.md", "type": "file"},
+    ]
+
+    def reject_disk_ls(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("ls tool must not scan the filesystem")
+
+    monkeypatch.setattr(
+        knowledge_tools,
+        "list_knowledge_entries",
+        reject_disk_ls,
+    )
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+        path_snapshot=snapshot,
+    )
+
+    result = generated_tools[0].invoke({"path": "/课程资源"})
+
+    assert result == {
+        "path": "/课程资源",
+        "entries": [
+            {"path": "/课程资源/小学", "type": "directory"},
+            {"path": "/课程资源/说明.md", "type": "file"},
+        ],
+    }
+
+
+def test_glob_tool_returns_matching_paths(tmp_path) -> None:
+    """glob 工具应返回指定虚拟目录范围内匹配的文件。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    target_directory = knowledge_root / "课程资源" / "自动控制系统"
+    target_directory.mkdir(parents=True)
+    (target_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n",
+        encoding="utf-8",
+    )
+
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/课程资源",
+            "target": "自动控制系统",
+            "target_type": "directory",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/自动控制系统/智慧农场.md",
+                "name": "智慧农场.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_matches_filename_target(tmp_path) -> None:
+    """filename 类型应按文件名关键词匹配 Markdown 文件。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    course_directory = knowledge_root / "课程资源"
+    course_directory.mkdir(parents=True)
+    (course_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n",
+        encoding="utf-8",
+    )
+    (course_directory / "智慧交通.md").write_text(
+        "# 智慧交通\n",
+        encoding="utf-8",
+    )
+
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/",
+            "target": "智慧农场",
+            "target_type": "filename",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/智慧农场.md",
+                "name": "智慧农场.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_matches_filename_target_with_md_suffix(tmp_path) -> None:
+    """filename 类型应接受已经包含 .md 后缀的文件名。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    course_directory = knowledge_root / "课程资源"
+    course_directory.mkdir(parents=True)
+    (course_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n",
+        encoding="utf-8",
+    )
+
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+
+    result = generated_tools[1].invoke(
+        {
+            "path": "/",
+            "target": "智慧农场.md",
+            "target_type": "filename",
+        }
+    )
+
+    assert result == {
+        "matches": [
+            {
+                "path": "/课程资源/智慧农场.md",
+                "name": "智慧农场.md",
+            }
+        ]
+    }
+
+
+def test_glob_tool_rejects_blank_target(tmp_path) -> None:
+    """glob 工具应拒绝只包含空白字符的目标名称。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": "   ",
+                "target_type": "filename",
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    "target",
+    [
+        "课程资源/自动控制系统",
+        r"课程资源\自动控制系统",
+    ],
+)
+def test_glob_tool_rejects_path_separator_in_target(
+    tmp_path,
+    target: str,
+) -> None:
+    """target 只能是单个名称，不能包含路径分隔符。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": target,
+                "target_type": "directory",
+            }
+        )
+
+
+@pytest.mark.parametrize(
+    "target",
+    [
+        "*自动控制系统*",
+        "智慧农场?",
+        "[智慧]农场",
+    ],
+)
+def test_glob_tool_rejects_wildcards_in_target(
+    tmp_path,
+    target: str,
+) -> None:
+    """target 是普通名称，不能包含 glob 通配符。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": target,
+                "target_type": "filename",
+            }
+        )
+
+
+@pytest.mark.parametrize("target", [".", ".."])
+def test_glob_tool_rejects_dot_path_segments(
+    tmp_path,
+    target: str,
+) -> None:
+    """target 不应接受当前目录或父目录路径段。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    with pytest.raises(ValidationError):
+        glob_tool.invoke(
+            {
+                "path": "/",
+                "target": target,
+                "target_type": "directory",
+            }
+        )
+
+
+def test_glob_tool_handles_missing_directory(tmp_path) -> None:
+    """不存在的目录应成为 Agent 可观察的 glob 工具错误。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    generated_tools = import_module("rag_core.agentic.tools").build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    glob_tool = generated_tools[1]
+
+    result = glob_tool.invoke(
+        {
+            "name": "glob",
+            "args": {
+                "path": "/不存在的目录",
+                "target": "智慧农场",
+                "target_type": "filename",
+            },
+            "id": "glob-call",
+            "type": "tool_call",
+        }
+    )
+
+    assert isinstance(result, ToolMessage)
+    assert result.status == "error"
+    assert result.tool_call_id == "glob-call"
+    assert result.content == (
+        "knowledge directory does not exist: /不存在的目录"
+    )
+
+
+def test_ls_tool_lists_direct_children(tmp_path) -> None:
+    """ls 工具应返回指定目录的直接子项。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    course_directory = knowledge_root / "课程资源"
+    course_directory.mkdir(parents=True)
+    (knowledge_root / "说明.md").write_text(
+        "# 知识库说明\n",
+        encoding="utf-8",
+    )
+    (course_directory / "智慧农场.md").write_text(
+        "# 智慧农场\n",
+        encoding="utf-8",
+    )
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    ls_tool = generated_tools[0]
+
+    result = ls_tool.invoke({"path": "/"})
+
+    assert result == {
+        "path": "/",
+        "entries": [
+            {"path": "/课程资源", "type": "directory"},
+            {"path": "/说明.md", "type": "file"},
+        ],
+    }
+
+
+def test_ls_tool_rejects_parent_path_traversal(tmp_path) -> None:
+    """ls 工具应拒绝使用 .. 访问知识库外部。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    ls_tool = generated_tools[0]
+
+    with pytest.raises(
+        ValueError,
+        match=r"virtual path must not contain '\.' or '\.\.' segments",
+    ):
+        ls_tool.invoke({"path": "/../secret"})
+
+
+def test_ls_tool_returns_recoverable_error_for_missing_directory(
+    tmp_path,
+) -> None:
+    """不存在的目录应成为 Agent 可观察的工具错误，而不是中断运行。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    knowledge_root.mkdir()
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    ls_tool = generated_tools[0]
+
+    result = ls_tool.invoke(
+        {
+            "name": "ls",
+            "args": {"path": "/课程资源目录"},
+            "id": "ls-call",
+            "type": "tool_call",
+        }
+    )
+
+    assert isinstance(result, ToolMessage)
+    assert result.status == "error"
+    assert result.tool_call_id == "ls-call"
+    assert result.content == (
+        "knowledge directory does not exist: /课程资源目录"
+    )
+
+
+def test_search_tool_returns_candidate_hits(tmp_path) -> None:
+    """search 工具应返回只能用于定位的候选内容。"""
+
+    class FakeVectorStore:
+        def similarity_search_with_relevance_scores(
+            self,
+            query: str,
+            k: int,
+            filter,
+        ):
+            assert query == "自动灌溉"
+            assert k == 2
+            assert filter is None
+            return [
+                (
+                    Document(
+                        page_content="系统可以根据环境数据控制灌溉。",
+                        metadata={
+                            "path": "/课程资源/智慧农场.md",
+                            "start_line": 4,
+                            "end_line": 4,
+                        },
+                    ),
+                    0.9,
+                )
+            ]
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=FakeVectorStore(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    search_tool = generated_tools[2]
+
+    result = search_tool.invoke(
+        {
+            "query": "自动灌溉",
+            "path": "/",
+            "limit": 2,
+        }
+    )
+
+    assert result == {
+        "hits": [
+            {
+                "path": "/课程资源/智慧农场.md",
+                "start_line": 4,
+                "end_line": 4,
+                "score": 0.9,
+                "preview": "系统可以根据环境数据控制灌溉。",
+            }
+        ],
+        "usage": "candidate_only",
+    }
+
+
+def test_search_tool_rejects_limit_greater_than_five(tmp_path) -> None:
+    """search 工具不应允许一次返回超过 5 个候选。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    search_tool = generated_tools[2]
+
+    with pytest.raises(
+        ValidationError,
+        match="Input should be less than or equal to 5",
+    ):
+        search_tool.invoke(
+            {
+                "query": "自动灌溉",
+                "path": "/",
+                "limit": 6,
+            }
+        )
+
+
+def test_search_tool_schema_exposes_limit_range(tmp_path) -> None:
+    """search Schema 应明确告诉模型 limit 只能位于 1 到 5。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    search_tool = generated_tools[2]
+
+    schema = search_tool.args_schema.model_json_schema()
+    limit_schema = schema["properties"]["limit"]
+
+    assert limit_schema["minimum"] == 1
+    assert limit_schema["maximum"] == 5
+
+
+def test_read_tool_returns_requested_markdown_page(tmp_path) -> None:
+    """read 工具应从指定位置读取一页 Markdown 原文。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    source_path = knowledge_root / "课程资源" / "智慧农场.md"
+    source_path.parent.mkdir(parents=True)
+    source_path.write_text(
+        "# 智慧农场\n\n气象站采集环境数据。\n自动灌溉系统控制水泵。\n",
+        encoding="utf-8",
+    )
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    read_tool = generated_tools[3]
+
+    result = read_tool.invoke(
+        {
+            "path": "/课程资源/智慧农场.md",
+            "start_line": 3,
+            "limit": 1,
+        }
+    )
+
+    assert result == {
+        "path": "/课程资源/智慧农场.md",
+        "lines": [
+            {
+                "line": 3,
+                "text": "气象站采集环境数据。",
+                "evidence_id": "test-run:evidence-1",
+            }
+        ],
+        "next_line": 4,
+    }
+
+
+def test_read_tool_registers_nonempty_lines_as_evidence(tmp_path) -> None:
+    """read 工具应注册非空原文，并把 evidence_id 返回给 Agent。"""
+
+    knowledge_root = tmp_path / "knowledge"
+    source_path = knowledge_root / "课程资源" / "智慧农场.md"
+    source_path.parent.mkdir(parents=True)
+    source_path.write_text(
+        "气象站可以采集环境数据。\n",
+        encoding="utf-8",
+    )
+    registry = EvidenceRegistry(run_id="run-001")
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=knowledge_root,
+        vector_store=object(),
+        evidence_registry=registry,
+    )
+    read_tool = generated_tools[3]
+
+    result = read_tool.invoke(
+        {
+            "path": "/课程资源/智慧农场.md",
+            "start_line": 1,
+            "limit": 1,
+        }
+    )
+
+    assert result == {
+        "path": "/课程资源/智慧农场.md",
+        "lines": [
+            {
+                "line": 1,
+                "text": "气象站可以采集环境数据。",
+                "evidence_id": "run-001:evidence-1",
+            }
+        ],
+        "next_line": None,
+    }
+    evidence = registry.get("run-001:evidence-1")
+    assert evidence.path == "/课程资源/智慧农场.md"
+    assert evidence.start_line == 1
+    assert evidence.quote == "气象站可以采集环境数据。"
+
+
+def test_read_tool_rejects_limit_greater_than_eighty(tmp_path) -> None:
+    """read 工具不应允许一次读取超过 80 行。"""
+
+    knowledge_tools = import_module("rag_core.agentic.tools")
+    generated_tools = knowledge_tools.build_knowledge_tools(
+        knowledge_root=tmp_path / "knowledge",
+        vector_store=object(),
+        evidence_registry=EvidenceRegistry(run_id="test-run"),
+    )
+    read_tool = generated_tools[3]
+
+    with pytest.raises(
+        ValueError,
+        match="limit must be less than or equal to 80",
+    ):
+        read_tool.invoke(
+            {
+                "path": "/课程资源/智慧农场.md",
+                "start_line": 1,
+                "limit": 81,
+            }
+        )

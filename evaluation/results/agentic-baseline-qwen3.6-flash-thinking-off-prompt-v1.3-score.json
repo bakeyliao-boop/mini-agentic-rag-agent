@@ -1,0 +1,229 @@
+{
+  "version": 2,
+  "corpus_id": "education-v1",
+  "scoring_method": {
+    "answer_points": "normalized_content_substring",
+    "citations": "expected_path_and_exact_source_quote",
+    "semantic_judge_used": false
+  },
+  "completeness": {
+    "question_count": 10,
+    "result_count": 10,
+    "complete": true,
+    "missing_ids": [],
+    "unexpected_ids": [],
+    "duplicate_result_ids": []
+  },
+  "answer_types": {
+    "eligible_questions": 10,
+    "correct_answers": 10,
+    "accuracy": 1.0
+  },
+  "answer_points": {
+    "matched": 16,
+    "total": 25,
+    "coverage": 0.64
+  },
+  "citations": {
+    "knowledge_questions": 8,
+    "answers_with_citations": 8,
+    "answer_coverage": 1.0,
+    "citations_total": 15,
+    "expected_path_citations": 15,
+    "expected_path_accuracy": 1.0,
+    "source_valid_citations": 15,
+    "source_validity": 1.0
+  },
+  "directory": {
+    "eligible_questions": 1,
+    "correct_answers": 1,
+    "accuracy": 1.0
+  },
+  "refusal": {
+    "eligible_questions": 1,
+    "correct_refusals": 1,
+    "accuracy": 1.0
+  },
+  "tools": {
+    "total_calls": 29,
+    "successful_calls": 26,
+    "error_calls": 3,
+    "average_calls_per_question": 2.9,
+    "knowledge_questions": 8,
+    "knowledge_questions_with_successful_read": 8,
+    "knowledge_read_compliance": 1.0
+  },
+  "performance": {
+    "latency_ms": {
+      "count": 10,
+      "minimum": 2835.078883006645,
+      "average": 4664.485308501025,
+      "median": 3985.1199079967046,
+      "p95_nearest_rank": 11336.379632004537,
+      "maximum": 11336.379632004537
+    },
+    "tokens": {
+      "reported_questions": 10,
+      "input": 103101,
+      "output": 2787,
+      "total": 105888,
+      "reasoning": 0,
+      "average_total": 10588.8
+    }
+  },
+  "per_question": [
+    {
+      "id": "directory-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 2,
+      "citation_count": 0,
+      "directory_answer_correct": true,
+      "refusal_answer_correct": null,
+      "tool_call_count": 3,
+      "successful_read": false,
+      "latency_ms": 2835.078883006645
+    },
+    {
+      "id": "exact-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "根据不同农作物进行分类灌溉"
+      ],
+      "answer_points_total": 1,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 4108.607290996588
+    },
+    {
+      "id": "exact-002",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "连接气象站等设备实时监测天气",
+        "预测可能发生的农业灾害"
+      ],
+      "answer_points_total": 3,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 3238.8625820021844
+    },
+    {
+      "id": "exact-003",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "自动控制肥料的种类和用量",
+        "为农作物提供合适的养分供应"
+      ],
+      "answer_points_total": 2,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 2987.6883390024886
+    },
+    {
+      "id": "exact-004",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "了解动画与视频形成的基本原理",
+        "理解什么是数字化",
+        "识别哪些数据能够进行数字化"
+      ],
+      "answer_points_total": 3,
+      "citation_count": 3,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 4120.0834730043425
+    },
+    {
+      "id": "exact-005",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "交通控制系统",
+        "列车控制系统",
+        "数据交换系统",
+        "门禁系统"
+      ],
+      "answer_points_total": 4,
+      "citation_count": 4,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 3861.6325249968213
+    },
+    {
+      "id": "exact-006",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "畅想物联网未来的发展",
+        "感受万物互联的场景和价值"
+      ],
+      "answer_points_total": 2,
+      "citation_count": 1,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 2,
+      "successful_read": true,
+      "latency_ms": 3418.3843649952905
+    },
+    {
+      "id": "ambiguity-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [
+        "《课程介绍》的资源类型是 course_overview",
+        "《智慧农场》的资源类型是 video_transcript"
+      ],
+      "answer_points_total": 2,
+      "citation_count": 2,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 4,
+      "successful_read": true,
+      "latency_ms": 4400.543249001203
+    },
+    {
+      "id": "multi-document-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "citation_count": 2,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": null,
+      "tool_call_count": 3,
+      "successful_read": true,
+      "latency_ms": 6337.592746000155
+    },
+    {
+      "id": "out-of-scope-001",
+      "result_present": true,
+      "answer_type_correct": true,
+      "answer_points_matched": [],
+      "answer_points_total": 3,
+      "citation_count": 0,
+      "directory_answer_correct": null,
+      "refusal_answer_correct": true,
+      "tool_call_count": 7,
+      "successful_read": false,
+      "latency_ms": 11336.379632004537
+    }
+  ]
+}
