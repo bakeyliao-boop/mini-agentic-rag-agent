@@ -28,5 +28,8 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Local learning progress
+/PLAN.md
+
 /knowledge/
 /data/
