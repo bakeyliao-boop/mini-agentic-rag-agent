@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mini-Agent 长文档问答演示</title>
+    <link rel="stylesheet" href="/demo-assets/styles.css?v=activity-1" />
+  </head>
+  <body>
+    <main id="workspace" class="workspace">
+      <header class="topbar">
+        <span class="brand">MINI-AGENT</span>
+        <span id="connection-status" class="ready"><i></i><span>连接知识库…</span></span>
+      </header>
+
+      <section class="prompt-stage" aria-labelledby="page-title">
+        <div class="spark" aria-hidden="true">✦</div>
+        <h1 id="page-title">长文档问答演示</h1>
+        <p class="subtitle">同一份知识库、同一个问题，查看不同检索路径如何形成回答</p>
+
+        <div class="mode-switch" aria-label="检索模式">
+          <button class="mode active" data-mode="traditional" aria-pressed="true">
+            <strong>传统 RAG</strong>
+            <span>单次 Top-5</span>
+          </button>
+          <button class="mode" data-mode="agentic" aria-pressed="false">
+            <strong>Mini-Agent</strong>
+            <span>渐进式取证</span>
+          </button>
+        </div>
+
+        <section class="question-card">
+          <div class="question-label">
+            <span>固定长文档问题</span>
+            <span class="readonly">只读</span>
+          </div>
+          <p id="question-text">正在读取问题……</p>
+        </section>
+
+        <div class="action-row">
+          <p id="mode-description">单次语义检索，使用相关度最高的 5 个候选生成回答</p>
+          <button id="run-button" class="run-button" disabled>
+            <span id="run-label">运行传统 RAG</span>
+            <span aria-hidden="true">↑</span>
+          </button>
+        </div>
+        <p class="boundary">同一份办事指南 · 回答可结合原文核对</p>
+      </section>
+
+      <section id="result-area" class="result-area" aria-label="本次回答与执行过程" hidden>
+        <header class="result-header">
+          <span class="assistant-mark" aria-hidden="true">✦</span>
+          <h2 id="result-mode">传统 RAG</h2>
+          <span id="result-time" class="result-time"></span>
+        </header>
+
+        <div id="run-notice" class="run-notice" aria-live="polite"></div>
+
+        <details id="activity" class="activity" open>
+          <summary class="activity-header">
+            <span id="activity-indicator" class="activity-indicator" aria-hidden="true"></span>
+            <span id="process-title">检索记录</span>
+            <span id="activity-count" class="activity-count"></span>
+            <span class="chevron" aria-hidden="true">›</span>
+          </summary>
+          <div id="process" class="process-list" aria-label="工具活动"></div>
+          <p id="process-note" class="process-note"></p>
+        </details>
+
+        <div id="live-status" class="live-status" role="status" hidden>
+          <span class="working-dot" aria-hidden="true"></span>
+          <span id="live-status-text">等待模型选择工具…</span>
+        </div>
+
+        <article id="answer-section" class="answer-section" aria-label="回答" hidden>
+          <div id="answer" class="answer"></div>
+        </article>
+
+        <section id="evidence-section" class="evidence-section" aria-label="原文引用" hidden>
+          <h3>原文引用 <span id="evidence-count"></span></h3>
+          <div id="evidence" class="evidence-list"></div>
+        </section>
+
+        <footer id="result-footer" class="result-footer" hidden>
+          <div class="metrics" aria-label="运行指标">
+            <span id="metric-status"></span>
+            <span id="metric-latency"></span>
+            <span id="metric-tokens"></span>
+            <span id="metric-count"></span>
+          </div>
+          <details class="measurement-note">
+            <summary>统计口径</summary>
+            <p>服务端耗时涵盖本次检索与回答，不含启动和建库。模型 Token 为各轮上报总和，不含 Embedding。引用校验确认路径、行号和原文一致，尚不代表每个回答断言都被引用支持。单次展示不构成方案优劣结论。</p>
+          </details>
+        </footer>
+      </section>
+    </main>
+    <script src="/demo-assets/app.js?v=grep-1" defer></script>
+  </body>
+</html>

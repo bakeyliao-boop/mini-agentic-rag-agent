@@ -129,7 +129,7 @@ def test_run_agentic_evaluation_from_project_wires_and_saves_result(
         / "results"
         / (
             "agentic-baseline-qwen3.6-flash-thinking-off-"
-            "prompt-v1.6.json"
+            "prompt-v1.9.json"
         )
     )
     assert output_path == expected_output_path
@@ -148,7 +148,7 @@ def test_run_agentic_evaluation_from_project_wires_and_saves_result(
     assert events[2][1] == fake_dataset
     assert events[2][2].model == "qwen3.6-flash"
     assert events[2][2].enable_thinking is False
-    assert events[2][3] == "Prompt-V1.6"
+    assert events[2][3] == "Prompt-V1.9"
     assert events[3] == (
         "question",
         fake_runtime,

@@ -11,6 +11,7 @@ from rag_core.knowledge.indexer import search_chroma_index
 from rag_core.knowledge.store import (
     glob_knowledge_paths,
     glob_knowledge_snapshot_paths,
+    grep_knowledge_file,
     list_knowledge_entries,
     list_knowledge_snapshot_entries,
     normalize_virtual_path,
@@ -32,7 +33,7 @@ def build_knowledge_tools(
     evidence_registry: EvidenceRegistry,
     path_snapshot: list[dict[str, str]] | None = None,
 ) -> list[BaseTool]:
-    """生成供 Agent 调用的 ls、glob、search 和 read 工具。"""
+    """生成供 Agent 调用的 ls、glob、search、read 和 grep 工具。"""
 
     def ls_tool(path: str = "/") -> dict[str, object]:
         """列出指定虚拟目录的下一层文件和目录。"""
@@ -162,6 +163,20 @@ def build_knowledge_tools(
             "next_line": read_result["next_line"],
         }
 
+    def grep_tool(
+        path: Annotated[str, Field(description="已知的单个 Markdown 完整虚拟路径，不接受目录。")],
+        patterns: Annotated[
+            list[Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=200)]],
+            Field(min_length=1, max_length=10, description="原文词语列表，任意一个命中即可；字面匹配，不是正则或语义检索。"),
+        ],
+        limit: Annotated[int, Field(ge=1, le=20)] = 10,
+    ) -> dict[str, object]:
+        """定位单文件内的字面关键词；不登记证据，也不因空结果直接结束 Agent。"""
+        try:
+            return grep_knowledge_file(path, knowledge_root, patterns, limit)
+        except (ValueError, OSError) as error:
+            raise ToolException(str(error)) from error
+
     return [
         StructuredTool.from_function(
             func=ls_tool,
@@ -187,5 +202,17 @@ def build_knowledge_tools(
             func=read_tool,
             name="read",
             description="按行读取 Markdown 原文，供回答前核实知识。",
+        ),
+        StructuredTool.from_function(
+            func=grep_tool,
+            name="grep",
+            description=(
+                "在已知的单个 Markdown 文件中查找原文关键词，返回 path、1-based line 和命中文本。"
+                "多个 patterns 按 OR 字面匹配，不走向量库；可命中目录或正文，需要判断读取位置。"
+                "truncated 表示仍有命中未返回或长行片段已缩短。结果只用于定位，回答前须 read 核实；"
+                "空结果只表示这些词未匹配，不代表没有相关内容。"
+            ),
+            handle_tool_error=True,
+            handle_validation_error=True,
         ),
     ]

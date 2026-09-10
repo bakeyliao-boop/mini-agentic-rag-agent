@@ -9,7 +9,7 @@ from rag_core.agentic.evidence import EvidenceRegistry
 
 
 def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
-    """生成的知识库工具名称应固定为 ls、glob、search、read。"""
+    """保留原有工具顺序，并增加单文件 grep。"""
 
     knowledge_tools = import_module("rag_core.agentic.tools")
     build_knowledge_tools = getattr(
@@ -30,6 +30,7 @@ def test_build_knowledge_tools_returns_expected_names(tmp_path) -> None:
         "glob",
         "search",
         "read",
+        "grep",
     ]
 
 

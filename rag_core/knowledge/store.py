@@ -3,6 +3,55 @@
 from pathlib import Path, PurePosixPath
 
 MAX_READ_CHARACTERS = 8_000
+MAX_GREP_MATCHES = 20
+MAX_GREP_TEXT_CHARACTERS = 300
+
+
+def grep_knowledge_file(
+    virtual_path: str,
+    knowledge_root: Path,
+    patterns: list[str],
+    limit: int = 10,
+) -> dict[str, object]:
+    """在单个 Markdown 中按字面词语定位，返回与 read 一致的行号。
+
+    多个词按 OR 匹配，同一行只返回一次，保留目录和正文的全部候选类型。
+    只返回有界的定位片段，不注册证据；空结果不能代表语义上没有答案。
+    """
+    if not isinstance(patterns, list) or not 1 <= len(patterns) <= 10:
+        raise ValueError("patterns must contain 1-10 non-empty strings")
+    if any(
+        not isinstance(pattern, str) or not 1 <= len(pattern.strip()) <= 200
+        or "\n" in pattern or "\r" in pattern
+        for pattern in patterns
+    ):
+        raise ValueError("each pattern must contain 1-200 characters on one line")
+    if type(limit) is not int or not 1 <= limit <= MAX_GREP_MATCHES:
+        raise ValueError("limit must be between 1 and 20")
+    cleaned_patterns = list(dict.fromkeys(pattern.strip() for pattern in patterns))
+    normalized_path = normalize_virtual_path(virtual_path)
+    source_path = resolve_knowledge_path(normalized_path, knowledge_root)
+    lines = read_markdown_lines(source_path)
+    matches: list[dict[str, object]] = []
+    truncated = False
+    for line_number, text in lines:
+        positions = [(text.find(pattern), pattern) for pattern in cleaned_patterns if pattern in text]
+        if not positions:
+            continue
+        if len(matches) == limit:
+            truncated = True
+            break
+        hit: dict[str, object] = {"path": normalized_path, "line": line_number, "text": text}
+        if len(text) > MAX_GREP_TEXT_CHARACTERS:
+            # 围绕最早命中的词取真实原文窗口，避免只保留行首而丢失命中词。
+            position, pattern = min(positions, key=lambda item: item[0])
+            padding = (MAX_GREP_TEXT_CHARACTERS - len(pattern)) // 2
+            start = max(0, min(position - padding, len(text) - MAX_GREP_TEXT_CHARACTERS))
+            hit["text"] = text[start : start + MAX_GREP_TEXT_CHARACTERS]
+            hit["text_truncated"] = True
+            truncated = True
+        matches.append(hit)
+    return {"matches": matches, "truncated": truncated}
 
 
 def normalize_virtual_path(path: str) -> str:

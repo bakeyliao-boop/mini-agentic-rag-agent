@@ -88,3 +88,33 @@ data/pilots/multi-chunk-guide-001
 ```
 
 `scripts/convert_yunzhi_documents.ps1` 是 Windows + Microsoft Office 的可选数据准备工具，用于将原始文档转换为 Markdown。它不是 Pilot 运行前置条件；macOS、Linux 和 Windows 都直接使用冻结 fixture 构建索引，不需要执行该脚本。
+
+### 面试演示页面
+
+先完成 Pilot 索引准备，再从项目根目录启动专用演示应用：
+
+```bash
+python -m evaluation.cli.pilot_index
+uvicorn app.demo:app --reload
+```
+
+浏览器访问：
+
+```text
+http://127.0.0.1:8000/
+```
+
+页面只提供两个模式：
+
+- `传统 RAG`：对冻结问题执行单次 Top-5 检索，展示回答与候选片段；候选不作为已验证引用。
+- `Mini-Agent`：使用相同语料与索引执行渐进式工具调用，展示工具轨迹和经过路径、行号、原文复核的引用。
+
+Mini-Agent 页面通过 NDJSON 事件流实时接收 LangGraph 的真实执行事件：模型提交工具调用时显示“执行中”，对应 `ToolMessage` 返回后更新为“调用完成”或“调用失败”，最后再展示结构化回答和引用。页面不会用最终结果伪造过程动画。
+
+工具过程以可折叠的活动列表展示：默认每次调用显示动作、目标和结果摘要，展开可查看完整路径与参数；回答返回后收起活动列表。流中断时保留已收到的记录并标为中断，切换模式可查看各自最近一次运行。前端流状态回归可使用 `node --test tests/frontend/test_trace_ui.cjs` 运行。
+
+前端演示使用独立配置 [patent_review_comparison_001.json](evaluation/demos/patent_review_comparison_001.json)，比较“专利优先审查”和“专利快速预审”的受理条件、申请材料、办理顺序与结果。两种模式使用同一道演示题，Mini-Agent 保持 6 次知识库工具调用上限。
+
+该演示题复用原 Pilot 的冻结指南和已有索引，无需重建 Chroma。原 `multi-chunk-guide-001` 三事项压力题、12 个答案点和结果文件仍用于历史评测，不能将它们的评分直接用于本演示题。修改 Demo 配置后需重启服务。
+
+每次运行都使用服务端 Demo 配置中的问题，前端不能修改问题。页面记录模型上报的 Token 和服务端完整问答耗时；不包含启动、索引构建和浏览器渲染时间。

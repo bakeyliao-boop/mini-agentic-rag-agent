@@ -79,6 +79,30 @@ def test_build_knowledge_agent_registers_model_tools_and_system_prompt(
     )
 
 
+def test_agent_receives_content_location_rule_before_reading(monkeypatch) -> None:
+    """验证定位规则和直接读取例外传入 Agent，不代表模型一定遵守。"""
+
+    agent_module = import_module("rag_core.agentic.agent")
+    received_options: dict[str, object] = {}
+
+    def fake_create_agent(**options):
+        received_options.update(options)
+        return object()
+
+    monkeypatch.setattr(agent_module, "create_agent", fake_create_agent)
+    agent_module.build_knowledge_agent(chat_model=object(), tools=[])
+
+    system_prompt = received_options["system_prompt"]
+    required_rules = [
+        "查询文件中的具体内容时，只有文件路径而没有相关内容的位置，"
+        "应先以该文件路径作为 search 或 grep 的 path 定位，再根据返回行号调用 read。",
+        "已有可靠的目标行号时，可以直接 read 对应范围。",
+        "用户明确要求通读全文时，可以从头顺序 read。",
+    ]
+    missing_rules = [rule for rule in required_rules if rule not in system_prompt]
+    assert missing_rules == [], "Agent 未收到以下定位规则：" + "；".join(missing_rules)
+
+
 def test_system_prompt_answers_pure_directory_question_after_ls() -> None:
     """纯目录题在 ls 返回直接子项后应立即回答。"""
 
@@ -127,13 +151,13 @@ def test_system_prompt_searches_when_directory_is_only_scope() -> None:
     assert "只使用工具返回的完整虚拟路径" in system_prompt
 
 
-def test_prompt_v14_uses_glob_to_discover_unknown_paths() -> None:
-    """Prompt-V1.4 应要求使用 glob 发现路径，并限制其证据用途。"""
+def test_system_prompt_keeps_glob_path_discovery_with_grep() -> None:
+    """增加 grep 后仍应保留 glob 的路径发现和证据边界。"""
 
     agent_module = import_module("rag_core.agentic.agent")
     system_prompt = agent_module.KNOWLEDGE_AGENT_SYSTEM_PROMPT
 
-    assert "你可以使用 ls、glob、search 和 read 四个工具" in system_prompt
+    assert "你可以使用 ls、glob、search、read 和 grep 五个工具" in system_prompt
     assert (
         "完整虚拟路径未知但已知目录名或文件名时，应先使用 glob 定位"
         in system_prompt
@@ -203,7 +227,7 @@ def test_knowledge_agent_uses_explicit_prompt_version() -> None:
 
     agent_module = import_module("rag_core.agentic.agent")
 
-    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.6"
+    assert agent_module.KNOWLEDGE_AGENT_PROMPT_VERSION == "Prompt-V1.9"
 
 
 def test_prompt_version_log_records_problem_experiment_and_result() -> None:

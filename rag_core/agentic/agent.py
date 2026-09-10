@@ -20,14 +20,14 @@ from rag_core.agentic.prompts import (
     KNOWLEDGE_AGENT_SYSTEM_PROMPT,
 )
 
-KNOWLEDGE_TOOL_NAMES = frozenset({"ls", "glob", "search", "read"})
+KNOWLEDGE_TOOL_NAMES = frozenset({"ls", "glob", "search", "read", "grep"})
 
 
 class KnowledgeToolCallLimitMiddleware(ToolCallLimitMiddleware):
     """只限制知识库工具，不把结构化回答当作知识库工具。"""
 
     def _matches_tool_filter(self, tool_call: dict[str, object]) -> bool:
-        """判断一次调用是否属于 ls、search 或 read。"""
+        """判断一次调用是否属于知识库工具，包括 grep。"""
 
         return tool_call.get("name") in KNOWLEDGE_TOOL_NAMES
 
