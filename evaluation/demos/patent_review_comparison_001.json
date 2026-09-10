@@ -3,5 +3,6 @@
   "id": "patent-review-comparison-001",
   "title": "优先审查与快速预审的办理差异",
   "source_pilot_id": "multi-chunk-guide-001",
+  "retrieval_policy": "locate_first",
   "question": "为避免把专利优先审查和快速预审混用，请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》，比较两条办理路径的受理条件、申请材料、办理顺序，以及通过和不通过时的结果。指南未明确的内容请标注“未明确”。"
 }

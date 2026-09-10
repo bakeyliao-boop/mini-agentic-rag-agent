@@ -10,6 +10,7 @@ from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
 
 from rag_core.agentic.agent import (
     KNOWLEDGE_TOOL_NAMES,
+    RetrievalPolicy,
     build_knowledge_agent,
     extract_token_usage,
     extract_tool_traces,
@@ -43,6 +44,7 @@ class AgenticRuntime:
     vector_store: object
     chat_model: object
     path_snapshot: list[dict[str, str]]
+    retrieval_policy: RetrievalPolicy = "free"
 
 
 def finalize_grounded_answer(
@@ -163,7 +165,12 @@ def run_agentic_question(
         evidence_registry,
         path_snapshot=runtime.path_snapshot,
     )
-    knowledge_agent = build_knowledge_agent(runtime.chat_model, tools)
+    if runtime.retrieval_policy == "free":
+        knowledge_agent = build_knowledge_agent(runtime.chat_model, tools)
+    else:
+        knowledge_agent = build_knowledge_agent(
+            runtime.chat_model, tools, retrieval_policy=runtime.retrieval_policy,
+        )
 
     agent_result = knowledge_agent.invoke(
         {
@@ -283,7 +290,12 @@ def stream_agentic_question(
         evidence_registry,
         path_snapshot=runtime.path_snapshot,
     )
-    knowledge_agent = build_knowledge_agent(runtime.chat_model, tools)
+    if runtime.retrieval_policy == "free":
+        knowledge_agent = build_knowledge_agent(runtime.chat_model, tools)
+    else:
+        knowledge_agent = build_knowledge_agent(
+            runtime.chat_model, tools, retrieval_policy=runtime.retrieval_policy,
+        )
     config = {"configurable": {"thread_id": thread_id}}
     final_state: Mapping[str, object] | None = None
     steps_by_call_id: dict[str, int] = {}

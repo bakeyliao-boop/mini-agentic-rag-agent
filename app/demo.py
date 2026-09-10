@@ -3,6 +3,7 @@
 import json
 from collections.abc import Callable
 from contextlib import asynccontextmanager
+from dataclasses import replace
 from pathlib import Path
 from time import perf_counter
 from typing import Literal
@@ -69,8 +70,8 @@ class PilotDemoRunResponse(BaseModel):
     finish_reason: Literal["completed", "insufficient"]
 
 
-def _load_demo_question(project_root: Path) -> str:
-    """读取独立演示题，避免修改原 Pilot 压力测试的题面。"""
+def _load_demo_configuration(project_root: Path) -> tuple[str, str]:
+    """读取题面和显式策略配置，不从问题措辞推断检索流程。"""
 
     spec_path = project_root / DEMO_QUESTION_RELATIVE_PATH
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
@@ -79,7 +80,10 @@ def _load_demo_question(project_root: Path) -> str:
     question = spec.get("question")
     if not isinstance(question, str) or not question.strip():
         raise ValueError("demo question must be a non-empty string")
-    return question.strip()
+    policy = spec.get("retrieval_policy", "free")
+    if policy not in ("free", "locate_first"):
+        raise ValueError("unknown retrieval_policy")
+    return question.strip(), policy
 
 
 def _dictionary_list(value: object) -> list[dict[str, object]]:
@@ -106,7 +110,7 @@ def create_demo_app(
 
     @asynccontextmanager
     async def lifespan(application: FastAPI):
-        question = _load_demo_question(resolved_project_root)
+        question, policy = _load_demo_configuration(resolved_project_root)
         if runtime_factory is None:
             settings = load_settings_from_env(resolved_project_root)
             runtime = build_pilot_agentic_runtime_from_project(
@@ -115,6 +119,10 @@ def create_demo_app(
             )
         else:
             runtime = runtime_factory()
+        if isinstance(runtime, AgenticRuntime):
+            runtime = replace(runtime, retrieval_policy=policy)
+        elif policy != "free":
+            raise TypeError("retrieval policy requires an AgenticRuntime")
         application.state.pilot_question = question
         application.state.pilot_runtime = runtime
         yield
