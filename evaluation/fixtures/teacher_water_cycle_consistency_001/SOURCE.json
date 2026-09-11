@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "purpose": "demo_and_evaluation_fixture",
+  "snapshot_id": "teacher-water-cycle-consistency-001-v1",
+  "source_pack_title": "NASA GPM Exploring the Water Cycle",
+  "source_landing_page": "https://gpm.nasa.gov/education/lesson-plans/exploring-water-cycle",
+  "translation": {
+    "language": "zh-CN",
+    "status": "unofficial_reviewed_draft",
+    "boundary": "四份 Markdown 是依据 NASA GPM 英文 PDF 整理的非官方中文译稿，仅用于本项目演示与评测；不是 NASA 官方中文版，也不是中国内地课程标准适配稿。页码指向对应英文 PDF，图示空间关系未被 Markdown 完整保留的地方必须回看原件。"
+  },
+  "documents": [
+    {
+      "virtual_path": "/教师备课/科学/水循环/教师演示说明.md",
+      "official_url": "https://gpm.nasa.gov/education/sites/default/files/lesson_plan_files/exploring-water-cycle/Exploring%20the%20Water%20Cycle_Teacher%20Demonstration.pdf",
+      "original_pdf_sha256": "54db619116bb7a3c9f69843f629340b02e574f610ea21975d983c0774ca4b628",
+      "markdown_sha256": "9fc04136cf00fefc4aa6a0da48ede99e60ae1655d182d39662740701d98176a5",
+      "markdown_bytes": 8574,
+      "markdown_line_count": 154
+    },
+    {
+      "virtual_path": "/教师备课/科学/水循环/教师指南.md",
+      "official_url": "https://gpm.nasa.gov/education/sites/default/files/lesson_plan_files/exploring-water-cycle/Exloring%20the%20Water%20Cycle_Teacher%20Guide_rev2_2019.pdf",
+      "original_pdf_sha256": "a908c90a2926ab9d5b6990cf12b239b6ff4071bbeb52fafb6b729a0d30b88fab",
+      "markdown_sha256": "b91f599e5e95ed59a4c8aa0de2f44245eba9fb3a3681f434bec9239b8214c667",
+      "markdown_bytes": 5935,
+      "markdown_line_count": 106
+    },
+    {
+      "virtual_path": "/教师备课/科学/水循环/前后测.md",
+      "official_url": "https://gpm.nasa.gov/education/sites/default/files/lesson_plan_files/exploring-water-cycle/Exploring%20the%20Water%20Cycle%20Pre-Post%20Assessment.pdf",
+      "original_pdf_sha256": "91be7c1d8fbe648f53dd30b2fc2cd78c2bb8e669e00732ae7a27b3f62e580af",
+      "markdown_sha256": "4ef703e4c02a49067e88ca29c75c64e32d9c1abb7c46cbfdf33a9b017a53ab5b",
+      "markdown_bytes": 3227,
+      "markdown_line_count": 103
+    },
+    {
+      "virtual_path": "/教师备课/科学/水循环/学生学习单.md",
+      "official_url": "https://gpm.nasa.gov/education/sites/default/files/lesson_plan_files/exploring-water-cycle/Exploring%20the%20Water%20Cycle%20SCS.pdf",
+      "original_pdf_sha256": "8f1649c7eb023a479dc82c60507df4264ce6323d636efde2bb13e983a217d749",
+      "markdown_sha256": "0b0715a6c96b4ee4cbb01ad564ed1cc765239e641fd3ec7f7f73b063784b2fbb",
+      "markdown_bytes": 6184,
+      "markdown_line_count": 127
+    }
+  ],
+  "expected_total_markdown_line_count": 490,
+  "expected_total_chunk_count": 17,
+  "notice": "冻结演示语料快照。运行时直接使用仓库中的 Markdown；不依赖原始 PDF、Windows Office 转换脚本或 data/research 本机目录。修改正文会改变哈希、证据行号和 Chunk 边界。公开传播前仍需核对 NASA 资料中的第三方权利声明并保留来源。"
+}

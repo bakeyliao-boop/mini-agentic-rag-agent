@@ -23,19 +23,31 @@ from rag_core.traditional.service import (
 def build_pilot_agentic_runtime_from_project(
     project_root: Path,
     settings: Mapping[str, str],
+    spec_path: Path | None = None,
+    persist_directory: Path | None = None,
 ) -> AgenticRuntime:
-    """使用冻结 Pilot 语料与已有索引构建 Agentic 运行时。"""
+    """使用选定的冻结语料与已有索引构建 Agentic 运行时。"""
 
-    spec_path = project_root / PILOT_SPEC_RELATIVE_PATH
-    spec = json.loads(spec_path.read_text(encoding="utf-8"))
+    resolved_spec_path = (
+        spec_path.resolve(strict=False)
+        if spec_path is not None
+        else (project_root / PILOT_SPEC_RELATIVE_PATH).resolve(strict=False)
+    )
+    spec = json.loads(resolved_spec_path.read_text(encoding="utf-8"))
     if not isinstance(spec, dict):
         raise ValueError("pilot specification must be an object")
 
     corpus = spec.get("corpus")
     if not isinstance(corpus, dict):
         raise ValueError("pilot corpus configuration must be an object")
-    if corpus.get("isolation") != "single_document":
-        raise ValueError("pilot corpus isolation must be single_document")
+    if corpus.get("isolation") not in {
+        "single_document",
+        "declared_documents",
+    }:
+        raise ValueError(
+            "pilot corpus isolation must be single_document "
+            "or declared_documents"
+        )
 
     root_setting = corpus.get("root")
     if not isinstance(root_setting, str) or not root_setting.strip():
@@ -49,14 +61,20 @@ def build_pilot_agentic_runtime_from_project(
             f"pilot corpus root does not exist: {knowledge_root}"
         )
 
-    persist_directory = resolve_pilot_persist_directory(
-        project_root,
-        settings,
+    resolved_persist_directory = (
+        persist_directory.resolve(strict=False)
+        if persist_directory is not None
+        else resolve_pilot_persist_directory(project_root, settings)
     )
-    if not persist_directory.is_dir():
+    if not resolved_persist_directory.is_dir():
+        index_command = (
+            "python -m evaluation.cli.demo_index"
+            if spec_path is not None or persist_directory is not None
+            else "python -m evaluation.cli.pilot_index"
+        )
         raise FileNotFoundError(
-            f"pilot index does not exist: {persist_directory}; "
-            "run `python -m evaluation.cli.pilot_index` first"
+            f"pilot index does not exist: {resolved_persist_directory}; "
+            f"run `{index_command}` first"
         )
 
     api_key = _required_setting(settings, "DASHSCOPE_API_KEY")
@@ -78,17 +96,27 @@ def build_pilot_agentic_runtime_from_project(
     )
     vector_store = Chroma(
         collection_name="knowledge_chunks",
-        persist_directory=str(persist_directory),
+        persist_directory=str(resolved_persist_directory),
         embedding_function=embedding,
     )
     stored = vector_store.get(limit=1, include=[])
     stored_ids = stored.get("ids") if isinstance(stored, dict) else None
     if not isinstance(stored_ids, list) or not stored_ids:
-        raise RuntimeError(
-            "pilot index is empty; run "
-            "`python -m evaluation.cli.pilot_index` first"
+        index_command = (
+            "python -m evaluation.cli.demo_index"
+            if spec_path is not None or persist_directory is not None
+            else "python -m evaluation.cli.pilot_index"
         )
-    config = TraditionalRagConfig()
+        raise RuntimeError(
+            f"pilot index is empty; run `{index_command}` first"
+        )
+    chat_model_setting = spec.get("chat_model")
+    if chat_model_setting is None:
+        config = TraditionalRagConfig()
+    elif isinstance(chat_model_setting, str) and chat_model_setting.strip():
+        config = TraditionalRagConfig(model=chat_model_setting.strip())
+    else:
+        raise ValueError("pilot chat_model must be a non-empty string")
     chat_model = build_traditional_chat_model(
         config,
         api_key,

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "id": "teacher-water-cycle-consistency-001",
+  "title": "水循环课前资源一致性审查",
+  "retrieval_policy": "locate_first",
+  "chat_model": "qwen3.7-flash",
+  "question": "我准备使用这套水循环资料备课。学校规定课堂和课前准备都不能使用本生灯、电热板、火柴或制造烟雾，但可以提前两天准备其他常规材料。我希望学生学习单上的回答确实来自他们看到的现象。请核对《教师演示说明》和《学生学习单》：逐项说明哪些演示可以按原方案保留、哪些只能保留部分步骤、哪些不能按原方案实施；再把学习单相关题目分为三类：能由保留活动的现场观察支持、因对应演示取消而失去现场观察依据、本来就不对应这些演示或仅凭保留活动不足以回答。资料没有给出等效替代办法时请写“未明确”，不要自行设计新实验。",
+  "corpus": {
+    "root": "evaluation/fixtures/teacher_water_cycle_consistency_001/corpus",
+    "isolation": "declared_documents",
+    "source_paths": [
+      "/教师备课/科学/水循环/教师演示说明.md",
+      "/教师备课/科学/水循环/教师指南.md",
+      "/教师备课/科学/水循环/前后测.md",
+      "/教师备课/科学/水循环/学生学习单.md"
+    ]
+  },
+  "persist_directory": "data/pilots/teacher-water-cycle-consistency-001"
+}
