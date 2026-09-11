@@ -1,4 +1,4 @@
-"""长文档渐进式检索面试演示应用。"""
+"""课前教学资源一致性审查演示应用。"""
 
 import json
 from collections.abc import Callable
@@ -28,7 +28,7 @@ from rag_core.traditional.service import answer_with_traditional_rag
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 STATIC_DIRECTORY = Path(__file__).resolve().parent / "static" / "pilot_demo"
 DEMO_QUESTION_RELATIVE_PATH = Path(
-    "evaluation/demos/patent_review_comparison_001.json"
+    "evaluation/demos/teacher_water_cycle_consistency_001.json"
 )
 
 DemoMode = Literal["traditional", "agentic"]
@@ -70,10 +70,15 @@ class PilotDemoRunResponse(BaseModel):
     finish_reason: Literal["completed", "insufficient"]
 
 
-def _load_demo_configuration(project_root: Path) -> tuple[str, str]:
-    """读取题面和显式策略配置，不从问题措辞推断检索流程。"""
+def _load_demo_configuration(
+    project_root: Path,
+) -> tuple[str, str, Path, Path | None]:
+    """读取同一份配置中的题面、策略、语料规格和索引目录。"""
 
-    spec_path = project_root / DEMO_QUESTION_RELATIVE_PATH
+    resolved_project_root = project_root.resolve(strict=False)
+    spec_path = (
+        resolved_project_root / DEMO_QUESTION_RELATIVE_PATH
+    ).resolve(strict=False)
     spec = json.loads(spec_path.read_text(encoding="utf-8"))
     if not isinstance(spec, dict):
         raise ValueError("demo question configuration must be an object")
@@ -83,7 +88,22 @@ def _load_demo_configuration(project_root: Path) -> tuple[str, str]:
     policy = spec.get("retrieval_policy", "free")
     if policy not in ("free", "locate_first"):
         raise ValueError("unknown retrieval_policy")
-    return question.strip(), policy
+    persist_setting = spec.get("persist_directory")
+    if persist_setting is None:
+        persist_directory = None
+    elif not isinstance(persist_setting, str) or not persist_setting.strip():
+        raise ValueError("demo persist_directory must be a non-empty string")
+    else:
+        persist_directory = (
+            resolved_project_root / Path(persist_setting.strip())
+        ).resolve(strict=False)
+        try:
+            persist_directory.relative_to(resolved_project_root)
+        except ValueError as error:
+            raise ValueError(
+                "demo persist_directory must stay inside project root"
+            ) from error
+    return question.strip(), policy, spec_path, persist_directory
 
 
 def _dictionary_list(value: object) -> list[dict[str, object]]:
@@ -104,18 +124,29 @@ def create_demo_app(
     project_root: Path = PROJECT_ROOT,
     runtime_factory: DemoRuntimeFactory | None = None,
 ) -> FastAPI:
-    """创建只服务冻结长文档 Pilot 的双模式演示应用。"""
+    """创建只服务冻结水循环备课任务的双模式演示应用。"""
 
     resolved_project_root = project_root.resolve(strict=False)
 
     @asynccontextmanager
     async def lifespan(application: FastAPI):
-        question, policy = _load_demo_configuration(resolved_project_root)
+        (
+            question,
+            policy,
+            spec_path,
+            persist_directory,
+        ) = _load_demo_configuration(resolved_project_root)
         if runtime_factory is None:
+            if persist_directory is None:
+                raise ValueError(
+                    "default demo runtime requires persist_directory"
+                )
             settings = load_settings_from_env(resolved_project_root)
             runtime = build_pilot_agentic_runtime_from_project(
                 project_root=resolved_project_root,
                 settings=settings,
+                spec_path=spec_path,
+                persist_directory=persist_directory,
             )
         else:
             runtime = runtime_factory()

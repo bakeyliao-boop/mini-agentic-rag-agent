@@ -91,10 +91,10 @@ data/pilots/multi-chunk-guide-001
 
 ### 面试演示页面
 
-先完成 Pilot 索引准备，再从项目根目录启动专用演示应用：
+先构建水循环 Demo 的独立索引，再从项目根目录启动专用演示应用：
 
 ```bash
-python -m evaluation.cli.pilot_index
+python -m evaluation.cli.demo_index
 uvicorn app.demo:app --reload
 ```
 
@@ -113,8 +113,10 @@ Mini-Agent 页面通过 NDJSON 事件流实时接收 LangGraph 的真实执行�
 
 工具过程以可折叠的活动列表展示：默认每次调用显示动作、目标和结果摘要，展开可查看完整路径与参数；回答返回后收起活动列表。流中断时保留已收到的记录并标为中断，切换模式可查看各自最近一次运行。前端流状态回归可使用 `node --test tests/frontend/test_trace_ui.cjs` 运行。
 
-前端演示使用独立配置 [patent_review_comparison_001.json](evaluation/demos/patent_review_comparison_001.json)，比较“专利优先审查”和“专利快速预审”的受理条件、申请材料、办理顺序与结果。两种模式使用同一道演示题，Mini-Agent 保持 6 次知识库工具调用上限。
+前端演示使用独立配置 [teacher_water_cycle_consistency_001.json](evaluation/demos/teacher_water_cycle_consistency_001.json)，演示教师在禁用明火、电热板、火柴和烟雾后，如何核对水循环演示活动与学生学习单是否仍然一致。两种模式使用同一道冻结题目和 `qwen3.7-flash`；Mini-Agent 保持 6 次知识库工具调用上限。
 
-该演示题复用原 Pilot 的冻结指南和已有索引，无需重建 Chroma。原 `multi-chunk-guide-001` 三事项压力题、12 个答案点和结果文件仍用于历史评测，不能将它们的评分直接用于本演示题。修改 Demo 配置后需重启服务。
+演示语料来自仓库内 [teacher_water_cycle_consistency_001](evaluation/fixtures/teacher_water_cycle_consistency_001/SOURCE.json) 冻结快照，共 4 份 Markdown、17 个 Chunk；本地索引默认写入 `data/pilots/teacher-water-cycle-consistency-001`，不会覆盖原深圳 Pilot。每台机器首次运行或语料版本变化后都需要执行一次 `demo_index`。原 `multi-chunk-guide-001` 仍用于历史评测，不能将其评分直接用于本演示题。
+
+当前真实测试中 Mini-Agent 仍可能在已找到文件后重复调用路径工具并最终返回证据不足；页面会如实展示该轨迹。不要通过反复运行后只展示成功结果来宣称稳定性，后续需在同一冻结题面上修复并复测。
 
 每次运行都使用服务端 Demo 配置中的问题，前端不能修改问题。页面记录模型上报的 Token 和服务端完整问答耗时；不包含启动、索引构建和浏览器渲染时间。

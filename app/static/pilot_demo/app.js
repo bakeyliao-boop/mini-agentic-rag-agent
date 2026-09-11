@@ -295,7 +295,7 @@ function updateActivity() {
   if (!turn || turn.mode !== "agentic") return;
   const pending = turn.tools.filter((t) => t.status === "running");
   const errors = turn.tools.filter((t) => t.status === "error").length;
-  elements.processTitle.textContent = turn.phase === "running" ? "正在查阅办事指南"
+  elements.processTitle.textContent = turn.phase === "running" ? "正在查阅水循环教学资料"
     : turn.phase === "error" ? "执行中断" : activityLabel(turn) || "执行记录";
   elements.activityCount.textContent = turn.tools.length ? turn.tools.length + " 次调用" + (errors ? " · " + errors + " 次失败" : "") : "";
   elements.indicator.dataset.status = turn.phase;
@@ -492,7 +492,7 @@ async function initialize() {
     if (!response.ok) throw new Error();
     const config = await response.json();
     elements.question.textContent = config.question;
-    elements.connection.lastElementChild.textContent = "办事指南 · 已就绪";
+    elements.connection.lastElementChild.textContent = "水循环教学资料 · 已就绪";
     elements.run.disabled = false;
   } catch {
     elements.question.textContent = "无法读取演示问题，请检查服务是否启动。";
