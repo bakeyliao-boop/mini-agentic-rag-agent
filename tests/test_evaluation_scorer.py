@@ -263,7 +263,7 @@ def test_main_scores_current_baseline_to_independent_filename(
         encoding="utf-8",
     )
     result_filename = (
-        "traditional-baseline-qwen3.6-flash-thinking-off.json"
+        "traditional-baseline-qwen3.7-flash-thinking-off.json"
     )
     (results_directory / result_filename).write_text(
         json.dumps({"results": []}),
@@ -273,7 +273,7 @@ def test_main_scores_current_baseline_to_independent_filename(
     evaluation_scorer.main(project_root=tmp_path)
 
     expected_path = results_directory / (
-        "traditional-baseline-qwen3.6-flash-thinking-off-score.json"
+        "traditional-baseline-qwen3.7-flash-thinking-off-score.json"
     )
     assert expected_path.is_file()
     assert not (results_directory / "traditional-baseline-score.json").exists()

@@ -82,10 +82,10 @@ def test_build_traditional_baseline_result_filename_separates_modes() -> None:
     )
 
     assert thinking_off == (
-        "traditional-baseline-qwen3.6-flash-thinking-off.json"
+        "traditional-baseline-qwen3.7-flash-thinking-off.json"
     )
     assert thinking_on == (
-        "traditional-baseline-qwen3.6-flash-thinking-on.json"
+        "traditional-baseline-qwen3.7-flash-thinking-on.json"
     )
 
 
@@ -178,7 +178,7 @@ def test_run_traditional_baseline_from_project_wires_all_components(
         tmp_path
         / "evaluation"
         / "results"
-        / "traditional-baseline-qwen3.6-flash-thinking-off.json"
+        / "traditional-baseline-qwen3.7-flash-thinking-off.json"
     )
     assert output_path == expected_output_path
     assert [event[0] for event in events] == [

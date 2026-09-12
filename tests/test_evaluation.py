@@ -271,7 +271,7 @@ def test_run_traditional_baseline_runs_each_question_and_collects_results(
         "气象站有什么作用？",
     ]
     assert result["config"] == {
-        "model": "qwen3.6-flash",
+        "model": "qwen3.7-flash",
         "temperature": 0,
         "enable_thinking": False,
         "top_k": 5,
@@ -356,7 +356,7 @@ def test_run_agentic_evaluation_runs_each_question_and_collects_results() -> Non
         ("知识库介绍量子计算机了吗？", "evaluation-outside-001"),
     ]
     assert result["config"] == {
-        "model": "qwen3.6-flash",
+        "model": "qwen3.7-flash",
         "temperature": 0,
         "enable_thinking": False,
         "corpus_version": "education-v1",

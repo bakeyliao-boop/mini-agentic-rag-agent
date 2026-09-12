@@ -470,10 +470,10 @@ def test_main_scores_current_v19_result_with_semantic_judge(
 
     results_directory = tmp_path / "evaluation" / "results"
     result_path = results_directory / (
-        "agentic-baseline-qwen3.6-flash-thinking-off-prompt-v1.9.json"
+        "agentic-baseline-qwen3.7-flash-thinking-off-prompt-v1.9.json"
     )
     output_path = results_directory / (
-        "agentic-baseline-qwen3.6-flash-thinking-off-"
+        "agentic-baseline-qwen3.7-flash-thinking-off-"
         "prompt-v1.9-semantic-score.json"
     )
     assert events == [

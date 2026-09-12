@@ -14,7 +14,7 @@ from rag_core.knowledge.indexer import search_chroma_index
 class TraditionalRagConfig:
     """传统 RAG 对照实验使用的固定配置。"""
 
-    model: str = "qwen3.6-flash"
+    model: str = "qwen3.7-flash"
     temperature: float = 0
     enable_thinking: bool = False
     top_k: int = 5

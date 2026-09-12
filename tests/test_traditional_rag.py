@@ -199,7 +199,7 @@ def test_traditional_rag_config_uses_fixed_baseline_defaults() -> None:
 
     config = traditional_rag.TraditionalRagConfig()
 
-    assert config.model == "qwen3.6-flash"
+    assert config.model == "qwen3.7-flash"
     assert config.temperature == 0
     assert config.enable_thinking is False
     assert config.top_k == 5
@@ -266,7 +266,7 @@ def test_build_traditional_chat_model_uses_config_and_dashscope(
     assert result is fake_model
     assert received_options == [
         {
-            "model": "qwen3.6-flash",
+            "model": "qwen3.7-flash",
             "temperature": 0,
             "api_key": "test-key",
             "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
