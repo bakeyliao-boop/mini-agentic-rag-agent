@@ -1,0 +1,21 @@
+{
+  "http_status": 200,
+  "technical_status": "ok",
+  "accounting_status": "computed",
+  "content": "1. 本题最低必要内容：公司提交“专利登记簿副本”办理请求后，应在提交办理请求一个月内缴费；起算事件是“提交办理请求”。\n\n2. 前序实际已有内容与本次实际返回内容：\n- 前序 e1：`/prior_events/0/returned_content/discovered_paths/0` 仅发现路径 `/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md`，未含缴费期限事实。\n- 前序 e2：`/prior_events/1/returned_content/returned_lines/0/text` 已含关键句：“请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。”来源为 `D01`，路径同指南文件，`citable_read_evidence_registered=true`。\n- 本次 e3：`/current_event/returned_content/returned_lines/0/text` 与 e2 同一来源 `D01`、同一路径、同一 `source_sha256`，正文关键句相同：“请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。”本次也登记为 `citable_read_evidence_registered=true`。\n\n3. 三个判断：\n- 当前必要事实支持：充分。前序 e2 已实际返回并登记了“提交办理请求一个月内缴纳”的正文，本次 e3 再次返回同一正文；合起来覆盖 F1 的期限和起算事件。费用名称、每份30元、缴费人与请求人一致属于允许补充项，不是本题最低必要事实。\n- 本次新增必要事实内容：否。e3 与 e2 为同源同文返回，关键事实此前已在 e2 的 `returned_lines[0].text` 中出现，本次没有补充此前尚缺的必要事实或条件。\n- 本次增加可引用支持：否。e2 已经 `citable_read_evidence_registered=true`，且其返回正文包含所需事实；e3 虽也登记为可引用读取证据，但属于同一事实的重复登记，不构成新增可引用支持。\n\n4. 贡献结论：本次 e3 没有新增必要事实或新增可引用支持，主要价值是重复确认同一来源、同一版本、同一行正文；在给定历史完整且 e2 已登记可引用的情况下，本次对“必要依据是否充分”的边际贡献为零。",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2087,
+    "completion_tokens": 545,
+    "total_tokens": 2632,
+    "prompt_tokens_details": {
+      "cached_tokens": 1920
+    },
+    "prompt_cache_hit_tokens": 1920,
+    "prompt_cache_miss_tokens": 167
+  },
+  "cost_computed_cny": "0.008534",
+  "review_status": "pending_human_review",
+  "response_id": "b8b389db-71f4-4a98-99a1-9127954131a0",
+  "response_model": "deepseek-flash"
+}

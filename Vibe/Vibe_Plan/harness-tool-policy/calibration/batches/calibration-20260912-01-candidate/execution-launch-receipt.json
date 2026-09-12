@@ -1,0 +1,21 @@
+{
+  "finished_at_utc": "2026-09-12T07:40:24.584409+00:00",
+  "configuration_source": "C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env",
+  "used_settings": [
+    "SEMANTIC_JUDGE_BASE_URL",
+    "SEMANTIC_JUDGE_API_KEY"
+  ],
+  "output_dir": "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\results\\tool-contribution-calibration\\calibration-20260912-01",
+  "result": {
+    "status": "completed_pending_review",
+    "planned_count": 15,
+    "attempted_count": 15,
+    "response_count": 15,
+    "halt_reason": null,
+    "cost_computed_cny": "0.128522",
+    "cost_reserved_unknown_cny": "0.000000",
+    "cost_kind": "computed_from_usage",
+    "review_status": "pending_human_review",
+    "authorization_errors": []
+  }
+}

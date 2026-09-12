@@ -1,0 +1,307 @@
+{
+  "status": "draft",
+  "purpose": "题面/答案修订材料，非运行配置；原文复用同一冻结字节",
+  "prepared_at": "2026-09-11",
+  "repository_branch": "experiment/harness-tool-policy",
+  "repository_head": "1136e44cb8acc4063d001b147cc0db0f25e9d1fa",
+  "documents": [
+    {
+      "id": "D01",
+      "role": "improvement",
+      "title": "深圳市知识产权公共服务事项办事指南（第二版）",
+      "version": "第二版，原项目冻结快照multi-chunk-guide-001-v1",
+      "source_url": "https://amr.sz.gov.cn/attachment/1/1478/1478949/11506859.pdf",
+      "local_markdown": "../../../../../evaluation/fixtures/multi_chunk_guide_001/corpus/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "source_manifest": "../../../../../evaluation/fixtures/multi_chunk_guide_001/SOURCE.json",
+      "markdown_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+      "markdown_lines": 4203,
+      "markdown_bytes": 149654,
+      "expected_chunk_count_from_existing_manifest": 86,
+      "original_pdf_sha256_from_existing_manifest": "7056822ff4a09ec65d25300bfd45bb4d45c8c89938b2ef4d5883590f802bb9bb",
+      "verification": "本轮核对既有Markdown与SOURCE.json中的哈希及行数，不重新转换或改写。深圳原PDF字节哈希沿用既有清单，本轮未下载字节复核；题目所列官方PDF物理页沿用2026-09-10/11已记录的PDF文本定位结果，不把原Markdown转换页标记当官方PDF页码。此次仅同步核验叙述，未作新的PDF渲染或下载。"
+    },
+    {
+      "id": "D02",
+      "role": "holdout_validation_and_regression",
+      "title": "知识产权领域高频事项办事指南（2025）",
+      "issuer": "北京市知识产权公共服务中心",
+      "document_date": "2025-04",
+      "release_date": "2025-04-25",
+      "release_url": "https://zscqj.beijing.gov.cn/zscqj/ztzl/zscqggfwzl/tzgg95/743602721/index.html",
+      "source_url": "https://zscqj.beijing.gov.cn/zscqj/ztzl/zscqggfwzl/tzgg95/743602721/2025042511272893690.pdf",
+      "local_pdf": "../2026-09-10-v1/sources/D02-北京知识产权高频事项指南-2025.pdf",
+      "local_markdown": "../2026-09-10-v1/sources/D02-北京知识产权高频事项指南-2025.md",
+      "pdf_pages": 29,
+      "pdf_bytes": 738137,
+      "pdf_sha256": "8bc9066f2523d45e1865cd6ade43d7b93e031ef0885ebb1f91a9ddd875af362a",
+      "markdown_lines": 1414,
+      "markdown_bytes": 40529,
+      "markdown_sha256": "0b577d47f751ac1ff1421ccf3e760c0b2251ebdc419e8e2cc26322fd34dd69fa",
+      "extractor": "PyMuPDF get_text(text, sort=True), retain page order and text lines, rstrip only; no OCR or LLM",
+      "pymupdf_version": "1.28.2",
+      "ocr": false,
+      "llm_conversion": false,
+      "visual_review_pdf_physical_pages": [
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        18,
+        19,
+        21,
+        22
+      ],
+      "indexed_into_project": false,
+      "chunk_count": null,
+      "page_map": [
+        {
+          "pdf_page": 1,
+          "printed_page": null,
+          "start_line": 14,
+          "end_line": 24,
+          "text_chars": 71
+        },
+        {
+          "pdf_page": 2,
+          "printed_page": null,
+          "start_line": 28,
+          "end_line": 27,
+          "text_chars": 0
+        },
+        {
+          "pdf_page": 3,
+          "printed_page": null,
+          "start_line": 31,
+          "end_line": 46,
+          "text_chars": 198
+        },
+        {
+          "pdf_page": 4,
+          "printed_page": null,
+          "start_line": 50,
+          "end_line": 79,
+          "text_chars": 577
+        },
+        {
+          "pdf_page": 5,
+          "printed_page": 1,
+          "start_line": 83,
+          "end_line": 134,
+          "text_chars": 549
+        },
+        {
+          "pdf_page": 6,
+          "printed_page": 2,
+          "start_line": 138,
+          "end_line": 185,
+          "text_chars": 511
+        },
+        {
+          "pdf_page": 7,
+          "printed_page": 3,
+          "start_line": 189,
+          "end_line": 241,
+          "text_chars": 658
+        },
+        {
+          "pdf_page": 8,
+          "printed_page": 4,
+          "start_line": 245,
+          "end_line": 296,
+          "text_chars": 775
+        },
+        {
+          "pdf_page": 9,
+          "printed_page": 5,
+          "start_line": 300,
+          "end_line": 351,
+          "text_chars": 539
+        },
+        {
+          "pdf_page": 10,
+          "printed_page": 6,
+          "start_line": 355,
+          "end_line": 402,
+          "text_chars": 481
+        },
+        {
+          "pdf_page": 11,
+          "printed_page": 7,
+          "start_line": 406,
+          "end_line": 457,
+          "text_chars": 595
+        },
+        {
+          "pdf_page": 12,
+          "printed_page": 8,
+          "start_line": 461,
+          "end_line": 508,
+          "text_chars": 587
+        },
+        {
+          "pdf_page": 13,
+          "printed_page": 9,
+          "start_line": 512,
+          "end_line": 563,
+          "text_chars": 565
+        },
+        {
+          "pdf_page": 14,
+          "printed_page": 10,
+          "start_line": 567,
+          "end_line": 614,
+          "text_chars": 536
+        },
+        {
+          "pdf_page": 15,
+          "printed_page": 11,
+          "start_line": 618,
+          "end_line": 669,
+          "text_chars": 623
+        },
+        {
+          "pdf_page": 16,
+          "printed_page": 12,
+          "start_line": 673,
+          "end_line": 720,
+          "text_chars": 514
+        },
+        {
+          "pdf_page": 17,
+          "printed_page": 13,
+          "start_line": 724,
+          "end_line": 775,
+          "text_chars": 722
+        },
+        {
+          "pdf_page": 18,
+          "printed_page": 14,
+          "start_line": 779,
+          "end_line": 826,
+          "text_chars": 517
+        },
+        {
+          "pdf_page": 19,
+          "printed_page": 15,
+          "start_line": 830,
+          "end_line": 881,
+          "text_chars": 537
+        },
+        {
+          "pdf_page": 20,
+          "printed_page": 16,
+          "start_line": 885,
+          "end_line": 937,
+          "text_chars": 944
+        },
+        {
+          "pdf_page": 21,
+          "printed_page": 17,
+          "start_line": 941,
+          "end_line": 995,
+          "text_chars": 936
+        },
+        {
+          "pdf_page": 22,
+          "printed_page": 18,
+          "start_line": 999,
+          "end_line": 1046,
+          "text_chars": 524
+        },
+        {
+          "pdf_page": 23,
+          "printed_page": 19,
+          "start_line": 1050,
+          "end_line": 1100,
+          "text_chars": 561
+        },
+        {
+          "pdf_page": 24,
+          "printed_page": 20,
+          "start_line": 1104,
+          "end_line": 1151,
+          "text_chars": 506
+        },
+        {
+          "pdf_page": 25,
+          "printed_page": 21,
+          "start_line": 1155,
+          "end_line": 1213,
+          "text_chars": 1211
+        },
+        {
+          "pdf_page": 26,
+          "printed_page": 22,
+          "start_line": 1217,
+          "end_line": 1264,
+          "text_chars": 581
+        },
+        {
+          "pdf_page": 27,
+          "printed_page": 23,
+          "start_line": 1268,
+          "end_line": 1316,
+          "text_chars": 634
+        },
+        {
+          "pdf_page": 28,
+          "printed_page": 24,
+          "start_line": 1320,
+          "end_line": 1367,
+          "text_chars": 611
+        },
+        {
+          "pdf_page": 29,
+          "printed_page": 25,
+          "start_line": 1371,
+          "end_line": 1413,
+          "text_chars": 522
+        }
+      ]
+    }
+  ],
+  "isolation": {
+    "candidate_generation_allowed": [
+      "D01冻结正文",
+      "v2/improvement中的单道题面",
+      "日后获授权产生的对应改进题实际轨迹"
+    ],
+    "excluded": [
+      "D02",
+      "v2/holdout中的VAL和REG",
+      "全量题目与证据.json",
+      "本轮人审记录、全量协议、README和交接中的留出信息"
+    ],
+    "reserve": "未默认选入，不进入初始候选生成材料；以后选入先明确用途",
+    "implementation_status": "目录角色约定；尚未实现或验证程序级访问隔离；主对话只组织和审核"
+  },
+  "validation_status": {
+    "source_hashes_verified": true,
+    "human_reviewed": true,
+    "project_model_runs": 0,
+    "runtime_indexing_newly_performed": false,
+    "execution_count": "未批准",
+    "repetitions": null,
+    "cost_limit": null,
+    "human_review_scope": "HR-01至HR-04已记录；其余执行协议和选择未批准",
+    "material_consistency": "closed_for_this_review"
+  },
+  "material_version": "v2",
+  "source_snapshots_reused_from": "2026-09-10-v1",
+  "human_review": {
+    "date": "2026-09-11",
+    "record": "人审结论与收口记录.md",
+    "scope": "本轮用户明确给出的HR-01至HR-04；不表示执行题集、完整协议、次数或费用已获批准",
+    "decisions": {
+      "HR-01": "认可DEV-04为同一维度比较及跨段取证用途；不宣称验证自主发现比较对象或隐含任务分解。",
+      "HR-02": "答案、实际取证、最终引用支持分开；VAL-03允许只答无需另寄纸质材料，证据须支持产业到机构及机构到办理方式。",
+      "HR-03": "接受改进侧情景措辞映射较弱、未覆盖完全无相关资料拒答；本轮不为覆盖强行增题。",
+      "HR-04": "DEV-01允许完整参考句包含费用名称、每份30元、缴费人一致；当前仍只问时间，后三项不升级为必答。"
+    },
+    "material_consistency": "closed_for_this_review",
+    "execution_selection_approved": false,
+    "protocol_approved": false
+  }
+}

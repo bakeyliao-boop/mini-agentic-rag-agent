@@ -1,0 +1,21 @@
+{
+  "kind": "candidate_review_snapshot",
+  "status": "awaiting_final_start_confirmation",
+  "batch_id": "calibration-20260912-01",
+  "files": {
+    "cases.json": "72d6d4396c6bfe82a11462401ce43ef3b4a15eafc19a75368599998fa7aa480f",
+    "preflight.json": "f77f8fe3e064a60001d74e747e62e046504992f9f4c9c6f2a6e6e574b8989caf",
+    "本地Token计数结果-v1.json": "5c0739a5e3990d0cd9f91823a0cfcd2de87b71c9b51c4cba4a9af1942d73368b",
+    "评估器统一说明草案-v2.md": "f3a3a87413da951fbcdfe1e7c00e2483daf56dd463366bebf9e4bed9048db695",
+    "request-draft-v1/CAL-01.request.example.json": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679",
+    "request-draft-v1/CAL-02.request.example.json": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1",
+    "request-draft-v1/CAL-03.request.example.json": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918",
+    "request-draft-v1/CAL-04.request.example.json": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f",
+    "request-draft-v1/CAL-05.request.example.json": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab",
+    "request-draft-v1/manifest.json": "f801205ea31dfaf76df6491b19bb2c2ccb6875826d6dd17b74fe0dafef021c76"
+  },
+  "api_requests_sent": 0,
+  "implementation_sha256": "308baafb6033ca0c561c85975b2ca430c859e9835299721caae2028c66d32c9a",
+  "approval_metadata_may_change_only_after_explicit_confirmation": true,
+  "payloads_must_remain_unchanged": true
+}

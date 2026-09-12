@@ -1,1 +1,7 @@
 /evaluation/fixtures/multi_chunk_guide_001/**/*.md text eol=lf
+
+# Preserve byte-exact, hash-linked calibration evidence across checkouts.
+/Vibe/Vibe_Plan/harness-tool-policy/** -text -whitespace
+/evaluation/results/tool-contribution-calibration/** -text -whitespace
+/evaluation/tool_contribution_calibration.py -text whitespace=cr-at-eol
+/tests/test_tool_contribution_calibration.py -text whitespace=cr-at-eol

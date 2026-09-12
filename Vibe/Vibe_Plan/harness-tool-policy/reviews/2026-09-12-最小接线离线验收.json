@@ -1,0 +1,50 @@
+{
+  "kind": "offline_implementation_verification_not_model_calibration",
+  "date": "2026-09-12",
+  "branch": "experiment/harness-tool-policy",
+  "scope": "new isolated calibration entry and boundary tests only",
+  "files": {
+    "evaluation/tool_contribution_calibration.py": "308baafb6033ca0c561c85975b2ca430c859e9835299721caae2028c66d32c9a",
+    "tests/test_tool_contribution_calibration.py": "71f3c8c33a874934341bcc3f419b4027a5aa3b8d98ff0c35d17e384181bb8254"
+  },
+  "test_result": {
+    "tests": 42,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_duration_seconds_reported": 10.5,
+  "test_command_equivalent": "python -m pytest -q --tb=short -p no:cacheprovider tests/test_tool_contribution_calibration.py",
+  "environment": "Python 3.12.13; httpx 0.28.1 and pytest 9.0.1 in temporary isolated package target; project dependency files unchanged",
+  "actual_material_prepare": {
+    "output_dir": "C:\\Users\\hyf\\AppData\\Local\\Temp\\harness-calibration-offline-20260912\\actual-material-prepare-c7a6c8d4",
+    "result": {
+      "status": "prepared",
+      "planned_count": 15,
+      "attempted_count": 0,
+      "response_count": 0,
+      "halt_reason": null,
+      "cost_computed_cny": "0",
+      "cost_reserved_unknown_cny": "0",
+      "cost_kind": "no_requests_sent",
+      "review_status": "pending_human_review",
+      "authorization_errors": [
+        "Execution has not been authorized",
+        "Parameters have not been accepted",
+        "Missing approved execution_batch_id",
+        "Missing approved absolute execution_output_dir",
+        "Token report has not been frozen for execution",
+        "Whole-case human labels are not all signed off"
+      ]
+    },
+    "checks": "actual material files unchanged; connection factory and credential loading were guarded to fail if touched"
+  },
+  "real_model_api_requests": 0,
+  "project_config_loaded": false,
+  "cases_material_revision": 7,
+  "cases_sha256": "72d6d4396c6bfe82a11462401ce43ef3b4a15eafc19a75368599998fa7aa480f",
+  "request_samples_unchanged": true,
+  "actual_evaluator_results": "all null",
+  "execution_authorized": false,
+  "implementation_review": "four identified boundary gaps fixed; independent read-only re-review found no new blocker in scoped implementation"
+}

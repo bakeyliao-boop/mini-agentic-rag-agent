@@ -1,0 +1,208 @@
+{
+  "artifact_type": "execution_candidate_pending_user_start_confirmation",
+  "status": "approved_for_single_execution",
+  "created": "2026-09-12",
+  "execution_authorized": true,
+  "runnable": true,
+  "parameter_acceptance": "accepted",
+  "planned_model": "deepseek-flash",
+  "official_model_version_at_planning": "DeepSeek-V4.1-Flash",
+  "actual_runtime_version": null,
+  "source_cases_material_revision": 8,
+  "source_cases_sha256": "176541a2b83af25f3d8b24beab6af1ea9b26bf207ba3d3adc6b7a2ec297f393f",
+  "source_rules_file_sha256": "f3a3a87413da951fbcdfe1e7c00e2483daf56dd463366bebf9e4bed9048db695",
+  "system_content_sha256": "f6a1e62e7efc64be39144b005e5f5d4a950e09ea5b30a8453750cc60e05f4337",
+  "source_document_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+  "approved_case_count": 5,
+  "approved_repetitions": 3,
+  "approved_request_count": 15,
+  "approved_budget": {
+    "currency": "CNY",
+    "max_total": 1
+  },
+  "proposed_client_controls": {
+    "concurrency": 1,
+    "max_retries": 0,
+    "timeout_seconds": 120
+  },
+  "input_token_reservation_per_request": 12000,
+  "input_token_bound_verified": false,
+  "proposed_max_output_tokens": 2048,
+  "cost_control_implemented": true,
+  "cost_basis": "planning reservation and official peak uncached CNY prices, not actual debit",
+  "expected_peak_cost_cny": 0.60576,
+  "requests_sent": 0,
+  "actual_usage": null,
+  "actual_evaluator_results": null,
+  "cases": [
+    {
+      "case_id": "CAL-01",
+      "request_file": "CAL-01.request.example.json",
+      "request_file_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679",
+      "request_file_utf8_bytes": 9299,
+      "input_object_sha256": "6b7e19749cd6989ff0f963d9af1c801477b1c4df347f8b8812728155125d3451",
+      "message_content_characters": 3864,
+      "planned_repetitions": 3
+    },
+    {
+      "case_id": "CAL-02",
+      "request_file": "CAL-02.request.example.json",
+      "request_file_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1",
+      "request_file_utf8_bytes": 9015,
+      "input_object_sha256": "3f2d034751291bd3f6d02a357138b89ea6eb58ff73c62b8c400f347262cbf356",
+      "message_content_characters": 3762,
+      "planned_repetitions": 3
+    },
+    {
+      "case_id": "CAL-03",
+      "request_file": "CAL-03.request.example.json",
+      "request_file_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918",
+      "request_file_utf8_bytes": 10118,
+      "input_object_sha256": "796851f155f29dedfc57c29a058561dc47bb4caf047ddaf0b5600d883ce7da73",
+      "message_content_characters": 4359,
+      "planned_repetitions": 3
+    },
+    {
+      "case_id": "CAL-04",
+      "request_file": "CAL-04.request.example.json",
+      "request_file_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f",
+      "request_file_utf8_bytes": 9989,
+      "input_object_sha256": "6eec7fcd9bc6c6c2540cdf14ec536c50170a9a028e4451082440df96a0f6ed26",
+      "message_content_characters": 4342,
+      "planned_repetitions": 3
+    },
+    {
+      "case_id": "CAL-05",
+      "request_file": "CAL-05.request.example.json",
+      "request_file_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab",
+      "request_file_utf8_bytes": 8943,
+      "input_object_sha256": "97f469bae3e2fab884f0b7143f4054ce1833a1cbc249ac2e0174d5f5e9400663",
+      "message_content_characters": 3612,
+      "planned_repetitions": 3
+    }
+  ],
+  "proposed_order_not_execution_records": [
+    {
+      "ordinal": 1,
+      "case_id": "CAL-01",
+      "repetition": 1,
+      "request_file": "CAL-01.request.example.json",
+      "request_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679"
+    },
+    {
+      "ordinal": 2,
+      "case_id": "CAL-02",
+      "repetition": 1,
+      "request_file": "CAL-02.request.example.json",
+      "request_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1"
+    },
+    {
+      "ordinal": 3,
+      "case_id": "CAL-03",
+      "repetition": 1,
+      "request_file": "CAL-03.request.example.json",
+      "request_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918"
+    },
+    {
+      "ordinal": 4,
+      "case_id": "CAL-04",
+      "repetition": 1,
+      "request_file": "CAL-04.request.example.json",
+      "request_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f"
+    },
+    {
+      "ordinal": 5,
+      "case_id": "CAL-05",
+      "repetition": 1,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab"
+    },
+    {
+      "ordinal": 6,
+      "case_id": "CAL-01",
+      "repetition": 2,
+      "request_file": "CAL-01.request.example.json",
+      "request_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679"
+    },
+    {
+      "ordinal": 7,
+      "case_id": "CAL-02",
+      "repetition": 2,
+      "request_file": "CAL-02.request.example.json",
+      "request_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1"
+    },
+    {
+      "ordinal": 8,
+      "case_id": "CAL-03",
+      "repetition": 2,
+      "request_file": "CAL-03.request.example.json",
+      "request_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918"
+    },
+    {
+      "ordinal": 9,
+      "case_id": "CAL-04",
+      "repetition": 2,
+      "request_file": "CAL-04.request.example.json",
+      "request_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f"
+    },
+    {
+      "ordinal": 10,
+      "case_id": "CAL-05",
+      "repetition": 2,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab"
+    },
+    {
+      "ordinal": 11,
+      "case_id": "CAL-01",
+      "repetition": 3,
+      "request_file": "CAL-01.request.example.json",
+      "request_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679"
+    },
+    {
+      "ordinal": 12,
+      "case_id": "CAL-02",
+      "repetition": 3,
+      "request_file": "CAL-02.request.example.json",
+      "request_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1"
+    },
+    {
+      "ordinal": 13,
+      "case_id": "CAL-03",
+      "repetition": 3,
+      "request_file": "CAL-03.request.example.json",
+      "request_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918"
+    },
+    {
+      "ordinal": 14,
+      "case_id": "CAL-04",
+      "repetition": 3,
+      "request_file": "CAL-04.request.example.json",
+      "request_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f"
+    },
+    {
+      "ordinal": 15,
+      "case_id": "CAL-05",
+      "repetition": 3,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab"
+    }
+  ],
+  "execution_batch_id": "calibration-20260912-01",
+  "execution_output_dir": "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\results\\tool-contribution-calibration\\calibration-20260912-01",
+  "execution_token_report_sha256": "4980120e4f8dcfcab0a9b0f9c1f4b08ecb3fa6a12c367d5748b7c4201bc21377",
+  "local_count_report_verified": true,
+  "cost_control_verification": "offline boundary tests only; live billing not verified",
+  "implementation_sha256": "308baafb6033ca0c561c85975b2ca430c859e9835299721caae2028c66d32c9a",
+  "final_confirmation_scope": "accepted: whole-case labels, fixed parameters and this single batch start",
+  "execution_approval": {
+    "approved_at_utc": "2026-09-12T07:33:06.424722+00:00",
+    "user_reply": "确认",
+    "thread_id": "01a08912-69ea-7ac0-8d60-2144d7d08fc6",
+    "batch_id": "calibration-20260912-01",
+    "scope": "签收候选包内五例预期及固定参数，授权开始本批最多15次真实校准，总预算CNY 1，不自动重试，不产生策略候选。",
+    "request_payloads_unchanged": true,
+    "maximum_requests": 15,
+    "maximum_budget_cny": 1
+  }
+}

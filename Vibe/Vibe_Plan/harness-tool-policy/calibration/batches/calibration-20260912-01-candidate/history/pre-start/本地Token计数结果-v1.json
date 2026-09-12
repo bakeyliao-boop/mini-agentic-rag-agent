@@ -1,0 +1,196 @@
+{
+  "kind": "local_official_tokenizer_count_not_model_inference",
+  "model_repository_commit": "dba1be0a40aa45a94ad051997016db3960a90277",
+  "tokenizers_version": "0.22.2",
+  "python_version": "3.12.13",
+  "markers": {
+    "<｜begin▁of▁sentence｜>": [
+      0
+    ],
+    "<｜System｜>": [
+      128799
+    ],
+    "<｜User｜>": [
+      128803
+    ],
+    "<｜Assistant｜>": [
+      128804
+    ],
+    "</think>": [
+      128822
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "CAL-01",
+      "request_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679",
+      "encoded_prompt_sha256": "68660de9c6bd573e90f81d9ed7bfe9705fcc7c07b2e19165f28eb1e22113533a",
+      "encoded_prompt_utf8_bytes": 8886,
+      "system_content_tokens": 1306,
+      "user_content_tokens": 577,
+      "message_content_tokens_sum": 1883,
+      "encoded_prompt_tokens": 1888,
+      "framing_token_delta": 5,
+      "bos_count": 1,
+      "eos_count": 0,
+      "add_special_tokens_on_off_identical": true,
+      "input_reservation": 12000,
+      "below_reservation_by": 10112,
+      "planned_repetitions": 3,
+      "input_tokens_three_repetitions": 5664,
+      "cost_one_request_local_input_and_max_output_peak_cny": "0.020160"
+    },
+    {
+      "case_id": "CAL-02",
+      "request_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1",
+      "encoded_prompt_sha256": "732c0d99f9e4a212821649bed54e8fba12604d31adac81cc1b2f1ac3170fc0a3",
+      "encoded_prompt_utf8_bytes": 8602,
+      "system_content_tokens": 1306,
+      "user_content_tokens": 520,
+      "message_content_tokens_sum": 1826,
+      "encoded_prompt_tokens": 1831,
+      "framing_token_delta": 5,
+      "bos_count": 1,
+      "eos_count": 0,
+      "add_special_tokens_on_off_identical": true,
+      "input_reservation": 12000,
+      "below_reservation_by": 10169,
+      "planned_repetitions": 3,
+      "input_tokens_three_repetitions": 5493,
+      "cost_one_request_local_input_and_max_output_peak_cny": "0.020046"
+    },
+    {
+      "case_id": "CAL-03",
+      "request_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918",
+      "encoded_prompt_sha256": "e03fc1bcde161f3371d8025baee821af2635ca54766e3677b9f1fb7a7aad8347",
+      "encoded_prompt_utf8_bytes": 9665,
+      "system_content_tokens": 1306,
+      "user_content_tokens": 776,
+      "message_content_tokens_sum": 2082,
+      "encoded_prompt_tokens": 2087,
+      "framing_token_delta": 5,
+      "bos_count": 1,
+      "eos_count": 0,
+      "add_special_tokens_on_off_identical": true,
+      "input_reservation": 12000,
+      "below_reservation_by": 9913,
+      "planned_repetitions": 3,
+      "input_tokens_three_repetitions": 6261,
+      "cost_one_request_local_input_and_max_output_peak_cny": "0.020558"
+    },
+    {
+      "case_id": "CAL-04",
+      "request_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f",
+      "encoded_prompt_sha256": "c3fb108f1ee7b1602051b8325072324a03b7bc76937ff327d76c9887171fa15e",
+      "encoded_prompt_utf8_bytes": 9532,
+      "system_content_tokens": 1306,
+      "user_content_tokens": 751,
+      "message_content_tokens_sum": 2057,
+      "encoded_prompt_tokens": 2062,
+      "framing_token_delta": 5,
+      "bos_count": 1,
+      "eos_count": 0,
+      "add_special_tokens_on_off_identical": true,
+      "input_reservation": 12000,
+      "below_reservation_by": 9938,
+      "planned_repetitions": 3,
+      "input_tokens_three_repetitions": 6186,
+      "cost_one_request_local_input_and_max_output_peak_cny": "0.020508"
+    },
+    {
+      "case_id": "CAL-05",
+      "request_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab",
+      "encoded_prompt_sha256": "9402868f6aff734a15aa168e31229af9e173c0d6db0997cee8f4718c1fd33be0",
+      "encoded_prompt_utf8_bytes": 8554,
+      "system_content_tokens": 1306,
+      "user_content_tokens": 504,
+      "message_content_tokens_sum": 1810,
+      "encoded_prompt_tokens": 1815,
+      "framing_token_delta": 5,
+      "bos_count": 1,
+      "eos_count": 0,
+      "add_special_tokens_on_off_identical": true,
+      "input_reservation": 12000,
+      "below_reservation_by": 10185,
+      "planned_repetitions": 3,
+      "input_tokens_three_repetitions": 5445,
+      "cost_one_request_local_input_and_max_output_peak_cny": "0.020014"
+    }
+  ],
+  "total_input_tokens_15": 29049,
+  "max_output_tokens_15": 30720,
+  "local_input_plus_max_output_peak_cny": "0.303858",
+  "local_input_below_12000_all_cases": true,
+  "api_input_count_verified": false,
+  "api_requests_sent": 0,
+  "actual_api_usage": null,
+  "actual_debit": null,
+  "created": "2026-09-12",
+  "status": "local_count_complete_api_equivalence_not_verified",
+  "execution_authorized": false,
+  "source_cases_material_revision": 7,
+  "source_cases_sha256": "72d6d4396c6bfe82a11462401ce43ef3b4a15eafc19a75368599998fa7aa480f",
+  "source_request_manifest_sha256": "9cbcf4f38c6a89abe7fb9da79642a972ad2094a60d5a9a3d8cd95886abf8bbd8",
+  "download_provenance": {
+    "official_repo": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+    "commit": "dba1be0a40aa45a94ad051997016db3960a90277",
+    "files": [
+      {
+        "file": "tokenizer.json",
+        "bytes": 6367257,
+        "sha256": "c90dfa01249db1be4245780a052ede752e1361c612ac6d08e2bdada7d599476b",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/tokenizer.json?download=true"
+      },
+      {
+        "file": "tokenizer_config.json",
+        "bytes": 801,
+        "sha256": "6ac8c8dc065ed118161d02dd532749ae3f52c243deac27872134fae2f50d8547",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/tokenizer_config.json?download=true"
+      },
+      {
+        "file": "encoding/encoding.py",
+        "bytes": 37316,
+        "sha256": "502bdaec8a3fd88ebc24c4721a7038fbe42f2063c664638127056107920035c1",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/encoding/encoding.py?download=true"
+      },
+      {
+        "file": "encoding/README.md",
+        "bytes": 12120,
+        "sha256": "a2f0fc3baea318c9cfbceca68cbfe50d37cf7da6605ace887f33148bcff7e3ae",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/encoding/README.md?download=true"
+      },
+      {
+        "file": "inference/generate.py",
+        "bytes": 8722,
+        "sha256": "8668d67f7d108e32b90d50cb0d8606889ceb2219bfe95741d84e22f70768e9f0",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/inference/generate.py?download=true"
+      }
+    ]
+  },
+  "counter_dependency": {
+    "package": "tokenizers",
+    "version": "0.22.2",
+    "source": "https://pypi.org/project/tokenizers/0.22.2/",
+    "installation_scope": "temporary directory only; no project dependency changes"
+  },
+  "encoding_method": "official encode_messages(messages, thinking_mode=chat), then tokenizers.Tokenizer.from_file(...).encode; cross-check manual concatenation and add_special_tokens on/off",
+  "cost_basis": {
+    "currency": "CNY",
+    "input_peak_uncached_per_million": "2",
+    "output_peak_per_million": "8",
+    "price_source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+    "price_checked_on": "2026-09-12",
+    "output_cap_per_request": 2048,
+    "output_cap_status": "proposed_not_runtime_verified",
+    "cost_kind": "calculation_from_local_input_count_and_proposed_output_cap_not_actual_debit",
+    "reserve_input_per_request_unchanged": 12000,
+    "reserve_total_peak_cny_unchanged": "0.60576",
+    "accepted_total_budget_cny": "1"
+  },
+  "limitations": [
+    "Counts correspond to fixed public tokenizer and local encoding code, not observed API usage.",
+    "API deployment, hidden wrapping, actual requested model mapping and billing have not been verified.",
+    "Only two text messages with no tools, chat mode and plain text output were counted.",
+    "Original request drafts and approved material are unchanged; adding messages or changing mode/schema requires recounting."
+  ]
+}

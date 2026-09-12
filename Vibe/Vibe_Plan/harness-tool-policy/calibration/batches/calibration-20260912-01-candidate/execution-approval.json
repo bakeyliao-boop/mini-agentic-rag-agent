@@ -1,0 +1,10 @@
+{
+  "approved_at_utc": "2026-09-12T07:33:06.424722+00:00",
+  "user_reply": "确认",
+  "thread_id": "01a08912-69ea-7ac0-8d60-2144d7d08fc6",
+  "batch_id": "calibration-20260912-01",
+  "scope": "签收候选包内五例预期及固定参数，授权开始本批最多15次真实校准，总预算CNY 1，不自动重试，不产生策略候选。",
+  "request_payloads_unchanged": true,
+  "maximum_requests": 15,
+  "maximum_budget_cny": 1
+}

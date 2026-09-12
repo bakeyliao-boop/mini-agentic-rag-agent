@@ -1,0 +1,132 @@
+{
+  "mode": "execute",
+  "model": "deepseek-flash",
+  "planned_count": 15,
+  "budget_cny": "1",
+  "client_controls": {
+    "concurrency": 1,
+    "max_retries": 0,
+    "timeout_seconds": 120
+  },
+  "authorization_errors": [],
+  "sources": {
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\request-draft-v1\\manifest.json": "c78977d13c5733c2d10c02d85c657740b16bf90f35a11bf93bfe5e88bb3af66e",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\cases.json": "176541a2b83af25f3d8b24beab6af1ea9b26bf207ba3d3adc6b7a2ec297f393f",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\评估器统一说明草案-v2.md": "f3a3a87413da951fbcdfe1e7c00e2483daf56dd463366bebf9e4bed9048db695",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\本地Token计数结果-v1.json": "4980120e4f8dcfcab0a9b0f9c1f4b08ecb3fa6a12c367d5748b7c4201bc21377",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\fixtures\\multi_chunk_guide_001\\corpus\\政务与公共服务\\深圳市\\知识产权公共服务\\深圳市知识产权公共服务事项办事指南（第二版）.md": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\request-draft-v1\\CAL-01.request.example.json": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\request-draft-v1\\CAL-02.request.example.json": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\request-draft-v1\\CAL-03.request.example.json": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\request-draft-v1\\CAL-04.request.example.json": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260912-01-candidate\\request-draft-v1\\CAL-05.request.example.json": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab"
+  },
+  "slots": [
+    {
+      "ordinal": 1,
+      "case_id": "CAL-01",
+      "repetition": 1,
+      "request_file": "CAL-01.request.example.json",
+      "request_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679"
+    },
+    {
+      "ordinal": 2,
+      "case_id": "CAL-02",
+      "repetition": 1,
+      "request_file": "CAL-02.request.example.json",
+      "request_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1"
+    },
+    {
+      "ordinal": 3,
+      "case_id": "CAL-03",
+      "repetition": 1,
+      "request_file": "CAL-03.request.example.json",
+      "request_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918"
+    },
+    {
+      "ordinal": 4,
+      "case_id": "CAL-04",
+      "repetition": 1,
+      "request_file": "CAL-04.request.example.json",
+      "request_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f"
+    },
+    {
+      "ordinal": 5,
+      "case_id": "CAL-05",
+      "repetition": 1,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab"
+    },
+    {
+      "ordinal": 6,
+      "case_id": "CAL-01",
+      "repetition": 2,
+      "request_file": "CAL-01.request.example.json",
+      "request_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679"
+    },
+    {
+      "ordinal": 7,
+      "case_id": "CAL-02",
+      "repetition": 2,
+      "request_file": "CAL-02.request.example.json",
+      "request_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1"
+    },
+    {
+      "ordinal": 8,
+      "case_id": "CAL-03",
+      "repetition": 2,
+      "request_file": "CAL-03.request.example.json",
+      "request_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918"
+    },
+    {
+      "ordinal": 9,
+      "case_id": "CAL-04",
+      "repetition": 2,
+      "request_file": "CAL-04.request.example.json",
+      "request_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f"
+    },
+    {
+      "ordinal": 10,
+      "case_id": "CAL-05",
+      "repetition": 2,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab"
+    },
+    {
+      "ordinal": 11,
+      "case_id": "CAL-01",
+      "repetition": 3,
+      "request_file": "CAL-01.request.example.json",
+      "request_sha256": "c4910ebfef04bc711db5984bf63e141a74a1cb577aad69724113eb3e32358679"
+    },
+    {
+      "ordinal": 12,
+      "case_id": "CAL-02",
+      "repetition": 3,
+      "request_file": "CAL-02.request.example.json",
+      "request_sha256": "f9f88a888d53e6d91a6b8ca62e4579d58e8128056da117500af63afeaf1e16a1"
+    },
+    {
+      "ordinal": 13,
+      "case_id": "CAL-03",
+      "repetition": 3,
+      "request_file": "CAL-03.request.example.json",
+      "request_sha256": "012c795a0894a0ded8409c1c0451fd12c46b58a88fd9b87df4f607a763a6e918"
+    },
+    {
+      "ordinal": 14,
+      "case_id": "CAL-04",
+      "repetition": 3,
+      "request_file": "CAL-04.request.example.json",
+      "request_sha256": "ea2420fcc6afd0c7e32417f7ed957740bcedb35314b4847a78bc24a50604702f"
+    },
+    {
+      "ordinal": 15,
+      "case_id": "CAL-05",
+      "repetition": 3,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "4a6d4f1d99e5ad8c116f26eec23da3122018f501f221ead3f643f9e38669f2ab"
+    }
+  ],
+  "cost_basis": "peak uncached CNY input=2/output=8 per million"
+}

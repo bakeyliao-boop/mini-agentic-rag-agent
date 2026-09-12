@@ -1,0 +1,890 @@
+{
+  "schema": "planning-annotation-v2",
+  "status": "draft",
+  "runnable_evaluation_config": false,
+  "prepared_at": "2026-09-11",
+  "execution_question_count_approved": false,
+  "proposed_main_question_count": 8,
+  "reserve_question_count": 1,
+  "repetitions": null,
+  "cost_limit": null,
+  "human_reviewed": true,
+  "project_model_executions": 0,
+  "questions": [
+    {
+      "id": "DEV-01",
+      "split": "improvement",
+      "selection": "proposed_main",
+      "source_id": "D01",
+      "prior_id": "DEV-01",
+      "theme": "副本缴费期限",
+      "primary_goal": "确定提交副本请求后的缴费期限",
+      "question": "公司提交“专利登记簿副本”办理请求后，最迟应在什么时候缴费？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "提交办理请求后一个月内缴费。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "费用名称“专利文件副本证明费”、每份30元、缴费人与请求人一致均为允许补充；遗漏不增加必答缺失或扣分项。",
+        "允许完整引用人审接受的参考句；本题仍只问缴费时间，不要求材料或领取方式。"
+      ],
+      "forbidden_claims": [
+        "把一个月擅自换成固定30天。",
+        "把缴费期限说成副本办结期限。"
+      ],
+      "acceptable_answers": [
+        "提交办理请求后一个月内。",
+        "应在提交办理请求一个月内完成缴费。",
+        "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 489,
+          "end_line": 489,
+          "section": "五、专利登记簿副本出具／缴纳专利文件副本证明费",
+          "role": "support",
+          "pdf_physical_pages": [
+            20
+          ],
+          "quote": "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。请求人可在知识产权业务受理大厅、地方知识产权业务受理窗口（专利代办处）收费窗口面缴，也可注册并登录专利业务办理系统（http://cp",
+          "printed_pages": [
+            16
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "缴费期限及其起算事件",
+          "known_support_any_of": [
+            "E1"
+          ]
+        }
+      ],
+      "intended_probe": "明确事项名称下从目录或候选定位正文；基础检查。",
+      "limits": [
+        "单行可支持答案；不能用它证明自主补证。",
+        "简单题若原版已充分取证且成本合理，不因需要候选而制造改进任务。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "DEV-01@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "reference_answer_scope": "允许答到完整参考句，不等于该句每个事实都升级为必答；required_answer_points继续仅A1。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03",
+        "HR-04"
+      ],
+      "citation_check": "最终引用支持提交请求这一起算事件及一个月期限；若实际回答补充费用名称、金额或缴费人，这些已输出事实也须有支持。未输出的可选内容不作缺失。",
+      "stop_observation_draft": "观察足够支持期限后怎样结束；不因费用等允许补充而要求继续搜索。"
+    },
+    {
+      "id": "DEV-02",
+      "split": "improvement",
+      "selection": "proposed_main",
+      "source_id": "D01",
+      "prior_id": "DEV-02",
+      "theme": "同年后续减缴需提交什么",
+      "primary_goal": "确定同年后续费用减缴的提交要求",
+      "question": "我们公司今年已经通过专利费用减缴资格审核。同一自然年度内，办理后续专利的费用减缴，还需提交什么？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "仍需提交费用减缴请求。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "id": "A2",
+          "text": "无需重复提交相关证明文件。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "可重述审核通过、同一自然年度这两个题设前提；不要求逐字重复。",
+        "首次备案流程、首次证明清单、收入门槛不再必答。"
+      ],
+      "forbidden_claims": [
+        "声称后续连减缴请求也不必提交。",
+        "把免重复证明扩展到所有以后年度。",
+        "坚持同年每次均须重交全部证明。"
+      ],
+      "acceptable_answers": [
+        "还需提交费用减缴请求，无需再提交相关证明文件。",
+        "同年资格审核通过后，后续只提交减缴请求，证明材料不用重复交。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 404,
+          "end_line": 404,
+          "section": "四、专利费用减缴申请受理／办理流程",
+          "role": "support",
+          "pdf_physical_pages": [
+            17
+          ],
+          "quote": "专利申请人或专利权人注册并登录专利业务办理系统（htt ps://cponline.cnipa.gov.cn），通过“专利事务服务”功能提交费减备案请求，上传证明材料，经审核合格后，请求人完成费用减缴资格备案，在一个自然年度内请求减缴专利费用的，仅需提交费用减缴请求，无需再提交相关证明文件。（五）办理进度查询",
+          "printed_pages": [
+            13
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "同年、审核合格后的请求与证明要求",
+          "known_support_any_of": [
+            "E1"
+          ]
+        }
+      ],
+      "intended_probe": "定位与限定条件保持；一个提交要求含应交和免交两方面。",
+      "limits": [
+        "相较v1，措辞映射用途减弱，不能沿用无明确词语或纯语义检索标签。",
+        "单行可以覆盖，属于基础定位及条件应用。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "DEV-02@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03"
+      ],
+      "citation_check": "引用支持同年、审核合格条件下仍需减缴请求且无需重复证明，不要求另引首次备案或材料清单。",
+      "stop_observation_draft": "观察得到同年应交/免交要求后怎样结束；不要求再查首次备案步骤。"
+    },
+    {
+      "id": "DEV-04",
+      "split": "improvement",
+      "selection": "proposed_main",
+      "source_id": "D01",
+      "prior_id": null,
+      "replaces_main_slot_of": "DEV-03",
+      "theme": "共有专利两种许可的同意要求",
+      "primary_goal": "比较两种许可方式在全体共有人同意这一维度上的差异",
+      "question": "我们公司与另一家公司共有一项已授权且有效的发明专利，双方没有约定权利如何行使。按这份指南，办理专利实施许可合同备案（采用普通许可方式）与提出专利开放许可声明，对全体共有人同意的要求有何不同？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "在题设没有约定权利行使方式的情况下，部分共有人可以普通许可方式许可他人实施专利，无须将取得全体同意作为该普通许可的前提。",
+          "kind": "原文与题设推断",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "id": "A2",
+          "text": "开放许可需全体专利权人同意，不能仅凭部分共有人的意愿。",
+          "kind": "来源陈述与归纳",
+          "reference_evidence_ids": [
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "代表人或代理机构可以签章并附相应同意证明，是允许说明；未提签署方式不属于必答缺失。",
+        "不要求材料清单、渠道、费用、期限或完整备案流程。"
+      ],
+      "forbidden_claims": [
+        "认为题设普通许可也一律必须先取得全体共有人同意。",
+        "认为部分共有人可未经其余共有人同意直接提出开放许可。",
+        "把普通许可扩大为单方独占或排他许可也当然允许。",
+        "说所有共有人必须亲自到场或必须各自在同一份声明上签署，否认代表人或代理机构方式。",
+        "由该同意条件直接承诺必然获准备案。"
+      ],
+      "acceptable_answers": [
+        "不同。在没有约定的情况下，共有人可采用普通许可许可他人实施；开放许可则需要全体专利权人同意。",
+        "普通许可可由部分共有人按题设条件许可他人实施，开放许可声明须体现全体权利人的共同意愿。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 552,
+          "end_line": 560,
+          "section": "六、专利实施许可合同备案办理／受理条件",
+          "role": "support",
+          "pdf_physical_pages": [
+            22
+          ],
+          "quote": "## 六、专利实施许可合同备案办理\n\n（一）受理条件\n\n许可人应当是“专利登记簿”中记载的全体专利权利人，\n\n或者是其中的部分专利权利人，或者是获得专利权人授权的权利人；\n\n对于共有专利权的部分专利权人，专利申请权或者专利权的共有人对权利的行使没有约定的，共有人可以普通许可方式许可他人实施该专利；",
+          "printed_pages": [
+            18
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        },
+        {
+          "id": "E2",
+          "start_line": 702,
+          "end_line": 706,
+          "section": "七、专利权人专利开放许可声明受理／受理条件",
+          "role": "support",
+          "pdf_physical_pages": [
+            27
+          ],
+          "quote": "## 七、专利权人专利开放许可声明受理\n\n（一）受理条件\n\n专利开放许可声明的请求人应当为专利登记簿副本中记载的全体专利权人；",
+          "printed_pages": [
+            23
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        },
+        {
+          "id": "E3",
+          "start_line": 727,
+          "end_line": 727,
+          "section": "七、专利权人专利开放许可声明受理／开放许可声明签章",
+          "role": "alternative",
+          "pdf_physical_pages": [
+            27
+          ],
+          "quote": "专利开放许可声明。该表格应当为标准表格，并且由全体专利权人共同签章或签字；",
+          "printed_pages": [
+            23
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        },
+        {
+          "id": "E4",
+          "start_line": 729,
+          "end_line": 729,
+          "section": "七、专利权人专利开放许可声明受理／共有权人同意及代表人方式",
+          "role": "alternative",
+          "pdf_physical_pages": [
+            27,
+            28
+          ],
+          "quote": "共有专利权人同意开放许可的证明材料。专利权属于多个专利权人共有的，可以由代表人在专利开放许可声明中签字或者盖章，同时附上共有专利权人签字或者盖章的同意开放许可的证明材料原件和全体专利权人身份证明材料复印件；",
+          "printed_pages": [
+            23,
+            24
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        },
+        {
+          "id": "E5",
+          "start_line": 734,
+          "end_line": 734,
+          "section": "七、专利权人专利开放许可声明受理／同意证明及代理机构方式",
+          "role": "alternative",
+          "pdf_physical_pages": [
+            28
+          ],
+          "quote": "全体专利权人同意开放许可的证明材料。委托专利代理机构办理的，专利开放许可声明可以由专利代理机构盖章，同时附上全体专利权人签字或者盖章的同意开放许可的证明文件。",
+          "printed_pages": [
+            24
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "普通许可在没有约定时部分共有人可许可他人实施",
+          "known_support_any_of": [
+            "E1"
+          ]
+        },
+        {
+          "claim": "开放许可的全体权利人意愿要求",
+          "known_support_any_of": [
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ]
+        }
+      ],
+      "intended_probe": "显式比较目标下，从两个章节取得同一比较维度的依据；跨段补齐证据候选。",
+      "limits": [
+        "题面已经给出两个事项和比较维度，不验证模型自主发现比较对象或隐含任务分解。",
+        "全文关键词核查中普通许可核心规则在L560，最近开放许可依据在L706，两行最小连续窗口147行。未发现短段同时完整给出两边要求；这不是全文所有语义等价表达的形式化证明。",
+        "结构上的跨段取证不等于已观察到首次读取不足后的自主补读；工具返回可能提前给出多处线索，取证可以并行或多种方式完成。",
+        "不规定必须读E2到E5全部参考位置，也不按读取次数判对错。",
+        "新ID用于避免将不同题目混入v1 DEV-03历史记录；本题只对固定版本文本作判断。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "DEV-04@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03",
+        "HR-01"
+      ],
+      "citation_check": "引用合起来支持普通许可与开放许可在全体同意要求上的差异；开放许可侧有充分等价支持即可，不必引用全部条款。代表人说明仅在主动输出时核对。",
+      "stop_observation_draft": "若实际首次返回只支持一侧，观察是否继续取得另一侧；若已两侧充分可结束。以实际返回判断，不规定读次/顺序，不把静态147行跨度写成已发生自主补读。"
+    },
+    {
+      "id": "VAL-01",
+      "split": "holdout_validation",
+      "selection": "proposed_main",
+      "source_id": "D02",
+      "prior_id": "VAL-01",
+      "theme": "算法规则字段的填写内容",
+      "primary_goal": "确定涉及个人数据时一个表单字段应说明的内容",
+      "question": "我们准备将经算法处理、涉及个人数据的数据集合申请数据知识产权登记。申请表中的“算法规则”一栏需要说明哪些内容？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "简要说明数据处理过程中算法模型构建等情况。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "id": "A2",
+          "text": "说明对个人数据进行必要的匿名化、去标识化等处理情况。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        },
+        {
+          "id": "A3",
+          "text": "确保不能通过可逆模型或算法还原原始数据。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "存证公证、其他登记字段、登记资格与公共数据分支均不必答。"
+      ],
+      "forbidden_claims": [
+        "只列模型构建而遗漏题设个人数据处理的条件要求。",
+        "认为可以还原原始个人数据也符合本条要求。",
+        "将没有依据的技术方案或材料添作本字段必交项。"
+      ],
+      "acceptable_answers": [
+        "说明算法模型构建等数据处理情况，以及个人数据必要的匿名化、去标识化处理，并确保无法通过可逆模型或算法还原原始数据。",
+        "需要介绍算法处理方式和模型构建，说明个人数据如何作必要处理以防止反推还原原始数据。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 334,
+          "end_line": 340,
+          "section": "三、如何进行数据知识产权登记？／材料要求（七）算法规则",
+          "role": "support",
+          "pdf_physical_pages": [
+            9
+          ],
+          "quote": "  （七）算法规则。简要说明数据处理过程中算法模型构建等\n\n情况。涉及个人数据、公共数据的，还应对数据进行必要的匿名\n\n化、去标识化等情况进行说明，确保不可通过可逆模型或者算法\n\n还原出原始数据；",
+          "printed_pages": [
+            5
+          ]
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "算法规则字段的基础内容和个人数据条件",
+          "known_support_any_of": [
+            "E1"
+          ]
+        }
+      ],
+      "intended_probe": "明确字段的一组完整填写要求；一个交付目标包含多个必要内容。",
+      "limits": [
+        "短段可答，不能据此宣称自主补读。",
+        "不要求逐字复述技术名词，但只说脱敏而没有必要处理及不可还原含义不够完整。",
+        "不处理实际个人数据；题设是构造场景。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "VAL-01@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《知识产权领域高频事项办事指南（2025）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03"
+      ],
+      "citation_check": "引用支持算法模型构建、个人数据必要处理及不可还原三项含义；仅引条款前半不足以支撑后半要求。",
+      "stop_observation_draft": "观察是否读到并理解个人数据条件的后半条款后结束；无需查询其他登记字段或资格。"
+    },
+    {
+      "id": "VAL-02",
+      "split": "holdout_validation",
+      "selection": "proposed_main",
+      "source_id": "D02",
+      "prior_id": "VAL-02",
+      "theme": "海外纠纷指导申请材料",
+      "primary_goal": "从求助情景找到对应服务的申请材料",
+      "question": "公司住所地在北京，在国外收到专利侵权指控，想请官方专家提供应对指导。申请这项服务需要准备哪些材料？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "提交加盖企业公章的海外知识产权纠纷应对指导申请书。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E2"
+          ]
+        },
+        {
+          "id": "A2",
+          "text": "提交真实、完整、详实的知识产权纠纷发生材料。",
+          "kind": "来源陈述",
+          "reference_evidence_ids": [
+            "E2"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "可以说明机构和服务名称、申请渠道或联系方式，但这些不是独立必答点。",
+        "在上下文及引用已经明确服务时，可简称申请书，不要求逐字抄表名。"
+      ],
+      "forbidden_claims": [
+        "漏掉申请书应加盖企业公章的要求。",
+        "把公章要求擅自扩大为每份纠纷材料都必须盖章。",
+        "给出另一事项的材料，或编造身份证、评估报告等必交材料。"
+      ],
+      "acceptable_answers": [
+        "提交加盖企业公章的《海外知识产权纠纷应对指导申请书》，以及真实、完整、详实的纠纷发生材料。",
+        "需要盖企业公章的申请书和真实完整、反映纠纷详情的材料。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 967,
+          "end_line": 983,
+          "section": "十、如何申请海外知识产权纠纷应对指导？／服务与办理条件",
+          "role": "support",
+          "pdf_physical_pages": [
+            21
+          ],
+          "quote": "  十、如何申请海外知识产权纠纷应对指导？\n\n  海外知识产权纠纷应对指导是指住所地在北京市的民事主\n\n体针对其在海外发生的商标、专利、地理标志、商业秘密等知识\n\n产权纠纷,向北京市知识产权公共服务中心提出申请，由北京市\n\n知识产权公共服务中心协调指导专家，通过专业知识和技能对相\n\n关问题开展分析、评估、判断并提供专业指导意见的服务。\n\n  办理条件：住所地在北京市的民事主体在海外遭遇知识产权\n\n纠纷，或具有与海外知识产权相关的具体指导请求，需要我海外\n\n知识产权维权援助专家给予指导的。",
+          "printed_pages": [
+            17
+          ]
+        },
+        {
+          "id": "E2",
+          "start_line": 985,
+          "end_line": 987,
+          "section": "十、如何申请海外知识产权纠纷应对指导？／材料要求",
+          "role": "support",
+          "pdf_physical_pages": [
+            21
+          ],
+          "quote": "  材料要求：需提交加盖企业公章的“海外知识产权纠纷应对\n\n指导申请书”以及真实、完整、详实的知识产权纠纷发生材料。",
+          "printed_pages": [
+            17
+          ]
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "题设服务的盖章申请书与纠纷发生材料",
+          "known_support_any_of": [
+            "E2"
+          ],
+          "context_reference_evidence_ids": [
+            "E1"
+          ],
+          "note": "结合所属事项标题、同次返回的服务说明或表名确认语境；E1是上下文参考，不要求额外输出机构名称，也不把E1当作材料清单的替代证据。"
+        }
+      ],
+      "intended_probe": "从困境表述映射具体服务并取得材料正文，保留措辞映射价值。",
+      "limits": [
+        "一段或单次读取可覆盖，不代表检索方式或多轮策略一定更优。",
+        "真实、完整、详实按含义判断，不机械要求三个形容词原样出现。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "VAL-02@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《知识产权领域高频事项办事指南（2025）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03"
+      ],
+      "citation_check": "引用支持申请书盖企业公章及真实完整详实的纠纷材料，语境能辨认所属服务；不强制额外引用E1或输出机构名称。",
+      "stop_observation_draft": "观察匹配服务、取得材料后如何结束；不要求追查联系方式等可选内容。"
+    },
+    {
+      "id": "VAL-03",
+      "split": "holdout_validation",
+      "selection": "proposed_main",
+      "source_id": "D02",
+      "prior_id": "VAL-03",
+      "theme": "匹配备案中心后的纸质材料要求",
+      "primary_goal": "判断题设企业备案是否需另行邮寄纸质材料",
+      "question": "我们是在北京注册的高端装备制造企业，已符合指南列出的备案条件。申请专利预审备案时，是否还需邮寄纸质材料？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "无需另寄纸质材料。",
+          "kind": "原文与题设推断",
+          "reference_evidence_ids": [
+            "E1",
+            "E2"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "可解释适用分支全程线上办理；这不是最低答案之外的新增必答项。",
+        "机构全称、平台网址、账号、日期和材料清单不独立计入必答。",
+        "可以说明另一中心规定不同，但不要求输出两家中心对照。"
+      ],
+      "forbidden_claims": [
+        "将中关村中心的纸质提交要求套用到题设高端装备企业。",
+        "把所有北京地区中心都说成无需纸质材料。",
+        "仅因出现在线提交就断言无需纸质，忽略相应机构同段后续要求。"
+      ],
+      "acceptable_answers": [
+        "无需另寄纸质材料。",
+        "无需另寄纸质材料；指南规定适用的北京市知识产权保护中心分支全程线上办理。",
+        "按指南，这类企业的备案全程线上进行，未要求另外邮寄纸质材料。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 493,
+          "end_line": 499,
+          "section": "五、如何申请北京市专利预审备案？／产业与机构对应",
+          "role": "support",
+          "pdf_physical_pages": [
+            12
+          ],
+          "quote": "利预审备案。北京市有两家知识产权保护中心，其中北京市知识\n\n产权保护中心（北京专利代办处）提供新一代信息技术和高端装\n\n备制造产业的专利申请预审服务，中关村知识产权保护中心提供\n\n生物医药和新材料产业的专利申请预审服务。",
+          "printed_pages": [
+            8
+          ]
+        },
+        {
+          "id": "E2",
+          "start_line": 587,
+          "end_line": 597,
+          "section": "五、如何申请北京市专利预审备案？／北京中心办理方式",
+          "role": "support",
+          "pdf_physical_pages": [
+            14
+          ],
+          "quote": "  （一）北京市知识产权保护中心（北京专利代办处）：\n\n  专利预审备案业务通过北京市知识产权保护中心（北京专利\n\n代办处）信息平台（网址：www.bjippc.cn）全程线上办理。符\n\n合办理条件的企事业单位注册“企事业单位”账号，每月15 日\n\n前通过【专利预审备案】模块，在线填报备案信息，在线提交备\n\n案材料。北京市知识产权保护中心（北京专利代办处）每月最后",
+          "printed_pages": [
+            10
+          ]
+        },
+        {
+          "id": "E3",
+          "start_line": 601,
+          "end_line": 609,
+          "section": "五、如何申请北京市专利预审备案？／中关村中心办理方式",
+          "role": "contrast_only",
+          "pdf_physical_pages": [
+            14
+          ],
+          "quote": "  （二）中关村知识产权保护中心：\n\n  专利预审备案业务通过中关村知识产权保护中心预审服务\n\n系统（http://www.bjhd.gov.cn/ippc/）办理。符合办理条件的\n\n企事业单位注册“企事业单位”账号，在线填报备案信息，在线\n\n提交备案材料，并提交纸质材料。纸质材料邮寄地址：北京市海",
+          "printed_pages": [
+            10
+          ]
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "高端装备制造对应北京市知识产权保护中心",
+          "known_support_any_of": [
+            "E1"
+          ]
+        },
+        {
+          "claim": "该中心全程线上及线上提交材料",
+          "known_support_any_of": [
+            "E2"
+          ]
+        }
+      ],
+      "intended_probe": "在相似机构分支中匹配产业、取得办理方式，单一判断的跨段依据候选。",
+      "limits": [
+        "题设已假定符合备案条件，不追加核验所有资格事实。",
+        "答案中只说无需邮寄不等于机构匹配取证已经被证明；分开评价答案内容、实际取得依据、引用语义支持。",
+        "不要求另读E3来证明另一中心，E3仅供审核识别混读。",
+        "实际是否首次缺证据、是否自主补足均待运行；不把两个段落直接等同于必须固定两次read。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "VAL-03@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《知识产权领域高频事项办事指南（2025）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "answer_vs_evidence_policy": "A1只检查题设是否需寄纸质的结论；实际取证与最终引用另查产业→机构、机构→办理方式两段对应。短答获认可不免除证据检查，也不要求输出映射过程。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03"
+      ],
+      "citation_check": "最终引用整体须支持高端装备产业对应北京市知识产权保护中心，及该中心的全程线上办理；不能用轨迹里读过但最终未引用的关键依据补成引用充分。允许同版本等价原文，不要求输出机构比较。",
+      "stop_observation_draft": "观察是否在产业与方式对应尚未得到支持前结束；两段对应已充分时不要求再查中关村对照条款。"
+    },
+    {
+      "id": "REG-01",
+      "split": "holdout_regression",
+      "selection": "proposed_main",
+      "source_id": "D02",
+      "prior_id": "REG-01",
+      "theme": "未授权专利的开放许可条件",
+      "primary_goal": "作出明确前提不满足时的有据否定",
+      "question": "尚未获得授权的发明专利申请，可以办理专利开放许可声明吗？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "不能；指南要求已经授权公告，题设尚未授权不符合这一前提。",
+          "kind": "原文与题设推断",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "可补充仍处有效状态要求；不要求罗列其他专利类型或全部资格条件。"
+      ],
+      "forbidden_claims": [
+        "认为尚未授权也能按本条办理开放许可。",
+        "扩大成未授权申请一律不能转让、交易或采用其他许可方式。"
+      ],
+      "acceptable_answers": [
+        "不能，指南要求专利已经授权公告，题设尚未授权。",
+        "尚未授权不符合该办理前提。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 783,
+          "end_line": 787,
+          "section": "七、如何办理专利开放许可声明？／办理条件",
+          "role": "support",
+          "pdf_physical_pages": [
+            18
+          ],
+          "quote": "  办理条件：实行开放许可的专利应当是已经由国家知识产权\n\n局授权公告且处于有效状态的发明专利、实用新型专利或者外观\n\n设计专利。",
+          "printed_pages": [
+            14
+          ]
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "已授权公告是办理前提",
+          "known_support_any_of": [
+            "E1"
+          ]
+        }
+      ],
+      "intended_probe": "证据足够后的明确否定及停止保护。",
+      "limits": [
+        "不是无资料拒答，也不证明search无命中停止有效。",
+        "DEV-04相关深圳开放许可章节L708也有授权要求；这是既有知识家族的另一文档保护题，不宣称规则未见或据此报告强泛化。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "REG-01@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《知识产权领域高频事项办事指南（2025）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03"
+      ],
+      "citation_check": "引用支持已授权公告这一题设未满足的前提；不要求罗列或引用全部其他资格条件。",
+      "stop_observation_draft": "观察取得否定依据后的结束；不能把该题当作无资料拒答或search无命中测试。"
+    },
+    {
+      "id": "REG-02",
+      "split": "holdout_regression",
+      "selection": "proposed_main",
+      "source_id": "D02",
+      "prior_id": "REG-02",
+      "theme": "质押融资材料明细缺项",
+      "primary_goal": "在指南没有具体清单时准确说明可回答边界",
+      "question": "我们公司准备拿已有专利向银行申请质押融资。这份指南列出了哪些必须提交的申请材料？请给出具体清单。",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "指南没有列出具体必交材料清单，仅要求按银行等金融机构的具体要求提供，因此无法据此列出明细。",
+          "kind": "来源陈述与范围判断",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "查询拟办理银行官网或联系机构的建议是可选，不计入必答。"
+      ],
+      "forbidden_claims": [
+        "把常识中的财报、身份证明、评估报告等编造成指南明确规定的必交项。",
+        "只套用通用证据不足回复，不指出原文实际给出的银行要求边界。"
+      ],
+      "acceptable_answers": [
+        "指南未列出具体清单，只要求按银行等金融机构的具体要求提供，因此不能仅凭这份指南列出必交材料。",
+        "该指南没有材料明细，要求以办理银行的具体要求为准。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 834,
+          "end_line": 858,
+          "section": "八、如何申请知识产权质押融资？／完整事项说明",
+          "role": "support",
+          "pdf_physical_pages": [
+            19
+          ],
+          "quote": "  八、如何申请知识产权质押融资？\n\n  拥有专利、商标、版权等知识产权的企业或个人可向银行等\n\n金融机构申请办理知识产权质押融资。我市许多银行已开展相关\n\n业务，如中国工商银行、交通银行、中国邮政储蓄银行、北京银\n\n行、中国银行等。\n\n  办理条件：拥有知识产权。\n\n  材料要求：按银行等金融机构具体要求提供。\n\n  办理方式：按银行等金融机构具体要求办理。\n\n  办理部门及联系方式：\n\n  银行或其他金融机构。具体可查询拟办理业务的银行或其他\n\n金融机构官方网站。\n\n  注意事项：以上信息为网络查询信息，具体按银行等金融机\n\n构要求办理。",
+          "printed_pages": [
+            15
+          ]
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "相关事项没有材料明细，而是按金融机构具体要求提供",
+          "known_support_any_of": [
+            "E1"
+          ]
+        }
+      ],
+      "intended_probe": "相关事项命中但所求明细缺失时不编造。",
+      "limits": [
+        "不强制answer_type为insufficient；只要准确说明边界并有支持即可。",
+        "仍未覆盖完全没有相关资料的拒答。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "REG-02@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《知识产权领域高频事项办事指南（2025）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03"
+      ],
+      "citation_check": "引用支持相关事项按银行等金融机构要求提供材料的边界；搜索none或通用证据不足话术不能替代这条原文依据。不要求遍历全书证明绝对不存在。",
+      "stop_observation_draft": "观察确认材料明细边界后是否结束，或继续编造清单；不强制insufficient标签。"
+    },
+    {
+      "id": "DEV-03",
+      "split": "reserve",
+      "selection": "reserve_not_selected",
+      "source_id": "D01",
+      "prior_id": "DEV-03",
+      "theme": "单类别续展规费合计",
+      "primary_goal": "计算题设续展的指南所列规费合计",
+      "question": "公司商标有效期已届满两个月，现在申请续展一个类别。按指南所列规费，应合计缴纳多少钱？",
+      "required_answer_points": [
+        {
+          "id": "A1",
+          "text": "合计675元。",
+          "kind": "原文与题设算术推断",
+          "reference_evidence_ids": [
+            "E1"
+          ]
+        }
+      ],
+      "optional_answer_points": [
+        "可展示450+225的计算依据，不强制输出算式或额外期限说明。",
+        "邮寄、材料、办理时限不再必答。"
+      ],
+      "forbidden_claims": [
+        "漏掉延迟费或把延迟费当作替代基本费。",
+        "把675元扩成包含邮费和代理费的全部支出。"
+      ],
+      "acceptable_answers": [
+        "按指南所列规费，合计675元。",
+        "450元续展规费加225元延迟费，共675元。"
+      ],
+      "evidence": [
+        {
+          "id": "E1",
+          "start_line": 2262,
+          "end_line": 2262,
+          "section": "十七、注册商标续展申请受理／缴纳规费",
+          "role": "support",
+          "pdf_physical_pages": [
+            85
+          ],
+          "quote": "收费标准：450元/类，有效期满后在六个月宽展期内提出续展注册申请的，还需缴纳延迟费，225元/类。",
+          "printed_pages": [
+            81
+          ],
+          "pdf_page_verification": "官方PDF文本定位核对；不将原Markdown页注释作PDF页码"
+        }
+      ],
+      "evidence_requirements": [
+        {
+          "claim": "一个类别及期满两个月适用的两项金额",
+          "known_support_any_of": [
+            "E1"
+          ]
+        }
+      ],
+      "intended_probe": "规费条件应用与算术；仅备用，不列入v2建议主集。",
+      "limits": [
+        "单行同时给出宽展期及两项金额，不能承担补证验证。",
+        "最低答案675元不取消引用支持要求。",
+        "如以后选入需重新讨论实验规模，不能默认与主集一并运行。"
+      ],
+      "status": "draft",
+      "version": "v2",
+      "versioned_id": "DEV-03@v2",
+      "origin": "Agent依据固定指南拟定的模拟场景，结合用户转贴Claude建议修订；非真实用户日志、非官方原题",
+      "common_instruction": "请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+      "evidence_acceptance_note": "列出的行段及ID是审核参考，不是唯一合法取证位置；可接受本版本原文中其他语义等价支持。不得强制工具类型、顺序、读取次数或输出所有参考引用。",
+      "human_review_refs": [
+        "HR-02",
+        "HR-03"
+      ],
+      "citation_check": "引用支持两项金额及题设适用的宽展条件；最终只答675元也需有支持，不强制输出算式。",
+      "stop_observation_draft": "仅在以后另行选入并获执行授权时观察费用依据充分后的结束；不要求查邮寄/材料/时限，不默认运行。"
+    }
+  ],
+  "human_review": {
+    "date": "2026-09-11",
+    "record": "人审结论与收口记录.md",
+    "scope": "本轮用户明确给出的HR-01至HR-04；不表示执行题集、完整协议、次数或费用已获批准",
+    "decisions": {
+      "HR-01": "认可DEV-04为同一维度比较及跨段取证用途；不宣称验证自主发现比较对象或隐含任务分解。",
+      "HR-02": "答案、实际取证、最终引用支持分开；VAL-03允许只答无需另寄纸质材料，证据须支持产业到机构及机构到办理方式。",
+      "HR-03": "接受改进侧情景措辞映射较弱、未覆盖完全无相关资料拒答；本轮不为覆盖强行增题。",
+      "HR-04": "DEV-01允许完整参考句包含费用名称、每份30元、缴费人一致；当前仍只问时间，后三项不升级为必答。"
+    },
+    "material_consistency": "closed_for_this_review",
+    "execution_selection_approved": false,
+    "protocol_approved": false
+  },
+  "material_consistency_status": "closed_for_this_human_review",
+  "updated_at": "2026-09-11",
+  "full_execution_question_set_approved": false,
+  "evaluation_protocol": {
+    "status": "draft",
+    "document": "../../design/03-评测协议草案-v1.md",
+    "implemented": false,
+    "dimensions": [
+      "answer_content",
+      "evidence_acquisition",
+      "citation_support",
+      "stopping_behavior"
+    ]
+  }
+}

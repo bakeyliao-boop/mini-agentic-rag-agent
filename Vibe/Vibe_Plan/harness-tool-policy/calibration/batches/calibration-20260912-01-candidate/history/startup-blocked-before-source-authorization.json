@@ -1,0 +1,15 @@
+{
+  "checked_at_utc": "2026-09-12T07:37:28.936161+00:00",
+  "batch_id": "calibration-20260912-01",
+  "execution_authorization_preserved": true,
+  "status": "blocked_before_any_model_request",
+  "model_requests_sent": 0,
+  "model_responses_received": 0,
+  "formal_output_directory_created": false,
+  "initial_problem": "The isolated worktree has no .env; configuration loading failed before creating a model client or batch output.",
+  "original_project_env_exists": true,
+  "original_project_env_contents_read": false,
+  "attempted_action": "Reuse SEMANTIC_JUDGE_BASE_URL and SEMANTIC_JUDGE_API_KEY from C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env only in the current process.",
+  "automatic_review": "rejected before command execution: cross-project credential source not explicitly authorized",
+  "next_required_confirmation": "Permission to use that named original-project .env for this approved batch; no need to re-approve model, request count or budget."
+}

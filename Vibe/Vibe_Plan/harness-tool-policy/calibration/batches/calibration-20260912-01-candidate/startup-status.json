@@ -1,0 +1,12 @@
+{
+  "status": "completed_model_calls_review_not_passed",
+  "batch_id": "calibration-20260912-01",
+  "model_requests_sent": 15,
+  "responses": 15,
+  "credential_source_explicitly_authorized": true,
+  "credential_values_disclosed": false,
+  "calibration_gate_outcome": "not_passed",
+  "report": "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\results\\tool-contribution-calibration\\calibration-20260912-01\\calibration-report.md",
+  "reference_scope_disputes_pending": 3,
+  "confirmed_increment_errors": 3
+}
