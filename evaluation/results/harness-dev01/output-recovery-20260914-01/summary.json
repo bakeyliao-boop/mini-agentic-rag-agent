@@ -1,0 +1,12 @@
+{
+  "status": "completed_pending_review",
+  "counts": {
+    "chat": 1,
+    "embedding": 0
+  },
+  "computed_uncached_cny": "0.0009804",
+  "unknown_reserved_cny": "0E-7",
+  "halted": false,
+  "budget_cny": "1.30",
+  "invoice_verified": false
+}

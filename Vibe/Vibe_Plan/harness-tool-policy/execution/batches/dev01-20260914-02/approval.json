@@ -1,0 +1,22 @@
+{
+  "execution_authorized": true,
+  "user_reply": "是",
+  "approved_at_utc": "2026-09-14T07:21:18.826823+00:00",
+  "scope": "独立重建同一D01索引，新增建库上限0.36元；核对后继续此前批准DEV-01原策略一次，无自动重试",
+  "build_budget_cny": 0.36,
+  "trial_budget_cny": 10,
+  "index_dir": "data/harness/dev01-20260914-02/index",
+  "output_dir": "evaluation/results/harness-dev01/dev01-20260914-02",
+  "credential_source": "C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env",
+  "credential_keys": [
+    "DASHSCOPE_BASE_URL",
+    "DASHSCOPE_API_KEY"
+  ],
+  "build_embedding_limit": 86,
+  "trial_chat_limit": 8,
+  "trial_embedding_limit": 6,
+  "request_io_timeout_seconds": 120,
+  "phase_deadline_seconds": 600,
+  "external_total_deadline_seconds": 1200,
+  "no_deepseek": true
+}

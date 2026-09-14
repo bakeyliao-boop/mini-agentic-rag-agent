@@ -1,0 +1,30 @@
+{
+  "mode": "execute",
+  "model": "deepseek-flash",
+  "planned_count": 1,
+  "budget_cny": "0.05",
+  "client_controls": {
+    "concurrency": 1,
+    "max_retries": 0,
+    "timeout_seconds": 120
+  },
+  "authorization_errors": [],
+  "sources": {
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\real-read-20260914-01\\request-draft-v1\\manifest.json": "b676c272becd0f9da9e4b36960644695804b8dc51e9efc05caf44ce67b12b819",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\real-read-20260914-01\\cases.json": "19ab46436af8764f8676b713ee1df24b848e395076f1dc99d6f29710cf990334",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\real-read-20260914-01\\评估器统一说明草案-v3.md": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\real-read-20260914-01\\本地Token计数结果-v1.json": "559e88953a5bbc1917d7a3f2e8aa118be5ede6792c06f9100e9a2373401c4f12",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\fixtures\\multi_chunk_guide_001\\corpus\\政务与公共服务\\深圳市\\知识产权公共服务\\深圳市知识产权公共服务事项办事指南（第二版）.md": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\real-read-20260914-01\\request-draft-v1\\REAL-DEV01-READ.request.example.json": "52fd00f7c6c364cecdb4da2795fef7bba5ab2e46f89c1cbd128f633d00239453"
+  },
+  "slots": [
+    {
+      "ordinal": 1,
+      "case_id": "REAL-DEV01-READ",
+      "repetition": 1,
+      "request_file": "REAL-DEV01-READ.request.example.json",
+      "request_sha256": "52fd00f7c6c364cecdb4da2795fef7bba5ab2e46f89c1cbd128f633d00239453"
+    }
+  ],
+  "cost_basis": "peak uncached CNY input=2/output=8 per million"
+}

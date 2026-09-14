@@ -1,0 +1,31 @@
+{
+  "kind": "organizer_review_of_actual_evaluator_output",
+  "observed": [
+    "sufficient",
+    "no",
+    "yes"
+  ],
+  "matches_human_reference": true,
+  "reason_check": "明确区分前序grep已有期限事实与本次read新增引用登记，并定位trace-event-10/14、L489及实际evidence-3；未声称首次获得事实或后续答案/停止正确。",
+  "input_location_check": "使用事件ID、文件路径和实际行号定位，可无歧义回查；未逐项写JSON Pointer",
+  "raw_content_matches_result": true,
+  "request_matches_approved_hash": true,
+  "input_token_count_matches_local": true,
+  "usage": {
+    "prompt_tokens": 6226,
+    "completion_tokens": 711,
+    "total_tokens": 6937,
+    "prompt_tokens_details": {
+      "cached_tokens": 1536
+    },
+    "prompt_cache_hit_tokens": 1536,
+    "prompt_cache_miss_tokens": 4690
+  },
+  "calculated_cost_cny": "0.01512944",
+  "conservative_cost_cny": "0.01814",
+  "price_period": "peak",
+  "invoice_verified": false,
+  "post_run_human_signoff": false,
+  "strategy_candidates_generated": 0,
+  "scope": "一次真实read反馈验证，不代表自动策略继承或评估器普遍可靠"
+}

@@ -1,0 +1,528 @@
+{
+  "mode": "read_only_sqlite_no_chroma_open_no_api",
+  "source_db": "C:\\Users\\hyf\\Desktop\\mini-agentic-rag-agent\\data\\pilots\\multi-chunk-guide-001\\chroma.sqlite3",
+  "source_db_sha256": "3643f523855d28d4c3a93ffc23ec7de573b9586d9d6e5d1aac0e4e9b9472d7fc",
+  "collection": "knowledge_chunks",
+  "stored_entries": 86,
+  "all_stored_text_ranges_match_current_D01": true,
+  "embedding_model_and_dimension_provenance_verified": false,
+  "index_copied": false,
+  "entries": [
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1,
+      "end_line": 24,
+      "content_sha256": "7eb6a736e30fcfac321591258ddea65a6c815528ffc647133f90534c680d47b2"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 24,
+      "end_line": 26,
+      "content_sha256": "d74483dc6768b2eaa54ec9c266bc486f48fc96ca866db26e118aa89ba700b742"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 28,
+      "end_line": 35,
+      "content_sha256": "00aafd96a26bbd0001fa8ddd6a2de22676dd3efd6e5e67e95970bf443bc783e7"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 37,
+      "end_line": 37,
+      "content_sha256": "e565d913f237348475349116b85759dfbf99750e13c279138449d7100afe3d52"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 39,
+      "end_line": 56,
+      "content_sha256": "56ae2cec9ccda5228e4ba02aa2ab419d47092f11e4bf611d82b5268fc31f7222"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 56,
+      "end_line": 91,
+      "content_sha256": "0d08a986777bec7f00005561b9e3fb852c211abc9bd638665f06b1efb76a9950"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 91,
+      "end_line": 133,
+      "content_sha256": "24f4ae1f4e2557b3a2f069b9d8f9865a8c76e2b25923c2e74ce7c387235bdf5d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 133,
+      "end_line": 181,
+      "content_sha256": "409a18c12adc20240bc77329cae65562a291eaf783a184bc432206913e0e107d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 181,
+      "end_line": 243,
+      "content_sha256": "46d7586ef1410776e95abfab4db1221e06611ebbd08505a9372559c637a3d45b"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 243,
+      "end_line": 305,
+      "content_sha256": "a210cc279dcdb80801ca371a3494378297689e36c3af866143c85008925877fe"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 305,
+      "end_line": 345,
+      "content_sha256": "30b89fb8acfbaa522e1382c0b2e2d555bd884ecb3dbab07e31057eb72cd4243d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 345,
+      "end_line": 404,
+      "content_sha256": "f0b03c470d99d881c1425b8b98c5275d33efccd744c2e3dff22980b5de75ad7d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 404,
+      "end_line": 464,
+      "content_sha256": "8f335364bed44fc9e25b737eb6ad441257281b02092da5fa50b425f0f2867da0"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 464,
+      "end_line": 518,
+      "content_sha256": "5b04c8492568a1d29ac7c3c55659943700a68b50b243c0c604a296a672d933b8"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 518,
+      "end_line": 579,
+      "content_sha256": "b2d3d9c25591db49c70e64e2745dbb68c8092f52fd3de4ca87eddfcc983763ab"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 579,
+      "end_line": 627,
+      "content_sha256": "f74117738ec2c6007e2f645cfd1443a25f4ffaf6cd69af5cb76b4a0924cd7762"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 627,
+      "end_line": 673,
+      "content_sha256": "7aa508d8f761793a49793f09ccace3015f39799a003876e0e84d6d46aa5571a2"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 673,
+      "end_line": 732,
+      "content_sha256": "35aa7262c87230ef2b6d07897d96a3215d6545201a800160e684767fcb65581a"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 732,
+      "end_line": 782,
+      "content_sha256": "66dae1ec40dbc01317b5564ac609735440bd73298e12a78c5dae8c8e843c8e5d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 782,
+      "end_line": 840,
+      "content_sha256": "9d399ad3dc4e439fe7867764736cf6e391607a3051074de4012fbca19e608d11"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 840,
+      "end_line": 891,
+      "content_sha256": "8b6e723800aa8b889392b33962a6ce1355518b972c0124b06faa40451998df04"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 891,
+      "end_line": 939,
+      "content_sha256": "d6fc519b48918fdcbce69b1b4eb73b10d13f2e72e1f46d431ff7b8664f01ec67"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 939,
+      "end_line": 987,
+      "content_sha256": "8d472c5c849b88fbd91230bf103ba89ff7f63b2f76e51876e2e13b9ef2a47dae"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 987,
+      "end_line": 1032,
+      "content_sha256": "e26beda26446603fbc994b669f5a4b67c316ebc97d087d7257eb937b39ceb97b"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1032,
+      "end_line": 1080,
+      "content_sha256": "502deeb0f89ff81fef47f31db4652a1e8d3d9f66b41a1338e8c4ac3ecc7d432d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1080,
+      "end_line": 1153,
+      "content_sha256": "350ed4903e753b7af496f4a1f598354bc8cedee49bc8b3dec1fd96af858fad9d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1153,
+      "end_line": 1209,
+      "content_sha256": "a2ab8a18b162b9ccbaed0f55fa549949f5c6bb9f4cbd6fcd100ad98117274f05"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1209,
+      "end_line": 1258,
+      "content_sha256": "e424e3a9a7106dafe69277d0729fa40e2fa129cfbb0cdc234b141afc648e720b"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1258,
+      "end_line": 1290,
+      "content_sha256": "c87cf6689db24517ee3d2a865beaf0f1d1103b280aa7071eaa2fbef4ee752fb9"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1290,
+      "end_line": 1348,
+      "content_sha256": "cd0ffa032cc7f99708137f31ca83e8e14e784e77f94c4e09fb1e510a10c2f0a2"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1348,
+      "end_line": 1399,
+      "content_sha256": "839b79687093711e7706446a0c5927e30e16354ad005257035c773c84a5199c3"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1399,
+      "end_line": 1447,
+      "content_sha256": "462ee4d6b84b2ef733e7807680dd48979395d9866673e00ebb7289fe9f792146"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1447,
+      "end_line": 1496,
+      "content_sha256": "5f3292e884c8c217036d285abfcace3086d2208944576fde4005d6bc1ab4554b"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1496,
+      "end_line": 1528,
+      "content_sha256": "3ce3cd9a040376b44b257fd47b36ca652e426dcb779c26eac0b11bce8724a924"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1528,
+      "end_line": 1545,
+      "content_sha256": "7879d4a313591ebb7096587a2de86e30c6918e0f892d9de46ed5ef98ab1f5f61"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1545,
+      "end_line": 1594,
+      "content_sha256": "cb98ba690df92e58d10a32eca1bd2e9397e28bef79800a219acc996423d1b0ad"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1594,
+      "end_line": 1640,
+      "content_sha256": "6765f85057e209a6768fd5ad10bdc1a808f6e44e8e02634c9c5f6e7b381f1357"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1640,
+      "end_line": 1676,
+      "content_sha256": "a4fa2869e238799189985091e76a4a58b45786da1a0a9120d1be25122069e7f8"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1676,
+      "end_line": 1720,
+      "content_sha256": "b37b4d18632c77fcb718597cfb3c545983ded2dcba3e99a1ec0f9d585b8530a8"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1720,
+      "end_line": 1777,
+      "content_sha256": "15b633304496669c5f873e5cee3f3810fc3c6c1b5c9d49ab77ca2c4c7600c579"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1777,
+      "end_line": 1819,
+      "content_sha256": "2fd1c4948917b519ff06e89ee28b6ea1c3683785eb4383d3c4404e95ac3a19cd"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1819,
+      "end_line": 1877,
+      "content_sha256": "d986c9f42ca423e074c8b027b2a69fcb583ae8375e64ca409101c14526143e50"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1877,
+      "end_line": 1940,
+      "content_sha256": "7b4bcd829371abd8521b8b353fd8358d0da944a14d7b3ffbea0d80d98c291723"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1940,
+      "end_line": 1992,
+      "content_sha256": "2bf9d1bed546cfe117d6216f677db96060fc1a13c8848b0e8a832a607af19adc"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 1992,
+      "end_line": 2049,
+      "content_sha256": "6262e114596545a6a879d6a4fbe0038f5ffb28832e6cb2dc6fde0fc38d53b425"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2049,
+      "end_line": 2068,
+      "content_sha256": "584a5798af646a272cad08674bab8f3d652ac0d56b1bc2dab46cfe61aa9027a5"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2068,
+      "end_line": 2113,
+      "content_sha256": "8085754e5d186f219911b8f43409b34e84f5741a9e862631023a850e4536078f"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2113,
+      "end_line": 2149,
+      "content_sha256": "291a81d248354e1b2645b39c865aa414be96a6591d63168289e5ce37d23b53ac"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2149,
+      "end_line": 2205,
+      "content_sha256": "188cb7e56173fb5efeffcdec9ea61fec09ad0979d3d9c8567a6b256ce6427b4c"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2205,
+      "end_line": 2256,
+      "content_sha256": "c815552da66649cd8ca93e0f5cb5ca9814bd492e11a0a7dae230e63bd003864f"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2256,
+      "end_line": 2308,
+      "content_sha256": "ae0491d7dc73ac3ddf25e906e6eb489b0a4f0693e6c2008392df6397ab4eb365"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2308,
+      "end_line": 2372,
+      "content_sha256": "e9bae17a2c171a9a15b0cceb9c010bc56dedaca87e497a2fbba6b841b407c828"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2372,
+      "end_line": 2422,
+      "content_sha256": "acf4a05cad20c6d198c675c2bcb4bd92c53711d3952684a7d0a3d40b84ece3d5"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2422,
+      "end_line": 2475,
+      "content_sha256": "fbffbda26c33d74a4545a67aa1d771af2040a78c0e5326528d2ff6608ba1c2d3"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2475,
+      "end_line": 2519,
+      "content_sha256": "70550469314700970e1062bddbe74d92a9af75f39a2722327f0c2c478e26b01c"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2519,
+      "end_line": 2571,
+      "content_sha256": "a0c2ff6bd4e6329f14e465cb670bcd2f7e89ea3b45d48bd61200983a6bce7f35"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2571,
+      "end_line": 2624,
+      "content_sha256": "64c5ebf46b3e1c5669675c2f8e04b2ac72131e69d89bcf05b5a448bbc3355774"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2624,
+      "end_line": 2674,
+      "content_sha256": "3438913e76958fd064a7c23729ea0f3197052a6cbd2fad50e14fd2b7f2176971"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2674,
+      "end_line": 2720,
+      "content_sha256": "6363276e3b2db1abaa6388770a3c1e1b670b03f40fa287fa6c77cc372a19664c"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2720,
+      "end_line": 2769,
+      "content_sha256": "50c13ed9699eac1382deab4cdbc42088d00c04bb2d7228fd8a33e8f7e647212f"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2769,
+      "end_line": 2811,
+      "content_sha256": "90d22628b86211a54bf4208c2a2cf342494ead70a0750d6938595eb9b1d41fae"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2811,
+      "end_line": 2865,
+      "content_sha256": "b8ab6d73a8f51435c72bfccf385b4a928a39492eb61c92d35dd22264571babc7"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2865,
+      "end_line": 2918,
+      "content_sha256": "a5aba7e3588e84709a834af83806f1313a36a70ad7f971c9ec07c4743c82089d"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2918,
+      "end_line": 2968,
+      "content_sha256": "7ab4ccf789db67844989713a6bb8a7a2aae0ac6e771ad122ada1d8c2b7aebe0a"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 2968,
+      "end_line": 3021,
+      "content_sha256": "175cc9c4e6b04bd4ee0106a60bd7654b6a190aa12d91e265e512bfb21458c93a"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3021,
+      "end_line": 3073,
+      "content_sha256": "9bea7b3a321f26aaa28b2a592abe7b23666c1073faa9f484fce2e510f83f9bd5"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3073,
+      "end_line": 3124,
+      "content_sha256": "258d61696f288c2bea4deb6dced3ff91ed7d3268fc86b8d86acbd24c5f65c724"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3124,
+      "end_line": 3183,
+      "content_sha256": "00b968be47044596d5cc91239bb8c4d63de49630030047e87834d48ec807aaad"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3183,
+      "end_line": 3236,
+      "content_sha256": "e3fe5c22490e2d7c789d84f65b8803f42c992c9e8ce4ae0ad5ec54063869b603"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3236,
+      "end_line": 3286,
+      "content_sha256": "227edc24f7f904d88b9a3c5140ac8a87c7444f94e83c6d4784865a32e883b5c7"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3286,
+      "end_line": 3347,
+      "content_sha256": "48efe0ca2fec5af857af89a07ed2368ad49b0af3891eaa2bba4e6f5d6355d369"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3347,
+      "end_line": 3395,
+      "content_sha256": "6a3ed89c9b25c7c6464231bae0bb14966257cdb6b7a55fdc3353ea88a8bacc26"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3395,
+      "end_line": 3431,
+      "content_sha256": "91fd0e38238c711dd93c0505649a892e8a33829ef10a61ea29c99ce96341e633"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3431,
+      "end_line": 3463,
+      "content_sha256": "2ed1bc6e5b205311116f3fd9f09276b875fb055dd106af08dbe3d005ec600c77"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3463,
+      "end_line": 3523,
+      "content_sha256": "eea4db43a14c5e2a67cb4efd10d771690d3f269a3df340510b3502d51a752485"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3523,
+      "end_line": 3578,
+      "content_sha256": "828084e571ac185b24eae8b5ebb22e9d6383da801ba0fb650bf29eaf68ebd999"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3578,
+      "end_line": 3633,
+      "content_sha256": "fbec8659ce582601bd996787b1f7d3c5e77c64a329139ebb5edbfc3a97789111"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3633,
+      "end_line": 3671,
+      "content_sha256": "a96f8bcd8669f4bb2e0db8c4ad412e1e89037f8944fa5a683f1aa056e239ea3c"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3671,
+      "end_line": 3750,
+      "content_sha256": "9e8ce0a12c978109d73a290c97479ec728a437e2c2c30690360618e14ae66bce"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3750,
+      "end_line": 3806,
+      "content_sha256": "23c70bcae4aff921e129962d0db677ace66cd33d18373d293d2ab278ce438842"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3806,
+      "end_line": 3878,
+      "content_sha256": "205e7b6f6c25be5dc7770ad8f4804bea57601e6db4d5b4c1b3b448bdfec7fffb"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3878,
+      "end_line": 3960,
+      "content_sha256": "5d66085ffa664243c78586a5f0066978263a40582eb5c09a549c373463f64c6a"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 3960,
+      "end_line": 4043,
+      "content_sha256": "04f436ed3258a80c1209b7a77abfa991335a182935d65520216cfc139f2684b5"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 4043,
+      "end_line": 4124,
+      "content_sha256": "e1ed8554dd3d495f47a7250f3864745c601e99d3fcf75626b70e985d262a1985"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 4124,
+      "end_line": 4199,
+      "content_sha256": "cd1af5462895fdfc9e8398ff204e0ad57a784db3ddc06a47f6e52cb39f5fbac5"
+    },
+    {
+      "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+      "start_line": 4199,
+      "end_line": 4203,
+      "content_sha256": "00a2f10b2e03bd77ac20dad83b7e6b134759a6ce8ba6fd806383e4560da1def8"
+    }
+  ]
+}

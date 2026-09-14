@@ -1,0 +1,28 @@
+{
+  "files": {
+    "Vibe\\Vibe_Plan\\harness-tool-policy\\execution\\batches\\output-recovery-20260914-01\\execute.py": "6a5a40b4e1c7a2347bb2a6bc42eb74b5cb66ca9340d6e3f4f64b0f24912db7c1",
+    "Vibe\\Vibe_Plan\\harness-tool-policy\\execution\\batches\\output-recovery-20260914-01\\request.json": "b7a0e1c4bee82f2aa200402421dfb6cae2ade5cb3369ee5530a347d9733c34a3",
+    "Vibe\\Vibe_Plan\\harness-tool-policy\\execution\\batches\\output-recovery-20260914-01\\approval.json": "465510ba73a66cc25708b7c79fd722585dfe4ca7567b219ba5d1160dfe6a1aac",
+    "evaluation\\harness_trial.py": "144e8d9e040409d47c7291157331d861ff1a533efe3b9c1218071c882a09cf49",
+    "rag_core\\models.py": "a068c525d9e34c6bdbd78b9327088348f7fd6b9b76bfc2463fce1e14de9d87f9",
+    "rag_core\\settings.py": "900d2fd6ffebd597e755261300ba22c09adfd715ac421daf4ed3a6a8bd88683f",
+    "rag_core\\__init__.py": "32ca0542d49c0b502290257a407ac6ee9e193b10e023d9f90d066dae80c08eb8",
+    "rag_core\\agentic\\agent.py": "d82844b21b7d04bf06bef3ee1c427928073530246f583b2d49d58e40bf7494b8",
+    "rag_core\\agentic\\evidence.py": "0b0c6ed0057591fd0354a885c3da34f1cce732b3e9d912e917acd7dfaea66b39",
+    "rag_core\\agentic\\output_recovery.py": "bb968f403cbcc67c53361d4efd3c05c65349a8b058bb5bdf683a95c382164a82",
+    "rag_core\\agentic\\prompts.py": "f8a251647b3b741e5b69419f789447e8cb825401e17ed2b3439707d757cbb8ae",
+    "rag_core\\agentic\\recording.py": "19ce2c1ca32b6e3c29bfb593bdc3dc9a99f3f0d1325c1d78c8ddb5453fef70b7",
+    "rag_core\\agentic\\runner.py": "8e767332426f8b6c96c543d58df51791111a6e7dc74cca1f40dc49c6a012b512",
+    "rag_core\\agentic\\tools.py": "636467386c8b08836deb5cf255f02e6e66f297e842c678715912f8be18222d4a",
+    "rag_core\\agentic\\__init__.py": "49ce6918fb63b423bc61972aa416b3f4cfcb546206955b104a06b53d172524ce",
+    "rag_core\\knowledge\\indexer.py": "203a407ab7607c652b33faa02da1b6d4405357367343ac6ee485192aff50853d",
+    "rag_core\\knowledge\\store.py": "a013b34f85f8a9214447518a0e22949c5ec358e42a6595c13364acb1e5897753",
+    "rag_core\\knowledge\\__init__.py": "8acb5b4190798d9b308739ffbf46f67af0876ade5cbb394fcf84fc152c3a9915",
+    "rag_core\\traditional\\service.py": "8f3b9d75a5aacb349fcf3b0a12310c82235bcc49424ea6bab055da426a56ff8e",
+    "rag_core\\traditional\\__init__.py": "5e93ef3b5cbd0ba5abd25a5d615c0998dc7fe444f05c45e1a4ce154da4b5c3b5",
+    "evaluation\\fixtures\\multi_chunk_guide_001\\corpus\\政务与公共服务\\深圳市\\知识产权公共服务\\深圳市知识产权公共服务事项办事指南（第二版）.md": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\004.request.json": "a950a723efd56505cdb9614504eb0c30789c5e2c573bd4ebfb7e85222b55bbad",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\004.response.raw": "57f854efa2538fd5112a945fcbaf5e4b089aae7f39cb0d19b2cd6ad8475f4e97"
+  },
+  "prepared_request_unchanged": true
+}

@@ -1,0 +1,18 @@
+{
+  "execution_authorized": true,
+  "user_reply": "授权",
+  "at": "2026-09-14T08:13:55.193816+00:00",
+  "budget_cny": 1.3,
+  "max_requests": 1,
+  "max_retries": 0,
+  "knowledge_tools": 0,
+  "embedding_calls": 0,
+  "credential_source": "C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env",
+  "keys": [
+    "DASHSCOPE_BASE_URL",
+    "DASHSCOPE_API_KEY"
+  ],
+  "output_dir": "evaluation/results/harness-dev01/output-recovery-20260914-01",
+  "scope": "仅原失败运行的一次真实格式补交；不重新取证，不重跑整题",
+  "local_validation": "restore actual recorded read registration; call recover_output_once then finalize_agent_result"
+}

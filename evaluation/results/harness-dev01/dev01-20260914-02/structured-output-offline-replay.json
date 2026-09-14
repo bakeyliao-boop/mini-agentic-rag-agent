@@ -1,0 +1,24 @@
+{
+  "mode": "offline_saved_http_response_replay_not_new_model_run",
+  "external_requests": 0,
+  "mocked_http_responses": 4,
+  "original_last_response_sha256": "57f854efa2538fd5112a945fcbaf5e4b089aae7f39cb0d19b2cd6ad8475f4e97",
+  "all_requests_required": true,
+  "tools_provided": [
+    "ls",
+    "glob",
+    "search",
+    "read",
+    "grep",
+    "GroundedAnswer"
+  ],
+  "structured_response": null,
+  "final_answer_type": "insufficient",
+  "final_citations": [],
+  "observed_tool_sequence": [
+    "glob",
+    "grep",
+    "read"
+  ],
+  "interpretation": "Saved provider output reproduces missing structured response and fallback without live inference; does not explain provider internals."
+}

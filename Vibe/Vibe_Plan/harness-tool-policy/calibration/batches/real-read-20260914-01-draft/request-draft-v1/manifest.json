@@ -1,0 +1,49 @@
+{
+  "status": "draft_pending_execution_approval",
+  "execution_authorized": false,
+  "parameter_acceptance": "pending",
+  "execution_batch_id": "real-read-20260914-01",
+  "execution_output_dir": "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\results\\tool-contribution-calibration\\real-read-20260914-01",
+  "execution_token_report_sha256": "54dc494b526828a87e9c5f77be135efd0a590f494e2a4dfb14fd408303bb0b0f",
+  "planned_model": "deepseek-flash",
+  "approved_case_ids": [
+    "REAL-DEV01-READ"
+  ],
+  "approved_case_count": 1,
+  "approved_repetitions": 1,
+  "approved_request_count": 1,
+  "approved_budget": {
+    "currency": "CNY",
+    "max_total": 0.05
+  },
+  "proposed_client_controls": {
+    "concurrency": 1,
+    "max_retries": 0,
+    "timeout_seconds": 120
+  },
+  "input_token_reservation_per_request": 12000,
+  "proposed_max_output_tokens": 2048,
+  "source_cases_sha256": "9982b0b2a6fead9300996f0d0086bd6484964e07323432ebebd7e7fbc7a80422",
+  "source_cases_material_revision": 1,
+  "source_rules_file": "评估器统一说明草案-v3.md",
+  "source_rules_file_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "system_content_sha256": "3282b4eb1690282b42e3fc703ae1610670277cee3606a8e318d34ae4d038b9d4",
+  "source_document_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+  "cases": [
+    {
+      "case_id": "REAL-DEV01-READ",
+      "request_file": "REAL-DEV01-READ.request.example.json",
+      "request_file_sha256": "52fd00f7c6c364cecdb4da2795fef7bba5ab2e46f89c1cbd128f633d00239453",
+      "input_object_sha256": "e62a6b2e0b37894ca3fc18185d9b66ec747e6338c6157fc2335f013a3332ceac"
+    }
+  ],
+  "proposed_order_not_execution_records": [
+    {
+      "ordinal": 1,
+      "case_id": "REAL-DEV01-READ",
+      "repetition": 1,
+      "request_file": "REAL-DEV01-READ.request.example.json",
+      "request_sha256": "52fd00f7c6c364cecdb4da2795fef7bba5ab2e46f89c1cbd128f633d00239453"
+    }
+  ]
+}

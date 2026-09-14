@@ -1,0 +1,7 @@
+{
+  "first_start": "failed_before_credentials_and_transport",
+  "reason": "Windows separators in manifest paths on WSL",
+  "api_calls": 0,
+  "fix": "normalize manifest keys only",
+  "request_unchanged": true
+}

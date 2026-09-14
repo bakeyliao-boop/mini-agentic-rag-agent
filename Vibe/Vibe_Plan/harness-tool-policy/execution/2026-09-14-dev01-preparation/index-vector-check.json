@@ -1,0 +1,21 @@
+{
+  "read_only": true,
+  "collections": [
+    [
+      "knowledge_chunks",
+      1024,
+      "{}"
+    ]
+  ],
+  "stored_vectors": [
+    [
+      86,
+      4096,
+      "FLOAT32"
+    ]
+  ],
+  "dimension_verified": 1024,
+  "embedding_model_provenance": "not_recorded",
+  "db_sha256": "3643f523855d28d4c3a93ffc23ec7de573b9586d9d6e5d1aac0e4e9b9472d7fc",
+  "api_calls": 0
+}

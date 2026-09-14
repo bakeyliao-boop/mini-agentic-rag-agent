@@ -1,0 +1,3 @@
+{"at": "2026-09-14T07:07:45.503325+00:00", "event": "attempt_started", "ordinal": 1, "kind": "embedding", "reserve_cny": "0.004096", "request_sha256": "50fe9eac7291a16b4404758283d4eeca82c54304b32df0b54b36a455fbc90953"}
+{"at": "2026-09-14T07:07:45.822323+00:00", "event": "attempt_completed", "ordinal": 1, "kind": "embedding", "usage": {"prompt_tokens": 99, "total_tokens": 99}, "cost_cny": "0.0000495", "cost_kind": "uncached_rate_estimate_not_invoice"}
+{"at": "2026-09-14T07:07:45.835452+00:00", "event": "attempt_interrupted", "ordinal": 1, "error_type": "DecodingError", "unknown_reserve_cny": "0.004096"}

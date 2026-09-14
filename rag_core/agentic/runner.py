@@ -14,6 +14,10 @@ from rag_core.agentic.agent import (
     extract_token_usage,
     extract_tool_traces,
 )
+from rag_core.agentic.recording import recording_session
+from rag_core.agentic.output_recovery import (
+    OutputProtocolError, is_unstructured_completion, recover_output_once,
+)
 from rag_core.settings import _required_setting
 from rag_core.agentic.evidence import (
     EvidenceRegistry,
@@ -81,10 +85,12 @@ def finalize_agent_result(
     evidence_registry: EvidenceRegistry,
     knowledge_root: Path,
 ) -> dict[str, object]:
-    """处理 Agent 结果；缺少结构化回答时降级为证据不足。"""
+    """区分正常模型回复缺提交格式与原有控制停止后的证据不足。"""
 
     structured_response = agent_result.get("structured_response")
     if not isinstance(structured_response, GroundedAnswer):
+        if is_unstructured_completion(agent_result):
+            raise OutputProtocolError("missing_structured_response")
         return {
             "answer_type": "insufficient",
             "answer": "当前证据不足，无法从知识库确定答案。",
@@ -147,10 +153,32 @@ def build_agentic_runtime_from_project(
     )
 
 
-def run_agentic_question(
+def run_agentic_question(runtime: AgenticRuntime, question: str, thread_id: str,
+                         *, recording_dir: Path | None = None, recover_output: bool = False) -> dict[str, object]:
+    """可选记录到新目录；默认执行行为与返回结构保持不变。"""
+    with recording_session(recording_dir, runtime, question, thread_id) as recorder:
+        result = _run_agentic_question(runtime, question, thread_id, recorder, recover_output)
+        if recorder is not None:
+            recorder.emit('delivered_answer', result=result)
+        return result
+
+
+def stream_agentic_question(runtime: AgenticRuntime, question: str, thread_id: str,
+                            *, recording_dir: Path | None = None, recover_output: bool = False) -> Iterator[dict[str, object]]:
+    """流式记录独立于UI摘要，消费者提前关闭时保留中断状态。"""
+    with recording_session(recording_dir, runtime, question, thread_id) as recorder:
+        for event in _stream_agentic_question(runtime, question, thread_id, recorder, recover_output):
+            if recorder is not None and event.get('event') == 'completed':
+                recorder.emit('delivered_answer', result=event['data'])
+            yield event
+
+
+def _run_agentic_question(
     runtime: AgenticRuntime,
     question: str,
     thread_id: str,
+    recorder=None,
+    recover_output: bool = False,
 ) -> dict[str, object]:
     """使用共享运行环境执行一道问题，并创建本题独立证据注册表。"""
 
@@ -174,9 +202,15 @@ def run_agentic_question(
                 }
             ]
         },
-        config={"configurable": {"thread_id": thread_id}},
+        config={"configurable": {"thread_id": thread_id},
+                **({"callbacks": [recorder]} if recorder is not None else {})},
     )
 
+    if recorder is not None:
+        recorder.emit("agent_raw_result", structured_response=agent_result.get("structured_response"))
+    if recover_output:
+        agent_result = recover_output_once(
+            agent_result, runtime.chat_model, evidence_registry, runtime.knowledge_root, recorder=recorder)
     messages = agent_result["messages"]
     finalized_answer = finalize_agent_result(
         agent_result,
@@ -189,6 +223,7 @@ def run_agentic_question(
         "tool_traces": extract_tool_traces(messages),
         "token_usage": extract_token_usage(messages),
         "thread_id": thread_id,
+        **({"output_recovery": agent_result["output_recovery"]} if "output_recovery" in agent_result else {}),
     }
 
 
@@ -267,10 +302,12 @@ def _tool_result_summary(message: ToolMessage) -> dict[str, object]:
     return {}
 
 
-def stream_agentic_question(
+def _stream_agentic_question(
     runtime: AgenticRuntime,
     question: str,
     thread_id: str,
+    recorder=None,
+    recover_output: bool = False,
 ) -> Iterator[dict[str, object]]:
     """执行 Agent，并逐步产生真实工具调用、完成状态与最终结果。"""
 
@@ -285,6 +322,8 @@ def stream_agentic_question(
     )
     knowledge_agent = build_knowledge_agent(runtime.chat_model, tools)
     config = {"configurable": {"thread_id": thread_id}}
+    if recorder is not None:
+        config["callbacks"] = [recorder]
     final_state: Mapping[str, object] | None = None
     steps_by_call_id: dict[str, int] = {}
     names_by_call_id: dict[str, str] = {}
@@ -362,6 +401,12 @@ def stream_agentic_question(
     messages = final_state.get("messages")
     if not isinstance(messages, list):
         raise RuntimeError("Agent final state does not contain messages")
+    if recorder is not None:
+        recorder.emit("agent_raw_result", structured_response=final_state.get("structured_response"))
+    if recover_output:
+        final_state = recover_output_once(
+            final_state, runtime.chat_model, evidence_registry, runtime.knowledge_root, recorder=recorder)
+        messages = final_state["messages"]
     finalized_answer = finalize_agent_result(
         final_state,
         evidence_registry,
@@ -374,6 +419,7 @@ def stream_agentic_question(
             "tool_traces": extract_tool_traces(messages),
             "token_usage": extract_token_usage(messages),
             "thread_id": thread_id,
+            **({"output_recovery": final_state["output_recovery"]} if "output_recovery" in final_state else {}),
         },
     }
 

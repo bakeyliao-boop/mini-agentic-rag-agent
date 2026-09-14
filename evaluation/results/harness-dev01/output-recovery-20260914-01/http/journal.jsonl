@@ -1,0 +1,2 @@
+{"at": "2026-09-14T08:15:34.695075+00:00", "event": "attempt_started", "ordinal": 1, "kind": "chat", "reserve_cny": "1.2098304", "request_sha256": "f74102cd951e0ab59c970f78f1bdcbb3b0617ef6ba23aaa608e484ccacc4a64a"}
+{"at": "2026-09-14T08:15:37.787253+00:00", "event": "attempt_completed", "ordinal": 1, "kind": "chat", "usage": {"completion_tokens": 141, "prompt_tokens": 4338, "prompt_tokens_details": {"cached_tokens": 0, "text_tokens": 4338}, "total_tokens": 4479}, "cost_cny": "0.0009804", "cost_kind": "uncached_rate_estimate_not_invoice"}

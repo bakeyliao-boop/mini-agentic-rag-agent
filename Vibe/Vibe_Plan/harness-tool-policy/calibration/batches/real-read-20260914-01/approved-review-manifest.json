@@ -1,0 +1,12 @@
+{
+  "implementation_sha256": "b300a68e95b4e8915aa48efeda304ac25bba0992c00aa26a6476edf2a880bf99",
+  "files": {
+    "cases.json": "19ab46436af8764f8676b713ee1df24b848e395076f1dc99d6f29710cf990334",
+    "preparation-check.json": "3997b9d0f1d91926030c95fe338e9d9d70d15fb35e67133d4b0aaba12d66cb14",
+    "README.md": "3cb5d0af424f9606db810a85446fecefc089597f093942c20653d52000b754af",
+    "本地Token计数结果-v1.json": "559e88953a5bbc1917d7a3f2e8aa118be5ede6792c06f9100e9a2373401c4f12",
+    "评估器统一说明草案-v3.md": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+    "request-draft-v1\\manifest.json": "b676c272becd0f9da9e4b36960644695804b8dc51e9efc05caf44ce67b12b819",
+    "request-draft-v1\\REAL-DEV01-READ.request.example.json": "52fd00f7c6c364cecdb4da2795fef7bba5ab2e46f89c1cbd128f633d00239453"
+  }
+}

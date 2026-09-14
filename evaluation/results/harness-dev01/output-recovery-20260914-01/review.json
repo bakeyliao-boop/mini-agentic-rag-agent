@@ -1,0 +1,29 @@
+{
+  "actual_extra_model_calls": 1,
+  "new_knowledge_tool_calls": 0,
+  "new_embedding_calls": 0,
+  "retry_count": 0,
+  "actual_request_matches_approved_object": true,
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 141,
+    "prompt_tokens": 4338,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "text_tokens": 4338
+    },
+    "total_tokens": 4479
+  },
+  "cache_adjusted_estimate_cny": "0.0009804",
+  "invoice_verified": false,
+  "source_existing_run": "dev01-20260914-02",
+  "old_answer_type": "insufficient",
+  "new_answer_type": "knowledge",
+  "quoted_line": 489,
+  "evidence_id": [
+    "harness-dev01-20260914-02:27408febeb2f4c90a599a0eacc5155d9:evidence-3"
+  ],
+  "local_validator": "recover_output_once and finalize_agent_result",
+  "scope": "one saved-context real format resubmission; not a fresh end-to-end rerun",
+  "post_run_human_signoff": false
+}

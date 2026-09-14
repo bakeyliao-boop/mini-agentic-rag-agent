@@ -1,0 +1,16 @@
+{
+  "mode": "offline_recovery_from_already_saved_response_no_new_api",
+  "source_response_sha256": "966b9b3c47a02ebd4ccad72b57538b300d5e67f0e68313c90739a3d14d857aac",
+  "dimensions": 1024,
+  "cosine": 0.9999984892780301,
+  "max_abs_difference": 0.00019178679212927818,
+  "minimum_cosine": 0.99999,
+  "maximum_abs_difference": 1e-05,
+  "compatible": false,
+  "usage": {
+    "prompt_tokens": 99,
+    "total_tokens": 99
+  },
+  "scope": "one sample numerical compatibility; not full embedding provenance",
+  "new_api_calls": 0
+}

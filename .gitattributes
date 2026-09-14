@@ -5,3 +5,10 @@
 /evaluation/results/tool-contribution-calibration/** -text -whitespace
 /evaluation/tool_contribution_calibration.py -text whitespace=cr-at-eol
 /tests/test_tool_contribution_calibration.py -text whitespace=cr-at-eol
+
+# Keep actual run evidence and hash-linked local recovery code byte-exact.
+/evaluation/results/harness-dev01/** -text -whitespace
+/evaluation/harness_trial.py -text whitespace=cr-at-eol
+/rag_core/agentic/runner.py -text whitespace=cr-at-eol
+/rag_core/agentic/recording.py -text whitespace=cr-at-eol
+/rag_core/agentic/output_recovery.py -text whitespace=cr-at-eol

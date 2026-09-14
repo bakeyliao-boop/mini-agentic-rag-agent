@@ -1,0 +1,4 @@
+{"at": "2026-09-14T08:56:42.555242+00:00", "event": "batch_prepared"}
+{"at": "2026-09-14T08:56:42.558761+00:00", "event": "attempt_started", "ordinal": 1, "case_id": "REAL-DEV01-READ", "repetition": 1, "request_sha256": "52fd00f7c6c364cecdb4da2795fef7bba5ab2e46f89c1cbd128f633d00239453", "reserved_cny": "0.040384", "delivery_confirmation": "unknown_until_response"}
+{"at": "2026-09-14T08:56:46.367061+00:00", "event": "attempt_finished", "ordinal": 1, "technical_status": "ok", "accounting_status": "computed"}
+{"at": "2026-09-14T08:56:46.371055+00:00", "event": "batch_finished", "status": "completed_pending_review"}

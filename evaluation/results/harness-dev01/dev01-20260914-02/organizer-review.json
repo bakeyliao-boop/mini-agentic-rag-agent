@@ -1,0 +1,96 @@
+{
+  "type": "organizer_review_of_real_agent_run",
+  "actual_agent_runs": 1,
+  "knowledge_tool_calls": 3,
+  "chat_requests": 4,
+  "query_embedding_requests": 0,
+  "index_embedding_requests": 86,
+  "build_input_tokens": 35419,
+  "build_estimate_cny": "0.0177095",
+  "chat_uncached_estimate_cny": "0.0027968",
+  "chat_cache_adjusted_estimate_cny": "0.00162944",
+  "total_cache_adjusted_estimate_cny": "0.01933894",
+  "invoice_verified": false,
+  "model_rows": [
+    {
+      "ordinal": 1,
+      "usage": {
+        "completion_tokens": 55,
+        "prompt_tokens": 2061,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 2061
+        },
+        "total_tokens": 2116
+      },
+      "finish_reason": "tool_calls",
+      "response_model": "qwen3.7-flash"
+    },
+    {
+      "ordinal": 2,
+      "usage": {
+        "completion_tokens": 77,
+        "prompt_tokens": 2179,
+        "prompt_tokens_details": {
+          "cached_tokens": 1920,
+          "text_tokens": 2179
+        },
+        "total_tokens": 2256
+      },
+      "finish_reason": "tool_calls",
+      "response_model": "qwen3.7-flash"
+    },
+    {
+      "ordinal": 3,
+      "usage": {
+        "completion_tokens": 70,
+        "prompt_tokens": 3776,
+        "prompt_tokens_details": {
+          "cached_tokens": 1920,
+          "text_tokens": 3776
+        },
+        "total_tokens": 3846
+      },
+      "finish_reason": "tool_calls",
+      "response_model": "qwen3.7-flash"
+    },
+    {
+      "ordinal": 4,
+      "usage": {
+        "completion_tokens": 66,
+        "prompt_tokens": 4896,
+        "prompt_tokens_details": {
+          "cached_tokens": 3456,
+          "text_tokens": 4896
+        },
+        "total_tokens": 4962
+      },
+      "finish_reason": "stop",
+      "response_model": "qwen3.7-flash"
+    }
+  ],
+  "required_evidence": {
+    "trace_event_sequence": 14,
+    "line": 489,
+    "evidence_id": "harness-dev01-20260914-02:27408febeb2f4c90a599a0eacc5155d9:evidence-3",
+    "quote": "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。请求人可在知识产权业务受理大厅、地方知识产权业务受理窗口（专利代办处）收费窗口面缴，也可注册并登录专利业务办理系统（http://cp"
+  },
+  "findings": {
+    "location_use": "glob to grep to read485; did not read from beginning",
+    "required_fact_already_in_grep": true,
+    "read_added_citable_support": true,
+    "read_return_matches_frozen_source": true,
+    "read_content_entered_last_http_request": true,
+    "last_request_tool_choice": "required",
+    "grounded_answer_tool_provided": true,
+    "raw_model_deadline_correct": true,
+    "raw_model_tool_calls_missing": true,
+    "structured_response_missing": true,
+    "delivered_answer_type": "insufficient",
+    "delivered_citations": [],
+    "known_fallback_branch": "finalize_agent_result missing GroundedAnswer",
+    "upstream_reason_for_missing_tool_call": "not determined"
+  },
+  "candidate_generation_authorized_or_performed": false,
+  "post_run_human_signoff": false
+}

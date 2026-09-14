@@ -1,0 +1,27 @@
+{
+  "status": "completed_pending_review",
+  "build": {
+    "counts": {
+      "chat": 0,
+      "embedding": 86
+    },
+    "computed_uncached_cny": "0.0177095",
+    "unknown_reserved_cny": "0.000000",
+    "halted": false,
+    "budget_cny": "0.36",
+    "invoice_verified": false
+  },
+  "trial": {
+    "counts": {
+      "chat": 4,
+      "embedding": 0
+    },
+    "computed_uncached_cny": "0.0027968",
+    "unknown_reserved_cny": "0E-7",
+    "halted": false,
+    "budget_cny": "10",
+    "invoice_verified": false
+  },
+  "elapsed_seconds": 114.24518593299945,
+  "original_index_unchanged": true
+}

@@ -1,0 +1,29 @@
+{
+  "status": "validated",
+  "model": "text-embedding-v4",
+  "dimensions": 1024,
+  "count": 86,
+  "all_stored_text_and_positions_verified": true,
+  "source_manifest": {
+    "政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6"
+  },
+  "http_request_count": 86,
+  "usage": {
+    "counts": {
+      "chat": 0,
+      "embedding": 86
+    },
+    "computed_uncached_cny": "0.0177095",
+    "unknown_reserved_cny": "0.000000",
+    "halted": false,
+    "budget_cny": "0.36",
+    "invoice_verified": false
+  },
+  "snapshot_files": {
+    "13a5292c-30aa-40c3-b7ac-9f32ae663dfd/data_level0.bin": "41b1d6558680207762d59e507f9dcba0cb9fbbd4c23c79e14025206d3742e17f",
+    "13a5292c-30aa-40c3-b7ac-9f32ae663dfd/header.bin": "bf12d4486518c7addf488cb4854526902c78e91951990e1e2f4e055cec814e5d",
+    "13a5292c-30aa-40c3-b7ac-9f32ae663dfd/length.bin": "e59b4d7f2d4cb5ca28e0d7d90223e04590f130d291a0ab48297877e5b436e532",
+    "13a5292c-30aa-40c3-b7ac-9f32ae663dfd/link_lists.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "chroma.sqlite3": "e4c9e22fda869ec7a321982b2a828e1de4991eef9656a3c0e3b8e7091bb37c08"
+  }
+}

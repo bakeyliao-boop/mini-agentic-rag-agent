@@ -1,0 +1,74 @@
+{
+  "material_revision": 1,
+  "source_hashes": {
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trace\\events.jsonl": "f45796858e572af06128bc6aedfeb37fa984344f3406fba4ec4b1572dd77472e",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trace\\status.json": "40c8e1283f31831e32429a801047f1418edf442035031ab93e905789cd2c7dd3",
+    "evaluation\\fixtures\\multi_chunk_guide_001\\corpus\\政务与公共服务\\深圳市\\知识产权公共服务\\深圳市知识产权公共服务事项办事指南（第二版）.md": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+    "Vibe\\Vibe_Plan\\harness-tool-policy\\materials\\2026-09-11-v2\\improvement\\答案与证据.md": "78a24beae69bbe2e686eb0189ed6f62ed1ffdfb99cc8d333bbee08b3dbf4fd92",
+    "Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\2026-09-11-v1\\评估器统一说明草案-v3.md": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\001.request.json": "681b8fc61f97f6af149b09546fcd8d39ff0d7c7e9a859c8a4f901424854616bf",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\002.request.json": "338f681fa60176aa8ca424896b9502bf05ac6bf990262c838ca5e736a174cda5",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\003.request.json": "b7e92b55deb1462b1ce68111ea5e2c1bdcdcb76fa7784905d981f71221fe42a6",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\004.request.json": "a950a723efd56505cdb9614504eb0c30789c5e2c573bd4ebfb7e85222b55bbad",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\001.response.raw": "61be99ec68920d6921c3eb880f53b4c7e36b105fb46c46807ac901d56870f9e2",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\002.response.raw": "10841dcd3f9d2f4c7c8484f86f60f5bfc9480c8b6a4e8bf4d14e162ffbceabdc",
+    "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\003.response.raw": "d58639387dda06cac60bb6036a4a40960d1b0fd03dc36b4852ad67d86f096e2a",
+    "rag_core\\agentic\\evidence.py": "0b0c6ed0057591fd0354a885c3da34f1cce732b3e9d912e917acd7dfaea66b39",
+    "rag_core\\agentic\\tools.py": "636467386c8b08836deb5cf255f02e6e66f297e842c678715912f8be18222d4a"
+  },
+  "mappings": [
+    {
+      "input_pointer": "/prior_events/0",
+      "source_start_sequence": 5,
+      "source_return_sequence": 6,
+      "callback_tool_run_id": "01a09ecd-2e77-7c03-82c7-ac1647359983",
+      "proposing_model_callback_id": "01a09ecd-27db-7b93-bb6b-a4f63ddb7893",
+      "raw_response_file": "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\001.response.raw",
+      "next_request_tool_message_file": "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\002.request.json",
+      "tool_call_id": "call_09716096c7e847a8b4fdf4c3",
+      "payload_lossless": true
+    },
+    {
+      "input_pointer": "/prior_events/1",
+      "source_start_sequence": 9,
+      "source_return_sequence": 10,
+      "callback_tool_run_id": "01a09ecd-353b-77f3-a42b-5f2472e7719e",
+      "proposing_model_callback_id": "01a09ecd-2e8f-77f2-b145-45841831b499",
+      "raw_response_file": "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\002.response.raw",
+      "next_request_tool_message_file": "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\003.request.json",
+      "tool_call_id": "call_417bfce12780451ea1497639",
+      "payload_lossless": true
+    },
+    {
+      "input_pointer": "/current_event",
+      "source_start_sequence": 13,
+      "source_return_sequence": 14,
+      "callback_tool_run_id": "01a09ecd-3b86-7832-9c57-a46227b7aa97",
+      "proposing_model_callback_id": "01a09ecd-359f-7f51-b1c3-7fcf4d5f2209",
+      "raw_response_file": "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\003.response.raw",
+      "next_request_tool_message_file": "evaluation\\results\\harness-dev01\\dev01-20260914-02\\trial-http\\004.request.json",
+      "tool_call_id": "call_2559cb22b39e488a92fccc2b",
+      "payload_lossless": true
+    }
+  ],
+  "checks": {
+    "read_source_lines_checked": 20,
+    "registered_lines": 10,
+    "prior_tool_events": 2,
+    "current_tool_events": 1,
+    "no_dropped_tool_payload_fields": true,
+    "initial_request_has_no_prior_tool_history": true,
+    "all_proposed_calls_have_matched_actual_returns": true,
+    "returned_contents_equal_subsequent_http_tool_messages": true,
+    "grep_truncated_preserved": true,
+    "reference_has_no_gold_line_number": true,
+    "no_final_answer_or_recovery_payload_in_input": true,
+    "execution_authorized": false,
+    "actual_model_calls": 0
+  },
+  "output_hashes": {
+    "input.json": "1a566bde4b01aef64489d3b50c61e662a2718cfac636551bc8ea9f505848955a",
+    "request.example.json": "2ef13cecf655e91d8a9f545e7219390d548db1fb543c38323f33ce3a3a60e53e",
+    "review-reference.json": "e186a4aefe71ba9a3650a5e5459e4a7c281a9a989ac7682a67342adf6b26fee0"
+  }
+}

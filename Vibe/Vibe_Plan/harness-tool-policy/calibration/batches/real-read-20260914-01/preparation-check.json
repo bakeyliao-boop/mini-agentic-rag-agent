@@ -1,0 +1,15 @@
+{
+  "status": "prepared_not_executed",
+  "input_tokens": 6226,
+  "estimated_max_output_tokens": 2048,
+  "high_peak_uncached_estimate_cny": 0.028836,
+  "conservative_reservation_cny": 0.040384,
+  "proposed_budget_cny": 0.05,
+  "authorization_errors": [
+    "Execution has not been authorized",
+    "Parameters have not been accepted"
+  ],
+  "api_calls": 0,
+  "request_unchanged_from_reviewed_input": true,
+  "pricing_basis": "上次已核验的北京时段DeepSeek输入2/输出8元每百万Token快照；非实扣，实际执行前复核价格"
+}

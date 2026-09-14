@@ -1,0 +1,15 @@
+{
+  "status": "interrupted",
+  "error_type": "APIConnectionError",
+  "counts": {
+    "chat": 0,
+    "embedding": 1
+  },
+  "computed_uncached_cny": "0.0000495",
+  "unknown_reserved_cny": "0.000000",
+  "halted": true,
+  "budget_cny": "10",
+  "invoice_verified": false,
+  "elapsed_seconds": 25.63059457199961,
+  "original_index_unchanged": true
+}

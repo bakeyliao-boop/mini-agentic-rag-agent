@@ -1,0 +1,27 @@
+{
+  "execution_authorized": true,
+  "user_reply": "是",
+  "approved_at_utc": "2026-09-14T07:06:48.507762+00:00",
+  "scope": "费用保护接线与离线验证后执行；一条向量兼容核对通过后DEV-01原策略一次；不含DeepSeek评价与候选",
+  "budget_cny": 10,
+  "credential_source": "C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env",
+  "credential_keys": [
+    "DASHSCOPE_BASE_URL",
+    "DASHSCOPE_API_KEY"
+  ],
+  "copied_index": "data/harness/dev01-20260914-01/index",
+  "output_dir": "evaluation/results/harness-dev01/dev01-20260914-01",
+  "chat_request_limit": 8,
+  "embedding_request_limit": 7,
+  "retry_limit": 0,
+  "model": "qwen3.7-flash",
+  "output_token_limit": 2048,
+  "embedding_model": "text-embedding-v4",
+  "embedding_dimensions": 1024,
+  "probe_thresholds": {
+    "cosine_min": 0.99999,
+    "max_abs_difference": 1e-05
+  },
+  "external_deadline_seconds": 600,
+  "request_io_timeout_seconds": 120
+}

@@ -1,0 +1,23 @@
+{
+  "status": "human_reference_confirmed_not_model_result",
+  "human_judgment_confirmed_for_this_material": true,
+  "actual_evaluator_result": null,
+  "expected": {
+    "required_fact_support": "sufficient",
+    "new_required_fact_content": "no",
+    "new_citable_support": "yes"
+  },
+  "reasons": [
+    "grep已经返回完整期限事实，read不是首次获得该事实。",
+    "read包含相同期限正文并实际附带证据ID，补齐原运行规则要求的可引用支持。",
+    "当前支持充分不代表当时最终交付正确；后续格式问题不进入本次read评价。"
+  ],
+  "not_in_evaluator_input": true,
+  "human_confirmation": {
+    "date": "2026-09-14",
+    "user_reply": "确认",
+    "scope": "仅确认当前真实read的三项人工参照，不包含付费调用授权",
+    "confirmed_input_sha256": "a66277ad0f2101c61ce176e9217a18e41fe60a73ef3c095463ff191061b99971",
+    "confirmed_request_sha256": "52fd00f7c6c364cecdb4da2795fef7bba5ab2e46f89c1cbd128f633d00239453"
+  }
+}
