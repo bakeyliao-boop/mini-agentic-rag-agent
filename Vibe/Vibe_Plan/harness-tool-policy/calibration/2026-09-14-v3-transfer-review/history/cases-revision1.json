@@ -1,0 +1,84 @@
+{
+  "schema": "planning-transfer-review-v1",
+  "material_revision": 1,
+  "status": "awaiting_claude_and_human_review",
+  "synthetic": true,
+  "execution_authorized": false,
+  "independent_validation": false,
+  "rules_file": "Vibe/Vibe_Plan/harness-tool-policy/calibration/2026-09-11-v1/评估器统一说明草案-v3.md",
+  "rules_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "source": {
+    "source_id": "D01",
+    "local_path": "C:/Users/hyf/Desktop/mini-agent-harness-lab/evaluation/fixtures/multi_chunk_guide_001/corpus/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+    "sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+    "source_url": "https://amr.sz.gov.cn/attachment/1/1478/1478949/11506859.pdf",
+    "source_line": 634
+  },
+  "proposed_repetitions": null,
+  "proposed_budget_cny": null,
+  "cases": [
+    {
+      "case_id": "CAL-05t1",
+      "input": {
+        "origin": "synthetic_calibration_case",
+        "representation": "normalized_review_material_not_runtime_log_schema",
+        "task_question": "公司的专利实施许可合同备案申请经审查不能备案。按指南，提交的申请材料会全部退还吗？",
+        "task_instruction": "请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+        "task_reference": {
+          "necessary_facts": [
+            {
+              "fact_id": "F1",
+              "meaning": "专利实施许可合同备案申请经审查不能备案时，全部申请材料会退还。",
+              "reference_excerpt": "专利实施许可合同备案申请经审查不能备案的，向当事人发送《专利实施许可合同备案业务专用函》，告知当事人应当消除的缺陷，同时退还全部申请材料。",
+              "source_id": "D01"
+            }
+          ],
+          "optional_facts": [
+            "发送业务专用函并告知应当消除的缺陷",
+            "再次办理应克服相关缺陷并重新提交申请"
+          ]
+        },
+        "evaluation_target": "评本次调用是否补充题目所需的事实或可引用支持，以及本次返回后该题必要依据是否充分；不评最终回答或实际停止原因。",
+        "scenario_assumptions": [
+          "题面和统一要求如给定，无额外查证或反复确认指令。",
+          "同一固定原文版本，未设置版本变化、前序错误或待消解矛盾。",
+          "本组把已提供的模拟事件与登记状态作为已知前提，只测试语义判断；事件发生真实性不是本组测试项。"
+        ],
+        "history_prefix_complete": false,
+        "prior_events": [],
+        "current_event": {
+          "event_id": "e3",
+          "tool_name": "read",
+          "execution_status": "success",
+          "returned_content": {
+            "source_id": "D01",
+            "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+            "source_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+            "returned_lines": [
+              {
+                "line": 634,
+                "text": "专利实施许可合同备案申请经审查不能备案的，向当事人发送《专利实施许可合同备案业务专用函》，告知当事人应当消除的缺陷，同时退还全部申请材料。当事人如需再次办理备案手续的，应当克服相关缺陷，并重新提交申请。"
+              }
+            ]
+          },
+          "citable_read_evidence_registered": true,
+          "origin": "synthetic_scenario_event_not_real_execution"
+        }
+      },
+      "proposed_expected_judgment": {
+        "required_fact_support": "sufficient",
+        "new_required_fact_content": "unknown",
+        "new_citable_support": "unknown",
+        "contribution": "unknown_due_to_missing_history",
+        "must_explain": [
+          "本次正文明确说明不能备案时退还全部申请材料，足以支持题面；登记状态是给定前提。",
+          "前序记录为空且历史不完整，不能确认此前是否已取得同一事实或可引用支持，两个增量分别无法判断。",
+          "不能只凭本次正文正确或登记成功判新增，也不能因历史缺失否定当前内容充分。"
+        ]
+      },
+      "actual_evaluator_result": null,
+      "human_label_reviewed_for_this_batch": false,
+      "reviewer_explanation": "更换业务题面及原文，保留CAL-05的缺失比较基线结构。肯定答复须由正文的全部申请材料支持；业务参照不能当作Agent此前所得。"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "approved_at_utc": "2026-09-14T03:51:07.058641+00:00",
+  "implementation_sha256": "b300a68e95b4e8915aa48efeda304ac25bba0992c00aa26a6476edf2a880bf99",
+  "rule_unchanged_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "files": {
+    "cases.json": "02f8fd105689ef0d1adef875f5cdda2ccec8c0bc8319f06c6574b85f788ce9ca",
+    "本地Token计数结果-v1.json": "352b9d3e7581282db4bc13af63de192bab13f4e44a4b0d9b519be4f90e95aa9d",
+    "评估器统一说明草案-v3.md": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+    "request-draft-v1/CAL-05.request.example.json": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3",
+    "request-draft-v1/CAL-05m1.request.example.json": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b",
+    "request-draft-v1/manifest.json": "c65e87f103974d80bed841ec1309576efe98a76d2a7a4a81eb7fe351828c6ffa"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "kind": "static_material_check_not_model_test",
+  "only_input_difference": "prior_events",
+  "history_prefix_complete": false,
+  "prior_witness_source": "CAL-03 /input/prior_events/1 (e2 read)",
+  "same_current_return": true,
+  "v3_unchanged_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "requests": [
+    {
+      "case_id": "CAL-05",
+      "file": "CAL-05.request.example.json",
+      "sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3"
+    },
+    {
+      "case_id": "CAL-05m1",
+      "file": "CAL-05m1.request.example.json",
+      "sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+    }
+  ],
+  "model_api_calls": 0
+}

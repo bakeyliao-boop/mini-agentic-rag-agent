@@ -1,0 +1,66 @@
+{
+  "mode": "execute",
+  "model": "deepseek-flash",
+  "planned_count": 6,
+  "budget_cny": "1",
+  "client_controls": {
+    "concurrency": 1,
+    "max_retries": 0,
+    "timeout_seconds": 120
+  },
+  "authorization_errors": [],
+  "sources": {
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260914-v3-pair-01\\request-draft-v1\\manifest.json": "c65e87f103974d80bed841ec1309576efe98a76d2a7a4a81eb7fe351828c6ffa",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260914-v3-pair-01\\cases.json": "02f8fd105689ef0d1adef875f5cdda2ccec8c0bc8319f06c6574b85f788ce9ca",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260914-v3-pair-01\\评估器统一说明草案-v3.md": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260914-v3-pair-01\\本地Token计数结果-v1.json": "352b9d3e7581282db4bc13af63de192bab13f4e44a4b0d9b519be4f90e95aa9d",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\fixtures\\multi_chunk_guide_001\\corpus\\政务与公共服务\\深圳市\\知识产权公共服务\\深圳市知识产权公共服务事项办事指南（第二版）.md": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260914-v3-pair-01\\request-draft-v1\\CAL-05.request.example.json": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3",
+    "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\batches\\calibration-20260914-v3-pair-01\\request-draft-v1\\CAL-05m1.request.example.json": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+  },
+  "slots": [
+    {
+      "ordinal": 1,
+      "case_id": "CAL-05",
+      "repetition": 1,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3"
+    },
+    {
+      "ordinal": 2,
+      "case_id": "CAL-05m1",
+      "repetition": 1,
+      "request_file": "CAL-05m1.request.example.json",
+      "request_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+    },
+    {
+      "ordinal": 3,
+      "case_id": "CAL-05",
+      "repetition": 2,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3"
+    },
+    {
+      "ordinal": 4,
+      "case_id": "CAL-05m1",
+      "repetition": 2,
+      "request_file": "CAL-05m1.request.example.json",
+      "request_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+    },
+    {
+      "ordinal": 5,
+      "case_id": "CAL-05",
+      "repetition": 3,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3"
+    },
+    {
+      "ordinal": 6,
+      "case_id": "CAL-05m1",
+      "repetition": 3,
+      "request_file": "CAL-05m1.request.example.json",
+      "request_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+    }
+  ],
+  "cost_basis": "peak uncached CNY input=2/output=8 per million"
+}

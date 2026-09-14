@@ -1,0 +1,68 @@
+{
+  "kind": "organizer_semantic_review_not_automated_label_matching",
+  "batch_id": "calibration-20260914-v3-transfer-01",
+  "completed_calls": 3,
+  "aligned_calls": 3,
+  "rows": [
+    {
+      "ordinal": 1,
+      "observed": [
+        "sufficient",
+        "unknown",
+        "unknown"
+      ],
+      "organizer_assessment": "结论和理由符合人工参照",
+      "reason": "明确按不能备案时退还全部申请材料判当前充分；分别因缺少前序比较基线保留两项增量未知，未套用缴费解释。",
+      "input_tokens": 2293,
+      "output_tokens": 544,
+      "usage_rate_cost_cny": "0.00296372",
+      "period": "off_peak",
+      "raw_response_matches_content": true,
+      "request_matches_frozen_hash": true,
+      "post_run_human_signoff": false
+    },
+    {
+      "ordinal": 2,
+      "observed": [
+        "sufficient",
+        "unknown",
+        "unknown"
+      ],
+      "organizer_assessment": "结论和理由符合人工参照",
+      "reason": "明确按不能备案时退还全部申请材料判当前充分；分别因缺少前序比较基线保留两项增量未知，未套用缴费解释。",
+      "input_tokens": 2293,
+      "output_tokens": 559,
+      "usage_rate_cost_cny": "0.00252196",
+      "period": "off_peak",
+      "raw_response_matches_content": true,
+      "request_matches_frozen_hash": true,
+      "post_run_human_signoff": false
+    },
+    {
+      "ordinal": 3,
+      "observed": [
+        "sufficient",
+        "unknown",
+        "unknown"
+      ],
+      "organizer_assessment": "结论和理由符合人工参照",
+      "reason": "明确按不能备案时退还全部申请材料判当前充分；分别因缺少前序比较基线保留两项增量未知，未套用缴费解释。",
+      "input_tokens": 2293,
+      "output_tokens": 535,
+      "usage_rate_cost_cny": "0.00242596",
+      "period": "off_peak",
+      "raw_response_matches_content": true,
+      "request_matches_frozen_hash": true,
+      "post_run_human_signoff": false
+    }
+  ],
+  "total_input_tokens": 6879,
+  "total_output_tokens": 1638,
+  "usage_rate_calculated_cny": "0.00791164",
+  "conservative_program_cost_cny": "0.026862",
+  "invoice_debit_verified": false,
+  "pricing_verified_date": "2026-09-14",
+  "pricing_source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+  "eligible_for_automatic_strategy_feedback": false,
+  "independent_validation": false
+}

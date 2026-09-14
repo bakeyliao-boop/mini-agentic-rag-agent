@@ -55,3 +55,12 @@
 
 
 2026-09-12真实校准结果：已获明确批次及凭据来源授权后完成15次DeepSeek评价，**基础初筛未通过**：CAL-05三次明确增量误判，CAL-02三次范围待复核，其余9条核心一致。[正式结果与证据](../../../evaluation/results/tool-contribution-calibration/calibration-20260912-01/calibration-report.md)。费用按usage和对应费率计算约0.041元，非账单实扣；未追加调用、未生成策略。
+
+
+2026-09-14规则修订讨论：已形成[统一说明v3候选](calibration/2026-09-11-v1/评估器统一说明草案-v3.md)及[回归/迁移验证边界](calibration/2026-09-11-v1/规则v3修订假设与验证边界.md)。正文不含具体案例答案；原五例仅作回归。新验证材料尚未命题，候选未运行，执行入口仍沿用旧版。
+
+
+2026-09-14成对诊断完成：[v3原措辞测试结果](../../../evaluation/results/tool-contribution-calibration/calibration-20260914-v3-pair-01/diagnostic-report.md)。CAL-05与CAL-05m1各3次均给出预期核心判断，暂不为措辞改v3；仅这两例诊断，不等于完整回归/独立迁移验证通过。
+
+
+2026-09-14：[CAL-05t1换正文检查](../../../evaluation/results/tool-contribution-calibration/calibration-20260914-v3-transfer-01/diagnostic-report.md)完成3次，组织者判断结论和理由3/3符合参照；仅同构新正文证据，不表示完整回归或泛化通过。

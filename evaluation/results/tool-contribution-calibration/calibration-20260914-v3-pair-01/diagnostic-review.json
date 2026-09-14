@@ -1,0 +1,173 @@
+{
+  "kind": "organizer_review_of_paired_diagnostic",
+  "batch_id": "calibration-20260914-v3-pair-01",
+  "rule_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "total_calls": 6,
+  "core_aligned": 6,
+  "scope": "仅两例诊断；非独立泛化，也未完成原五例全量回归。",
+  "wording_decision": "保持v3原措辞；本次未观察到因前序措辞而将明确前证误判未知。",
+  "rows": [
+    {
+      "ordinal": 1,
+      "case_id": "CAL-05",
+      "repetition": 1,
+      "expected": [
+        "充分",
+        "无法判断",
+        "无法判断"
+      ],
+      "observed": [
+        "充分",
+        "无法判断",
+        "无法判断"
+      ],
+      "core_alignment": "aligned",
+      "reason": "前序不完整且无前证，保留两项增量未知。",
+      "api_input_tokens": 2172,
+      "output_tokens": 560,
+      "cache_hit_tokens": 896,
+      "cache_miss_tokens": 1276,
+      "price_period": "peak",
+      "usage_rate_cost_cny": "0.00706784",
+      "response_model": "deepseek-flash",
+      "raw_and_content_equal": true,
+      "post_run_human_signoff": false
+    },
+    {
+      "ordinal": 2,
+      "case_id": "CAL-05m1",
+      "repetition": 1,
+      "expected": [
+        "充分",
+        "否",
+        "否"
+      ],
+      "observed": [
+        "充分",
+        "否",
+        "否"
+      ],
+      "core_alignment": "aligned",
+      "reason": "明确前证已取得相同事实且可引用，两项前序状态已具备，判重复。",
+      "api_input_tokens": 2370,
+      "output_tokens": 672,
+      "cache_hit_tokens": 1792,
+      "cache_miss_tokens": 578,
+      "price_period": "peak",
+      "usage_rate_cost_cny": "0.00660368",
+      "response_model": "deepseek-flash",
+      "raw_and_content_equal": true,
+      "post_run_human_signoff": false
+    },
+    {
+      "ordinal": 3,
+      "case_id": "CAL-05",
+      "repetition": 2,
+      "expected": [
+        "充分",
+        "无法判断",
+        "无法判断"
+      ],
+      "observed": [
+        "充分",
+        "无法判断",
+        "无法判断"
+      ],
+      "core_alignment": "aligned",
+      "reason": "前序不完整且无前证，保留两项增量未知。",
+      "api_input_tokens": 2172,
+      "output_tokens": 530,
+      "cache_hit_tokens": 1920,
+      "cache_miss_tokens": 252,
+      "price_period": "peak",
+      "usage_rate_cost_cny": "0.0048208",
+      "response_model": "deepseek-flash",
+      "raw_and_content_equal": true,
+      "post_run_human_signoff": false
+    },
+    {
+      "ordinal": 4,
+      "case_id": "CAL-05m1",
+      "repetition": 2,
+      "expected": [
+        "充分",
+        "否",
+        "否"
+      ],
+      "observed": [
+        "充分",
+        "否",
+        "否"
+      ],
+      "core_alignment": "aligned",
+      "reason": "明确前证已取得相同事实且可引用，两项前序状态已具备，判重复。",
+      "api_input_tokens": 2370,
+      "output_tokens": 559,
+      "cache_hit_tokens": 2176,
+      "cache_miss_tokens": 194,
+      "price_period": "peak",
+      "usage_rate_cost_cny": "0.00494704",
+      "response_model": "deepseek-flash",
+      "raw_and_content_equal": true,
+      "post_run_human_signoff": false
+    },
+    {
+      "ordinal": 5,
+      "case_id": "CAL-05",
+      "repetition": 3,
+      "expected": [
+        "充分",
+        "无法判断",
+        "无法判断"
+      ],
+      "observed": [
+        "充分",
+        "无法判断",
+        "无法判断"
+      ],
+      "core_alignment": "aligned",
+      "reason": "前序不完整且无前证，保留两项增量未知。",
+      "api_input_tokens": 2172,
+      "output_tokens": 540,
+      "cache_hit_tokens": 1920,
+      "cache_miss_tokens": 252,
+      "price_period": "peak",
+      "usage_rate_cost_cny": "0.0049008",
+      "response_model": "deepseek-flash",
+      "raw_and_content_equal": true,
+      "post_run_human_signoff": false
+    },
+    {
+      "ordinal": 6,
+      "case_id": "CAL-05m1",
+      "repetition": 3,
+      "expected": [
+        "充分",
+        "否",
+        "否"
+      ],
+      "observed": [
+        "充分",
+        "否",
+        "否"
+      ],
+      "core_alignment": "aligned",
+      "reason": "明确前证已取得相同事实且可引用，两项前序状态已具备，判重复。",
+      "api_input_tokens": 2370,
+      "output_tokens": 693,
+      "cache_hit_tokens": 2176,
+      "cache_miss_tokens": 194,
+      "price_period": "peak",
+      "usage_rate_cost_cny": "0.00601904",
+      "response_model": "deepseek-flash",
+      "raw_and_content_equal": true,
+      "post_run_human_signoff": false
+    }
+  ],
+  "input_tokens": 13626,
+  "output_tokens": 3554,
+  "usage_and_rate_calculated_cny": "0.03435920",
+  "conservative_computed_cny": "0.055684",
+  "actual_invoice_debit_verified": false,
+  "eligible_for_automatic_strategy_feedback": false
+}

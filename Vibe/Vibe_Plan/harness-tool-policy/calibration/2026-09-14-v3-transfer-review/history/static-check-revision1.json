@@ -1,0 +1,17 @@
+{
+  "kind": "static_material_check_not_model_evaluation",
+  "source_sha256_verified": true,
+  "source_line": 634,
+  "returned_text_matches_full_frozen_line": true,
+  "rules_sha256_unchanged": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "changed_input_top_level_fields_from_CAL05": [
+    "task_question",
+    "task_reference",
+    "current_event"
+  ],
+  "gold_source_line_absent_from_task_reference": true,
+  "standalone_input_equals_case_input": true,
+  "cases_sha256": "9533cfe644f85ffdbb910a725581fc476c31b63662be40b1ca3fe4096d879710",
+  "input_sha256": "1c0b9c2a11e7563d728c74ca92b30cc92c1a8c0b58c7f31c6dcbbbd0d976ea40",
+  "actual_model_calls": 0
+}

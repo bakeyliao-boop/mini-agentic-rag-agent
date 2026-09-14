@@ -1,0 +1,37 @@
+{
+  "status": "awaiting_budget_and_execution_authorization",
+  "execution_authorized": false,
+  "user_confirmed_scope": "固定v3，CAL-05t1独立评价3次，不携带前次结果",
+  "case_id": "CAL-05t1",
+  "repetitions": 3,
+  "planned_model": "deepseek-flash",
+  "request_parameters": {
+    "model": "deepseek-flash",
+    "thinking": {
+      "type": "disabled"
+    },
+    "temperature": 0,
+    "max_tokens": 2048,
+    "stream": false,
+    "response_format": {
+      "type": "text"
+    }
+  },
+  "proposed_budget_cny": 0.2,
+  "budget_approved": false,
+  "max_retries": 0,
+  "concurrency": 1,
+  "timeout_seconds": 120,
+  "local_prompt_tokens_per_request": 2293,
+  "local_prompt_tokens_total": 6879,
+  "tokenizer_commit": "dba1be0a40aa45a94ad051997016db3960a90277",
+  "rules_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "input_sha256": "1c0b9c2a11e7563d728c74ca92b30cc92c1a8c0b58c7f31c6dcbbbd0d976ea40",
+  "request_sha256": "38f2ba27eefb0baca04e0f84bd36370a1f9659df2ff846e7c94606e83b4f6bff",
+  "cost_estimate_basis": "沿用上批已核验费率快照：输入2元/百万Token、输出8元/百万Token，按未缓存和每次2048输出估算；非实扣，执行前需确认费率未变",
+  "estimated_max_with_actual_input_cny": 0.06291,
+  "conservative_reservation_cny": 0.121152,
+  "proposed_credential_source": "C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env，仅SEMANTIC_JUDGE_BASE_URL和SEMANTIC_JUDGE_API_KEY",
+  "credential_reuse_authorized_for_this_run": false,
+  "actual_api_calls": 0
+}

@@ -895,3 +895,94 @@ def test_unc_source_is_refused_before_resolve_or_filesystem_probe(
         _run(material, tmp_path / "unc-source", sender)
     assert probes == []
     assert calls == []
+
+
+def _paired_material(material):
+    """A new declared two-case batch; old five-case defaults remain unchanged."""
+    cases_path = material / 'cases.json'
+    cases = _read_json(cases_path)
+    old = {x['case_id']: x for x in cases['cases']}
+    chosen = [('CAL-05', 'CAL-05'), ('CAL-03', 'CAL-05m1')]
+    new_cases, new_entries = [], []
+    manifest_path = material / 'request-draft-v1/manifest.json'
+    manifest = _read_json(manifest_path)
+    report = _read_json(material / COUNTS_FILE)
+    new_counts = []
+    for original_id, new_id in chosen:
+        case = json.loads(json.dumps(old[original_id]))
+        case['case_id'] = new_id
+        new_cases.append(case)
+        _request_path(material, new_id).write_bytes(_request_path(material, original_id).read_bytes())
+        new_entries.append({'case_id': new_id, 'request_file': f'{new_id}.request.example.json'})
+        count = next(dict(x) for x in report['cases'] if x['case_id'] == original_id)
+        count['case_id'] = new_id
+        new_counts.append(count)
+    ids = [x['case_id'] for x in new_cases]
+    cases.update(cases=new_cases, approved_case_ids=ids, planned_request_count=6)
+    _write_json(cases_path, cases)
+    manifest.update(approved_case_ids=ids, approved_case_count=2, approved_request_count=6,
+                    cases=new_entries, source_rules_file='rules-v3.md')
+    (material / 'rules-v3.md').write_bytes((material / RULES_FILE).read_bytes())
+    manifest['proposed_order_not_execution_records'] = [
+        {'ordinal': (rep - 1) * 2 + i + 1, 'case_id': cid, 'repetition': rep,
+         'request_file': f'{cid}.request.example.json'}
+        for rep in range(1, 4) for i, cid in enumerate(ids)
+    ]
+    _write_json(manifest_path, manifest)
+    report['cases'] = new_counts
+    _write_json(material / COUNTS_FILE, report)
+    _refresh_hashes(material)
+    return material
+
+
+def test_declared_pair_runs_only_six_requests_and_selects_rule_file(material, tmp_path):
+    material = _paired_material(material)
+    # The selected v3 file is authoritative; changing the unused v2 file must not
+    # accidentally change this batch's system message.
+    (material / RULES_FILE).write_text('unused old version', encoding='utf-8')
+    calls = []
+    async def sender(body):
+        calls.append(body)
+        assert json.loads(body)['messages'][0]['content'] == SYSTEM
+        return _response()
+    result = _run(material, tmp_path / 'pair', sender)
+    assert result['planned_count'] == result['attempted_count'] == len(calls) == 6
+    assert result['status'] == 'completed_pending_review'
+    assert Counter(calls) == Counter({
+        _request_path(material, 'CAL-05').read_bytes(): 3,
+        _request_path(material, 'CAL-05m1').read_bytes(): 3,
+    })
+
+
+@pytest.mark.parametrize('mutation', ['undeclared_ids', 'duplicate_ids', 'extra_slot', 'over_hard_cap'])
+def test_pair_scope_cannot_silently_expand(material, tmp_path, mutation):
+    material = _paired_material(material)
+    path = material / 'request-draft-v1/manifest.json'
+    manifest = _read_json(path)
+    if mutation == 'undeclared_ids':
+        del manifest['approved_case_ids']
+    elif mutation == 'duplicate_ids':
+        manifest['approved_case_ids'] = ['CAL-05', 'CAL-05']
+    elif mutation == 'extra_slot':
+        manifest['proposed_order_not_execution_records'].append(
+            dict(manifest['proposed_order_not_execution_records'][0], ordinal=7))
+    else:
+        manifest['approved_repetitions'] = 8
+        manifest['approved_request_count'] = 16
+    _write_json(path, manifest)
+    calls = []
+    async def sender(body):
+        calls.append(body)
+        return _response()
+    with pytest.raises(calibration.CalibrationError):
+        _run(material, tmp_path / mutation, sender)
+    assert not calls
+
+
+def test_rules_file_cannot_escape_material_directory(material, tmp_path):
+    path = material / 'request-draft-v1/manifest.json'
+    manifest = _read_json(path)
+    manifest['source_rules_file'] = '../outside.md'
+    _write_json(path, manifest)
+    with pytest.raises(calibration.CalibrationError):
+        _run(material, tmp_path / 'bad-rule-path', execute=False)

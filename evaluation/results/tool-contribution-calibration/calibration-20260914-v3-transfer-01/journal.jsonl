@@ -1,0 +1,8 @@
+{"at": "2026-09-14T05:45:14.419702+00:00", "event": "batch_prepared"}
+{"at": "2026-09-14T05:45:14.422700+00:00", "event": "attempt_started", "ordinal": 1, "case_id": "CAL-05t1", "repetition": 1, "request_sha256": "38f2ba27eefb0baca04e0f84bd36370a1f9659df2ff846e7c94606e83b4f6bff", "reserved_cny": "0.040384", "delivery_confirmation": "unknown_until_response"}
+{"at": "2026-09-14T05:45:17.703204+00:00", "event": "attempt_finished", "ordinal": 1, "technical_status": "ok", "accounting_status": "computed"}
+{"at": "2026-09-14T05:45:17.706512+00:00", "event": "attempt_started", "ordinal": 2, "case_id": "CAL-05t1", "repetition": 2, "request_sha256": "38f2ba27eefb0baca04e0f84bd36370a1f9659df2ff846e7c94606e83b4f6bff", "reserved_cny": "0.040384", "delivery_confirmation": "unknown_until_response"}
+{"at": "2026-09-14T05:45:20.873955+00:00", "event": "attempt_finished", "ordinal": 2, "technical_status": "ok", "accounting_status": "computed"}
+{"at": "2026-09-14T05:45:20.876954+00:00", "event": "attempt_started", "ordinal": 3, "case_id": "CAL-05t1", "repetition": 3, "request_sha256": "38f2ba27eefb0baca04e0f84bd36370a1f9659df2ff846e7c94606e83b4f6bff", "reserved_cny": "0.040384", "delivery_confirmation": "unknown_until_response"}
+{"at": "2026-09-14T05:45:24.004561+00:00", "event": "attempt_finished", "ordinal": 3, "technical_status": "ok", "accounting_status": "computed"}
+{"at": "2026-09-14T05:45:24.007556+00:00", "event": "batch_finished", "status": "completed_pending_review"}

@@ -16,6 +16,7 @@ from decimal import Decimal, InvalidOperation
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
@@ -106,6 +107,8 @@ def _no_review_metadata(value: Any) -> None:
 
 def _within(folder: Path, name: Any) -> Path:
     _require(isinstance(name, str) and bool(name), 'Missing request file name')
+    _require(not Path(name).anchor and not name.replace(chr(92), '/').startswith('//'),
+             'Packet file must be a relative local path')
     path = (folder / name).resolve()
     _require(path.is_relative_to(folder.resolve()), 'Request path escapes packet')
     return path
@@ -117,9 +120,10 @@ def load_bundle(material_dir: Path) -> Bundle:
     packet = material_dir / 'request-draft-v1'
     manifest_path = packet / 'manifest.json'
     cases_path = material_dir / 'cases.json'
-    rules_path = material_dir / '评估器统一说明草案-v2.md'
-    counts_path = material_dir / '本地Token计数结果-v1.json'
     manifest = _read_json(manifest_path)
+    rules_path = _within(material_dir, manifest.get('source_rules_file', '评估器统一说明草案-v2.md'))
+    _require(rules_path.suffix.lower() == '.md', 'Rules must be a Markdown file')
+    counts_path = material_dir / '本地Token计数结果-v1.json'
     cases = _read_json(cases_path)
     counts = _read_json(counts_path)
     rules_raw = rules_path.read_bytes()
@@ -137,9 +141,19 @@ def load_bundle(material_dir: Path) -> Bundle:
              and counts.get('tokenizers_version') == TOKENIZERS_VERSION,
              'Tokenizer evidence version mismatch')
     _require(manifest.get('planned_model') == MODEL, 'Model outside approved scope')
-    _require(manifest.get('approved_case_count') == 5 and manifest.get('approved_repetitions') == 3,
-             'Scope must be five cases, three repetitions')
-    _require(manifest.get('approved_request_count') == REQUEST_LIMIT, 'Request count must be 15')
+    case_ids = manifest.get('approved_case_ids', list(CASE_IDS))
+    _require(isinstance(case_ids, list) and bool(case_ids)
+             and all(isinstance(cid, str) and re.fullmatch(r'[A-Za-z0-9_-]+', cid) for cid in case_ids),
+             'Invalid approved case IDs')
+    _require(len(set(case_ids)) == len(case_ids), 'Duplicate approved case IDs')
+    repetitions = manifest.get('approved_repetitions')
+    _require(type(repetitions) is int and repetitions > 0, 'Invalid repetition count')
+    request_count = len(case_ids) * repetitions
+    _require(request_count <= REQUEST_LIMIT, 'Request count exceeds hard ceiling')
+    _require(type(manifest.get('approved_case_count')) is int
+             and manifest['approved_case_count'] == len(case_ids), 'Case count differs from approved IDs')
+    _require(type(manifest.get('approved_request_count')) is int
+             and manifest['approved_request_count'] == request_count, 'Request count differs from approved scope')
     try:
         budget = Decimal(str(manifest['approved_budget']['max_total']))
         controls = manifest['proposed_client_controls']
@@ -156,12 +170,12 @@ def load_bundle(material_dir: Path) -> Bundle:
 
     case_list = cases.get('cases', [])
     _require(isinstance(case_list, list), 'Missing cases')
-    _require(Counter(c.get('case_id') for c in case_list) == Counter(CASE_IDS), 'Invalid case IDs')
+    _require(Counter(c.get('case_id') for c in case_list) == Counter(case_ids), 'Invalid case IDs')
     case_map = {c['case_id']: c for c in case_list}
     entries = manifest.get('cases', [])
-    _require(Counter(e.get('case_id') for e in entries) == Counter(CASE_IDS), 'Invalid packet case IDs')
+    _require(Counter(e.get('case_id') for e in entries) == Counter(case_ids), 'Invalid packet case IDs')
     count_list = counts.get('cases', [])
-    _require(Counter(c.get('case_id') for c in count_list) == Counter(CASE_IDS), 'Invalid token case IDs')
+    _require(Counter(c.get('case_id') for c in count_list) == Counter(case_ids), 'Invalid token case IDs')
     count_map = {c['case_id']: c for c in count_list}
     source = cases.get('source', {})
     source_name = source.get('local_path', '')
@@ -217,9 +231,9 @@ def load_bundle(material_dir: Path) -> Bundle:
         file_by_case[cid] = entry['request_file']
         paths.append(path)
     slots = manifest.get('proposed_order_not_execution_records', [])
-    _require(isinstance(slots, list) and len(slots) == REQUEST_LIMIT, 'Exactly 15 planned slots required')
+    _require(isinstance(slots, list) and len(slots) == request_count, 'Planned slots differ from approved count')
     _require(Counter((s.get('case_id'), s.get('repetition')) for s in slots)
-             == Counter((cid, rep) for cid in CASE_IDS for rep in range(1, 4)), 'Invalid repetitions')
+             == Counter((cid, rep) for cid in case_ids for rep in range(1, repetitions + 1)), 'Invalid repetitions')
     for ordinal, slot in enumerate(slots, 1):
         cid = slot['case_id']
         _require(slot.get('ordinal') == ordinal, 'Invalid slot order')
@@ -365,14 +379,14 @@ async def run_batch(material_dir: Path, output_dir: Path, *, execute: bool = Fal
     (output_dir / 'calls').mkdir()
     _write_new(output_dir / 'batch.json', _json_bytes({
         'mode': 'execute' if execute else 'prepare', 'model': MODEL,
-        'planned_count': REQUEST_LIMIT, 'budget_cny': str(bundle.budget),
+        'planned_count': len(bundle.slots), 'budget_cny': str(bundle.budget),
         'client_controls': bundle.manifest['proposed_client_controls'],
         'authorization_errors': list(bundle.authorization_errors),
         'sources': {str(p): h for p, h in bundle.source_hashes.items()},
         'slots': bundle.slots, 'cost_basis': 'peak uncached CNY input=2/output=8 per million',
     }))
     summary: dict[str, Any] = {
-        'status': 'prepared', 'planned_count': REQUEST_LIMIT, 'attempted_count': 0,
+        'status': 'prepared', 'planned_count': len(bundle.slots), 'attempted_count': 0,
         'response_count': 0, 'halt_reason': None, 'cost_computed_cny': '0',
         'cost_reserved_unknown_cny': '0', 'cost_kind': 'no_requests_sent',
         'review_status': 'pending_human_review',
@@ -396,7 +410,7 @@ async def run_batch(material_dir: Path, output_dir: Path, *, execute: bool = Fal
                 summary.update(status='halted', halt_reason='material_changed')
                 _journal(output_dir, {'event': 'preflight_refused', 'reason': type(exc).__name__})
                 break
-            if summary['attempted_count'] >= REQUEST_LIMIT or computed + reserved + RESERVATION > bundle.budget:
+            if summary['attempted_count'] >= len(bundle.slots) or computed + reserved + RESERVATION > bundle.budget:
                 summary.update(status='halted', halt_reason='budget_or_request_limit')
                 _journal(output_dir, {'event': 'preflight_refused', 'reason': summary['halt_reason']})
                 break

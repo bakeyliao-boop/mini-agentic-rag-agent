@@ -1,0 +1,58 @@
+{
+  "kind": "local_token_count_not_api_usage",
+  "source_cases_sha256": "02f8fd105689ef0d1adef875f5cdda2ccec8c0bc8319f06c6574b85f788ce9ca",
+  "model_repository_commit": "dba1be0a40aa45a94ad051997016db3960a90277",
+  "download_provenance": {
+    "official_repo": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+    "commit": "dba1be0a40aa45a94ad051997016db3960a90277",
+    "files": [
+      {
+        "file": "tokenizer.json",
+        "bytes": 6367257,
+        "sha256": "c90dfa01249db1be4245780a052ede752e1361c612ac6d08e2bdada7d599476b",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/tokenizer.json?download=true"
+      },
+      {
+        "file": "tokenizer_config.json",
+        "bytes": 801,
+        "sha256": "6ac8c8dc065ed118161d02dd532749ae3f52c243deac27872134fae2f50d8547",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/tokenizer_config.json?download=true"
+      },
+      {
+        "file": "encoding/encoding.py",
+        "bytes": 37316,
+        "sha256": "502bdaec8a3fd88ebc24c4721a7038fbe42f2063c664638127056107920035c1",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/encoding/encoding.py?download=true"
+      },
+      {
+        "file": "encoding/README.md",
+        "bytes": 12120,
+        "sha256": "a2f0fc3baea318c9cfbceca68cbfe50d37cf7da6605ace887f33148bcff7e3ae",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/encoding/README.md?download=true"
+      },
+      {
+        "file": "inference/generate.py",
+        "bytes": 8722,
+        "sha256": "8668d67f7d108e32b90d50cb0d8606889ceb2219bfe95741d84e22f70768e9f0",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/dba1be0a40aa45a94ad051997016db3960a90277/inference/generate.py?download=true"
+      }
+    ]
+  },
+  "tokenizers_version": "0.22.2",
+  "cases": [
+    {
+      "case_id": "CAL-05",
+      "encoded_prompt_tokens": 2172,
+      "request_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3",
+      "encoded_prompt_sha256": "5912c8f415f3860297f8994c7b53cedfcb79737bee4b65aa89b43c661ec04e47"
+    },
+    {
+      "case_id": "CAL-05m1",
+      "encoded_prompt_tokens": 2370,
+      "request_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b",
+      "encoded_prompt_sha256": "07cbf60919571e6333be870c2bd2814ee54923c919fede2ea2986fb9ee169b44"
+    }
+  ],
+  "actual_api_usage": null,
+  "api_requests_sent": 0
+}

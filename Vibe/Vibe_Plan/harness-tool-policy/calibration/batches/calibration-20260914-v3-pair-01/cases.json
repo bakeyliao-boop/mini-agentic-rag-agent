@@ -1,0 +1,173 @@
+{
+  "schema": "planning-v3-paired-diagnostic-v1",
+  "status": "draft",
+  "execution_authorized": true,
+  "synthetic": true,
+  "independent_validation": false,
+  "purpose": "保持v3原样，比较缺少全部前序与缺史但存在明确前证；不证明泛化。",
+  "source": {
+    "source_id": "D01",
+    "local_path": "C:/Users/hyf/Desktop/mini-agent-harness-lab/evaluation/fixtures/multi_chunk_guide_001/corpus/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+    "sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+    "source_url": "https://amr.sz.gov.cn/attachment/1/1478/1478949/11506859.pdf",
+    "reused_question_id": "DEV-01@v2"
+  },
+  "source_cases_sha256": "72d6d4396c6bfe82a11462401ce43ef3b4a15eafc19a75368599998fa7aa480f",
+  "rules_file": "Vibe\\Vibe_Plan\\harness-tool-policy\\calibration\\2026-09-11-v1\\评估器统一说明草案-v3.md",
+  "rules_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "proposed_repetitions": 3,
+  "proposed_request_count": 6,
+  "proposed_budget_cny": 1,
+  "scope_approved": true,
+  "cases": [
+    {
+      "case_id": "CAL-05",
+      "input": {
+        "origin": "synthetic_calibration_case",
+        "representation": "normalized_review_material_not_runtime_log_schema",
+        "task_question": "公司提交“专利登记簿副本”办理请求后，最迟应在什么时候缴费？",
+        "task_instruction": "请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+        "task_reference": {
+          "necessary_facts": [
+            {
+              "fact_id": "F1",
+              "meaning": "请求提交后一个月内缴费，起算事件为提交办理请求。",
+              "reference_excerpt": "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。",
+              "source_id": "D01"
+            }
+          ],
+          "optional_facts": [
+            "费用名称",
+            "每份30元",
+            "缴费人与请求人一致"
+          ]
+        },
+        "evaluation_target": "评本次调用是否补充题目所需的事实或可引用支持，以及本次返回后该题必要依据是否充分；不评最终回答或实际停止原因。",
+        "scenario_assumptions": [
+          "题面和统一要求如给定，无额外查证或反复确认指令。",
+          "同一固定原文版本，未设置版本变化、前序错误或待消解矛盾。",
+          "本组把已提供的模拟事件与登记状态作为已知前提，只测试语义判断；事件发生真实性不是本组测试项。"
+        ],
+        "history_prefix_complete": false,
+        "prior_events": [],
+        "current_event": {
+          "event_id": "e3",
+          "tool_name": "read",
+          "execution_status": "success",
+          "returned_content": {
+            "source_id": "D01",
+            "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+            "source_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+            "returned_lines": [
+              {
+                "line": 489,
+                "text": "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。请求人可在知识产权业务受理大厅、地方知识产权业务受理窗口（专利代办处）收费窗口面缴，也可注册并登录专利业务办理系统（http://cp"
+              }
+            ]
+          },
+          "citable_read_evidence_registered": true,
+          "origin": "synthetic_scenario_event_not_real_execution"
+        }
+      },
+      "proposed_expected_judgment": {
+        "required_fact_support": "sufficient",
+        "new_required_fact_content": "unknown",
+        "new_citable_support": "unknown",
+        "contribution": "unknown_due_to_missing_history",
+        "must_explain": [
+          "本次完整原文支持期限，不能因为缺前序而否定当前支持。",
+          "前序不可用不等于此前没有任何工具调用；不能确定首次取得、重复或引用能力提升。"
+        ]
+      },
+      "actual_evaluator_result": null,
+      "human_label_reviewed_for_this_batch": true,
+      "human_label_reviewed": true
+    },
+    {
+      "case_id": "CAL-05m1",
+      "input": {
+        "origin": "synthetic_calibration_case",
+        "representation": "normalized_review_material_not_runtime_log_schema",
+        "task_question": "公司提交“专利登记簿副本”办理请求后，最迟应在什么时候缴费？",
+        "task_instruction": "请仅依据《深圳市知识产权公共服务事项办事指南（第二版）》回答；指南未明确的内容请标为“未明确”，不要使用外部知识。",
+        "task_reference": {
+          "necessary_facts": [
+            {
+              "fact_id": "F1",
+              "meaning": "请求提交后一个月内缴费，起算事件为提交办理请求。",
+              "reference_excerpt": "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。",
+              "source_id": "D01"
+            }
+          ],
+          "optional_facts": [
+            "费用名称",
+            "每份30元",
+            "缴费人与请求人一致"
+          ]
+        },
+        "evaluation_target": "评本次调用是否补充题目所需的事实或可引用支持，以及本次返回后该题必要依据是否充分；不评最终回答或实际停止原因。",
+        "scenario_assumptions": [
+          "题面和统一要求如给定，无额外查证或反复确认指令。",
+          "同一固定原文版本，未设置版本变化、前序错误或待消解矛盾。",
+          "本组把已提供的模拟事件与登记状态作为已知前提，只测试语义判断；事件发生真实性不是本组测试项。"
+        ],
+        "history_prefix_complete": false,
+        "prior_events": [
+          {
+            "event_id": "e2",
+            "tool_name": "read",
+            "execution_status": "success",
+            "returned_content": {
+              "source_id": "D01",
+              "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+              "source_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+              "returned_lines": [
+                {
+                  "line": 489,
+                  "text": "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。请求人可在知识产权业务受理大厅、地方知识产权业务受理窗口（专利代办处）收费窗口面缴，也可注册并登录专利业务办理系统（http://cp"
+                }
+              ]
+            },
+            "citable_read_evidence_registered": true,
+            "origin": "synthetic_scenario_event_not_real_execution"
+          }
+        ],
+        "current_event": {
+          "event_id": "e3",
+          "tool_name": "read",
+          "execution_status": "success",
+          "returned_content": {
+            "source_id": "D01",
+            "path": "/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md",
+            "source_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+            "returned_lines": [
+              {
+                "line": 489,
+                "text": "请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。请求人可在知识产权业务受理大厅、地方知识产权业务受理窗口（专利代办处）收费窗口面缴，也可注册并登录专利业务办理系统（http://cp"
+              }
+            ]
+          },
+          "citable_read_evidence_registered": true,
+          "origin": "synthetic_scenario_event_not_real_execution"
+        }
+      },
+      "proposed_expected_judgment": {
+        "required_fact_support": "sufficient",
+        "new_required_fact_content": "no",
+        "new_citable_support": "no",
+        "contribution": "no_new_required_support_in_the_witnessed_fact_scope"
+      },
+      "actual_evaluator_result": null,
+      "human_label_reviewed_for_this_batch": true,
+      "human_label_reviewed": true
+    }
+  ],
+  "material_revision": 1,
+  "approval": {
+    "user_reply": "授权",
+    "scope": "适配并运行CAL-05/CAL-05m1各3次，共6次，预算1元；v3措辞不变；沿用上次原项目DeepSeek连接配置，仅使用SEMANTIC_JUDGE_BASE_URL和SEMANTIC_JUDGE_API_KEY，不复制.env或展示密钥。",
+    "approved_at_utc": "2026-09-14T03:51:07.058641+00:00",
+    "credential_source": "C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env",
+    "batch_id": "calibration-20260914-v3-pair-01"
+  }
+}

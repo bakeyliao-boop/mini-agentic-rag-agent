@@ -1,0 +1,21 @@
+{
+  "http_status": 200,
+  "technical_status": "ok",
+  "accounting_status": "computed",
+  "content": "1. 本题最低必要内容：公司提交“专利登记簿副本”办理请求后，应在提交办理请求一个月内缴费；起算事件是“提交办理请求”。\n\n2. 前序实际已有内容与本次实际返回内容：\n- 前序 e2：`/prior_events/0/returned_content/returned_lines/0`，event_id=e2，source_id=D01，path=`/政务与公共服务/深圳市/知识产权公共服务/深圳市知识产权公共服务事项办事指南（第二版）.md`，line=489，摘录：“请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。”\n- 本次 e3：`/current_event/returned_content/returned_lines/0`，event_id=e3，source_id=D01，path同前，line=489，摘录同前：“请求人需要在提交办理请求一个月内缴纳专利文件副本证明费，每份30元，缴费人应当与请求人一致。”\n- 两次返回的 source_id、path、source_sha256、line 和文本一致；本次没有提供新的正文内容。\n\n3. 三个判断：\n- 当前必要事实支持：充分。前序 e2 与本次 e3 合起来已覆盖 F1：提交办理请求后一个月内缴费，且起算事件明确为“提交办理请求”。可选事实如“专利文件副本证明费”“每份30元”“缴费人与请求人一致”也已出现，但不影响最低必要事实是否充分。\n- 本次新增必要事实内容：否。对应前序状态：此前已具备该事实内容，依据是 e2 的 line 489 已包含“提交办理请求一个月内缴纳专利文件副本证明费”。本次 e3 返回同源同文，未补充此前尚缺的必要事实或条件。\n- 本次增加可引用支持：否。对应前序状态：此前已具备支持该事实的可引用依据，依据是 e2 的 `citable_read_evidence_registered=true`，且其返回内容已含 F1。本次 e3 虽也 `citable_read_evidence_registered=true`，但只是重复登记同一行同一文本，不构成新增可引用支持。\n\n4. 贡献结论：本次调用在给定材料下没有新增必要事实内容，也没有新增可引用支持；其价值主要是重复确认同一来源同一行的既有内容。由于 `history_prefix_complete=false`，不能据此判断更早历史是否还有未提供的调用；但在已提供的前序 e2 覆盖范围内，本次相对 e2 为重复返回。",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 2370,
+    "completion_tokens": 559,
+    "total_tokens": 2929,
+    "prompt_tokens_details": {
+      "cached_tokens": 2176
+    },
+    "prompt_cache_hit_tokens": 2176,
+    "prompt_cache_miss_tokens": 194
+  },
+  "cost_computed_cny": "0.009212",
+  "review_status": "pending_human_review",
+  "response_id": "6fc177dd-089c-460d-9243-df2806d49d8f",
+  "response_model": "deepseek-flash"
+}

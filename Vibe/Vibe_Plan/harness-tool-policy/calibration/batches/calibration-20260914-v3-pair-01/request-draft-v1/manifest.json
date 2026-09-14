@@ -1,0 +1,98 @@
+{
+  "status": "approved_for_single_execution",
+  "execution_authorized": true,
+  "parameter_acceptance": "accepted",
+  "execution_batch_id": "calibration-20260914-v3-pair-01",
+  "execution_output_dir": "C:\\Users\\hyf\\Desktop\\mini-agent-harness-lab\\evaluation\\results\\tool-contribution-calibration\\calibration-20260914-v3-pair-01",
+  "execution_token_report_sha256": "352b9d3e7581282db4bc13af63de192bab13f4e44a4b0d9b519be4f90e95aa9d",
+  "planned_model": "deepseek-flash",
+  "approved_case_ids": [
+    "CAL-05",
+    "CAL-05m1"
+  ],
+  "approved_case_count": 2,
+  "approved_repetitions": 3,
+  "approved_request_count": 6,
+  "approved_budget": {
+    "currency": "CNY",
+    "max_total": 1
+  },
+  "proposed_client_controls": {
+    "concurrency": 1,
+    "max_retries": 0,
+    "timeout_seconds": 120
+  },
+  "input_token_reservation_per_request": 12000,
+  "proposed_max_output_tokens": 2048,
+  "source_cases_sha256": "02f8fd105689ef0d1adef875f5cdda2ccec8c0bc8319f06c6574b85f788ce9ca",
+  "source_cases_material_revision": 1,
+  "source_rules_file": "评估器统一说明草案-v3.md",
+  "source_rules_file_sha256": "2afa243fff5c07c69d9c132840b1e80386ec902817b7dbfccfdff22135a0f319",
+  "system_content_sha256": "3282b4eb1690282b42e3fc703ae1610670277cee3606a8e318d34ae4d038b9d4",
+  "source_document_sha256": "c94b6b1d12e9aace29f218e793fb574d5c1b1ad74c2930892c7d309e560bf2d6",
+  "cases": [
+    {
+      "case_id": "CAL-05",
+      "request_file": "CAL-05.request.example.json",
+      "request_file_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3",
+      "input_object_sha256": "97f469bae3e2fab884f0b7143f4054ce1833a1cbc249ac2e0174d5f5e9400663"
+    },
+    {
+      "case_id": "CAL-05m1",
+      "request_file": "CAL-05m1.request.example.json",
+      "request_file_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b",
+      "input_object_sha256": "45828111cbee45740efaeebbf9cb2e859338c4ff8129667ca0e762e3637b522a"
+    }
+  ],
+  "execution_approval": {
+    "user_reply": "授权",
+    "scope": "适配并运行CAL-05/CAL-05m1各3次，共6次，预算1元；v3措辞不变；沿用上次原项目DeepSeek连接配置，仅使用SEMANTIC_JUDGE_BASE_URL和SEMANTIC_JUDGE_API_KEY，不复制.env或展示密钥。",
+    "approved_at_utc": "2026-09-14T03:51:07.058641+00:00",
+    "credential_source": "C:/Users/hyf/Desktop/mini-agentic-rag-agent/.env",
+    "batch_id": "calibration-20260914-v3-pair-01"
+  },
+  "proposed_order_not_execution_records": [
+    {
+      "ordinal": 1,
+      "case_id": "CAL-05",
+      "repetition": 1,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3"
+    },
+    {
+      "ordinal": 2,
+      "case_id": "CAL-05m1",
+      "repetition": 1,
+      "request_file": "CAL-05m1.request.example.json",
+      "request_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+    },
+    {
+      "ordinal": 3,
+      "case_id": "CAL-05",
+      "repetition": 2,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3"
+    },
+    {
+      "ordinal": 4,
+      "case_id": "CAL-05m1",
+      "repetition": 2,
+      "request_file": "CAL-05m1.request.example.json",
+      "request_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+    },
+    {
+      "ordinal": 5,
+      "case_id": "CAL-05",
+      "repetition": 3,
+      "request_file": "CAL-05.request.example.json",
+      "request_sha256": "6fe9500db3f55bbb634c090b701067c0c08a01ec9af40d28c66126f60e3e77b3"
+    },
+    {
+      "ordinal": 6,
+      "case_id": "CAL-05m1",
+      "repetition": 3,
+      "request_file": "CAL-05m1.request.example.json",
+      "request_sha256": "6849a0a124535b0807e8ebb1b91ccdfe9bd8b2020d672f7dcaf144d677e11c9b"
+    }
+  ]
+}
